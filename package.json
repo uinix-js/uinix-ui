@@ -1,0 +1,93 @@
+{
+  "name": "uinix-ui",
+  "version": "0.1.0",
+  "description": "Primitives for building themable UIs",
+  "license": "MIT",
+  "keywords": [
+    "uinix",
+    "ui",
+    "components",
+    "theme",
+    "design-system"
+  ],
+  "repository": "uinix-js/uinix-ui",
+  "bugs": "https://github.com/uinix-js/uinix-ui/issues",
+  "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
+  "type": "module",
+  "files": [
+    "lib/",
+    "index.js",
+    "index.d.ts"
+  ],
+  "main": "index.js",
+  "types": "index.d.ts",
+  "dependencies": {
+    "fela": "^11.6.1",
+    "fela-enforce-longhands": "^11.6.1",
+    "fela-monolithic": "^11.6.1",
+    "fela-plugin-responsive-value": "^11.6.1",
+    "fela-plugin-theme-value": "^11.6.1",
+    "fela-preset-web": "^11.6.1",
+    "react-fela": "^11.6.1",
+    "react-inlinesvg": "^2.2.2",
+    "uinix-fp": "github:uinix-js/uinix-fp",
+    "uinix-theme": "github:uinix-js/uinix-theme"
+  },
+  "devDependencies": {
+    "@cypress/react": "^4.16.4",
+    "c8": "^7.7.0",
+    "cypress": "^6.8.0",
+    "eslint-config-xo-react": "^0.24.0",
+    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-react": "^7.23.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "tape": "^5.2.2",
+    "xo": "^0.38.2"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
+  },
+  "scripts": {
+    "format": "xo --fix",
+    "test-all": "npm run test-lib && npm run test-components",
+    "test-components": "cypress run",
+    "test-coverage": "c8 --check-coverage --lines 100 --functions 100 --branches 100 --reporter lcov npm run test-all",
+    "test-cypress": "cypress open",
+    "test-lib": "node test/index.js",
+    "test": "npm run format && npm run test-coverage"
+  },
+  "engines": {
+    "node": ">=12.17.0"
+  },
+  "prettier": {
+    "bracketSpacing": true,
+    "jsxBracketSameLine": true,
+    "trailingComma": "all",
+    "useTabs": false
+  },
+  "xo": {
+    "prettier": true,
+    "esnext": false,
+    "extends": [
+      "plugin:cypress/recommended",
+      "xo-react"
+    ],
+    "plugins": [
+      "cypress"
+    ],
+    "rules": {
+      "capitalized-comments": "off",
+      "new-cap": "off",
+      "node/no-unsupported-features/es-syntax": "off",
+      "padding-line-between-statements": "off",
+      "react/prop-types": "off",
+      "unicorn/no-array-callback-reference": "off",
+      "unicorn/no-array-for-each": "off",
+      "unicorn/no-array-reduce": "off",
+      "unicorn/prefer-spread": "off",
+      "unicorn/prevent-abbreviations": "off"
+    }
+  }
+}

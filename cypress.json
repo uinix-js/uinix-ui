@@ -1,0 +1,5 @@
+{
+  "componentFolder": "lib/components",
+  "experimentalComponentTesting": true,
+  "video": false
+}
