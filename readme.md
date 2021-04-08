@@ -94,7 +94,7 @@ const theme = {
       m: 20,
       l: 24,
     }
-  }
+  },
   spacings: {
     s: 8,
     m: 16,
