@@ -67,21 +67,28 @@ const icons = {
   search: '<svg>...</svg>',
 };
 
-const options = {
-  isAtomicCss: true,
-};
-
 const hoverStyle = props => {
   const { theme, onClick } = props;
   const isClickable = onClick;
   return {
     cursor: isClickable ? 'pointer': undefined,
-    opacity: isClickable ? theme.opacities.clickable,
+    'hover': {
+      opacity: isClickable ? theme.opacities.clickable: undefined,
+    },
   };
 };
 
-const styles = {
-  Icon: [hoverStyle],
+const options = {
+  isAtomicCss: true,
+  componentStyles: {
+    Icon: [hoverStyle],
+  },
+  globalStyles: {
+    body: {
+      fontFamily: 'body',
+    },
+    // ...
+  },
 };
 
 const theme = {
@@ -106,14 +113,7 @@ const theme = {
     visible: 1,
   },
   // ...
-  styles: {
-    body: {
-      fontFamily: 'body',
-    },
-    // ...
-  }
 };
-
 ```
 
 ### Using primitives
@@ -209,16 +209,16 @@ The following are presets that quickly allow building custom UI systems.
 
 ## UI Systems
 
-With `uinix`, it is extremely simple to build and maintain UI systems, as demonstrated with links to a number of well-known web applications.
+With `uinix`, it is extremely simple to build and maintain UI systems.
 
-> Links will be updated once UI systems are ready.
-
-- [`uinix-ui-system-simple`][uinix-ui-system-simple]
-- `uinix-ui-system-github`
-- `uinix-ui-system-discord`
-- `uinix-ui-system-spotify`
-- `uinix-ui-system-reddit`
-- `uinix-ui-system-instagram`
+Please visit the [demos][] page to view demos of these UI systems:
+- Discord
+- Github
+- Instagram
+- Reddit
+- Simple
+- Slack
+- Spotify
 
 ## Related
 
@@ -226,6 +226,7 @@ With `uinix`, it is extremely simple to build and maintain UI systems, as demons
 - [`uinix-theme`][uinix-theme]
 - [`uinix-ui-preset-simple`][uinix-ui-preset-simple]
 - [`uinix-ui-system-simple`][uinix-ui-system-simple]
+- [`uinix-ui-system-demos`][uinix-ui-system-demos]
 - [`theme-ui`][theme-ui]
 
 ## Author's Note
@@ -267,6 +268,7 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 [bundle-size]: https://bundlephobia.com/result?p=uinix-ui
 
 <!-- defs -->
+[demos]: https://uinix-ui-systems.netlify.com
 [esm]: https://nodejs.org/api/esm.html
 [fela]: https://github.com/robinweser/fela
 [react]: https://github.com/facebook/react
@@ -275,5 +277,6 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 [uinix]: https://github.com/uinix-js
 [uinix-theme]: https://github.com/uinix-js/uinix-theme
 [uinix-ui-preset-simple]: https://github.com/uinix-js/uinix-ui-preset-simple
+[uinix-ui-system-demos]: https://github.com/uinix-js/uinix-ui-system-demos
 [uinix-ui-system-simple]: https://github.com/uinix-js/uinix-ui-system-simple
 [unix-philosophy]: https://en.wikipedia.org/wiki/Unix_philosophy
