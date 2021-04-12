@@ -14,3 +14,6 @@ export { Provider } from './lib/context/provider.js';
 
 // theme
 export { createTheme } from 'uinix-theme';
+
+// styles
+export { createStyles } from './lib/styles/create-styles.js';
