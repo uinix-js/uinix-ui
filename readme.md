@@ -78,17 +78,28 @@ const hoverStyle = props => {
   };
 };
 
-const options = {
-  isAtomicCss: true,
-  componentStyles: {
+const styles = {
+  components: {
     Icon: [hoverStyle],
   },
-  globalStyles: {
+  global: {
     body: {
       fontFamily: 'body',
     },
     // ...
   },
+  rules: {
+    container: {
+      width: '768px',
+    },
+    fullViewport: {
+      height: '100vh',
+    }
+  }
+};
+
+const options = {
+  isAtomicCss: true,
 };
 
 const theme = {
@@ -119,17 +130,15 @@ const theme = {
 ### Using primitives
 
 ```js
-import { Element, Layout, Icon } from 'uinix-ui';
-
-// organize styles in a decoupled module
-import { containerStyle, fullViewPortStyle, logoStyle } from './styles/index.js';
+import { Element, Layout, Icon, useStyleRules } from 'uinix-ui';
 
 
 function MyPageLayout({ children }) {
   const handleClose = () => console.log('closed');
+  const styleRules = useStyleRules();
 
   return (
-    <Layout direction="column" spacing="l" styles={[fullViewPortStyle]}>
+    <Layout direction="column" spacing="l" styles={[styleRules.fullViewport]}>
       <Layout
         as="header"
         align="center"
@@ -148,7 +157,7 @@ function MyPageLayout({ children }) {
       <Layout
         as="main"
         flex="auto"
-        styles={[containerStyle]}>
+        styles={[styleRules.containerStyle]}>
         {content}
       </Layout>
     </Layout>
