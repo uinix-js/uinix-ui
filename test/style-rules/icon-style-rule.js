@@ -1,5 +1,5 @@
 import test from 'tape';
 
-test('layoutStyle', (t) => {
+test('iconStyleRule', (t) => {
   t.end();
 });

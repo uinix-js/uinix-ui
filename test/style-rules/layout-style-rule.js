@@ -1,5 +1,5 @@
 import test from 'tape';
 
-test('shorthandStyle', (t) => {
+test('layoutStyleRule', (t) => {
   t.end();
 });

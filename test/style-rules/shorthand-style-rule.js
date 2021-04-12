@@ -1,5 +1,5 @@
 import test from 'tape';
 
-test('iconStyle', (t) => {
+test('shorthandStyleRule', (t) => {
   t.end();
 });

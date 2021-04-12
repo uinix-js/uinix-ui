@@ -138,7 +138,7 @@ function MyPageLayout({ children }) {
   const styleRules = useStyleRules();
 
   return (
-    <Layout direction="column" spacing="l" styles={[styleRules.fullViewport]}>
+    <Layout direction="column" spacing="l" stylesRules={[styleRules.fullViewport]}>
       <Layout
         as="header"
         align="center"
@@ -149,7 +149,7 @@ function MyPageLayout({ children }) {
         spacing="m">
         <Element
           as="h1"
-          styles={[logoStyle]}>
+          styleRules={[logoStyle]}>
           Logo
         </Element>
         <Icon icon="search" size="icon.m" onClick={handleClose} />
@@ -157,7 +157,7 @@ function MyPageLayout({ children }) {
       <Layout
         as="main"
         flex="auto"
-        styles={[styleRules.containerStyle]}>
+        styleRules={[styleRules.containerStyle]}>
         {content}
       </Layout>
     </Layout>
