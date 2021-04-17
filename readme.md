@@ -130,15 +130,18 @@ const theme = {
 ### Using primitives
 
 ```js
-import { Element, Layout, Icon, useStyleRules } from 'uinix-ui';
+import { Element, Layout, Icon, useStyles } from 'uinix-ui';
 
+const logoStyle = ({ size }) => ({
+  fontSize: size,
+});
 
 function MyPageLayout({ children }) {
   const handleClose = () => console.log('closed');
-  const styleRules = useStyleRules();
+  const styles = useStyles();
 
   return (
-    <Layout direction="column" spacing="l" stylesRules={[styleRules.fullViewport]}>
+    <Layout direction="column" spacing="l" styles={[styles.fullViewport]}>
       <Layout
         as="header"
         align="center"
@@ -149,7 +152,10 @@ function MyPageLayout({ children }) {
         spacing="m">
         <Element
           as="h1"
-          styleRules={[logoStyle]}>
+          styleProps={{
+            size: 24,
+          }}
+          styles={[logoStyle]}>
           Logo
         </Element>
         <Icon icon="search" size="icon.m" onClick={handleClose} />
@@ -157,7 +163,7 @@ function MyPageLayout({ children }) {
       <Layout
         as="main"
         flex="auto"
-        styleRules={[styleRules.containerStyle]}>
+        styles={[styles.containerStyle]}>
         {content}
       </Layout>
     </Layout>
@@ -258,6 +264,8 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 
 ## TODO
 
+- [ ] support `Text` component and `typogrpahy` entry point
+- [ ] Debug layout `wrap` and `justify/align` when set to `'center'`
 - [ ] `fela-plugin-negative-unit`
 - [ ] set up presets e.g. `uinix-ui-preset-simple`
 - [ ] native support for font faces.

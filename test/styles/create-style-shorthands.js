@@ -1,5 +1,5 @@
 import test from 'tape';
 
-test('shorthandStyleRule', (t) => {
+test('createStyleShorthands', (t) => {
   t.end();
 });

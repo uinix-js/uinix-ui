@@ -4,12 +4,7 @@ export { Icon } from './lib/components/icon.js';
 export { Layout } from './lib/components/layout.js';
 
 // context
-export {
-  useCss,
-  useIcon,
-  useStyleRules,
-  useTheme,
-} from './lib/context/hooks.js';
+export { useIcon, useStyles, useTheme } from './lib/context/hooks.js';
 export { Provider } from './lib/context/provider.js';
 
 // theme
@@ -17,3 +12,6 @@ export { createTheme } from 'uinix-theme';
 
 // styles
 export { createStyles } from './lib/styles/create-styles.js';
+
+// util
+export { merge } from 'uinix-fp';
