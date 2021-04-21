@@ -5,6 +5,8 @@ import { mountWithTheme } from '../util/mount-with-theme.js';
 
 describe('Text', () => {
   it('should render', () => {
-    expect(() => mountWithTheme(<Text>Lorem ipsum</Text>));
+    expect(() =>
+      mountWithTheme(<Text>The quick brown fox jumps over the lazy dog.</Text>),
+    );
   });
 });
