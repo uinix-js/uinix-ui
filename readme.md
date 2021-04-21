@@ -241,7 +241,7 @@ Please visit the [demos][] page to view demos of these UI systems:
 - [`uinix-theme`][uinix-theme]
 - [`uinix-ui-preset-simple`][uinix-ui-preset-simple]
 - [`uinix-ui-system-simple`][uinix-ui-system-simple]
-- [`uinix-ui-system-demos`][uinix-ui-system-demos]
+- [`uinix-ui-systems`][uinix-ui-systems]
 - [`theme-ui`][theme-ui]
 
 ## Author's Note
@@ -272,7 +272,7 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 - [ ] docs
 - [ ] cypress tests
 - [ ] support custom `h` (`createElement`) with `react` as the default.
-- [ ] Systems: `uinix-ui-system`, `uinix-ui-system-demos` (google, spotify, reddit, instagram, discord, slack)
+- [ ] Systems: `uinix-ui-system`, `uinix-ui-systems` (google, spotify, reddit, instagram, discord, slack)
 
 <!-- badges -->
 [build-badge]: https://github.com/uinix-js/uinix-ui/workflows/main/badge.svg
@@ -294,6 +294,6 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 [uinix]: https://github.com/uinix-js
 [uinix-theme]: https://github.com/uinix-js/uinix-theme
 [uinix-ui-preset-simple]: https://github.com/uinix-js/uinix-ui-preset-simple
-[uinix-ui-system-demos]: https://github.com/uinix-js/uinix-ui-system-demos
+[uinix-ui-systems]: https://github.com/uinix-js/uinix-ui-systems
 [uinix-ui-system-simple]: https://github.com/uinix-js/uinix-ui-system-simple
 [unix-philosophy]: https://en.wikipedia.org/wiki/Unix_philosophy
