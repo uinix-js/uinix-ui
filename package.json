@@ -26,7 +26,6 @@
     "fela-enforce-longhands": "^11.6.1",
     "fela-monolithic": "^11.6.1",
     "fela-plugin-responsive-value": "^11.6.1",
-    "fela-plugin-theme-value": "^11.6.1",
     "fela-preset-web": "^11.6.1",
     "react-fela": "^11.6.1",
     "react-inlinesvg": "^2.2.2",
