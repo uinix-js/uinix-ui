@@ -8,4 +8,3 @@ describe('Text', () => {
     expect(() => mountWithTheme(<Text>Lorem ipsum</Text>));
   });
 });
-
