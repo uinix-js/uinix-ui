@@ -265,10 +265,10 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 ## TODO
 
 - [ ] support `Text` component and `typogrpahy` entry point
+  - [ ] native support for font faces.
 - [ ] Debug layout `wrap` and `justify/align` when set to `'center'`
 - [ ] `fela-plugin-negative-unit`
 - [ ] set up presets e.g. `uinix-ui-preset-simple`
-- [ ] native support for font faces.
 - [ ] docs
 - [ ] cypress tests
 - [ ] support custom `h` (`createElement`) with `react` as the default.
