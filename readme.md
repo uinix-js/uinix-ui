@@ -102,9 +102,25 @@ const options = {
   isAtomicCss: true,
 };
 
+import ralewayWoff from './raleway.woff';
+import ralewayWoff2 from './raleway.woff2';
+
 const theme = {
-  fonts: {
+  breakpoints: {
+    phone: '480px',
+    tablets: '768px',
+  },
+  fontFaces: [
+    Raleway: {
+      files: [
+        ralewayWoff,
+        ralewayWoff2,
+      ],
+    },
+  ]
+  fontFamilies: {
     body: 'system-ui',
+    heading: 'Raleway',
   },
   sizes: {
     icon: {
@@ -264,14 +280,10 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 
 ## TODO
 
-- [ ] support `Text` component and `typogrpahy` entry point
-  - [ ] native support for font faces.
 - [ ] Debug layout `wrap` and `justify/align` when set to `'center'`
 - [ ] set up presets e.g. `uinix-ui-preset-simple`
 - [ ] docs
 - [ ] cypress tests
-- [ ] support custom `h` (`createElement`) with `react` as the default.
-- [ ] Systems: `uinix-ui-system`, `uinix-ui-systems` (google, spotify, reddit, instagram, discord, slack)
 
 <!-- badges -->
 [build-badge]: https://github.com/uinix-js/uinix-ui/workflows/main/badge.svg
