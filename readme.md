@@ -141,7 +141,7 @@ function MyPageLayout({ children }) {
   const styles = useStyles();
 
   return (
-    <Layout direction="column" spacing="l" styles={[styles.fullViewport]}>
+    <Layout direction="column" spacing="l" styles={styles.fullViewport}>
       <Layout
         as="header"
         align="center"
@@ -155,7 +155,7 @@ function MyPageLayout({ children }) {
           styleProps={{
             size: 24,
           }}
-          styles={[logoStyle]}>
+          styles={logoStyle}>
           Logo
         </Element>
         <Icon icon="search" size="icon.m" onClick={handleClose} />
@@ -163,7 +163,7 @@ function MyPageLayout({ children }) {
       <Layout
         as="main"
         flex="auto"
-        styles={[styles.containerStyle]}>
+        styles={[styles.containerStyle, styles.fullViewport]}>  // easily compose multiple styles
         {content}
       </Layout>
     </Layout>
@@ -267,7 +267,6 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 - [ ] support `Text` component and `typogrpahy` entry point
   - [ ] native support for font faces.
 - [ ] Debug layout `wrap` and `justify/align` when set to `'center'`
-- [ ] `fela-plugin-negative-unit`
 - [ ] set up presets e.g. `uinix-ui-preset-simple`
 - [ ] docs
 - [ ] cypress tests
