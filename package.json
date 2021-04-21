@@ -34,16 +34,16 @@
   },
   "devDependencies": {
     "@cypress/react": "^4.16.4",
-    "c8": "^7.7.0",
+    "c8": "^7.7.1",
     "cypress": "^6.8.0",
-    "eslint-config-xo-react": "^0.24.0",
+    "eslint-config-xo-react": "^0.25.0",
     "eslint-plugin-cypress": "^2.11.2",
     "eslint-plugin-react": "^7.23.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "tape": "^5.2.2",
-    "xo": "^0.38.2"
+    "xo": "^0.39.1"
   },
   "peerDependencies": {
     "react": "^17.0.2"
