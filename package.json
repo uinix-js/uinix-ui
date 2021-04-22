@@ -49,13 +49,13 @@
     "react": "^17.0.2"
   },
   "scripts": {
-    "format": "xo --fix",
+    "lint": "xo --fix",
     "test-all": "npm run test-lib && npm run test-components",
     "test-components": "cypress run",
     "test-coverage": "c8 --check-coverage --lines 100 --functions 100 --branches 100 --reporter lcov npm run test-all",
     "test-cypress": "cypress open",
     "test-lib": "node test/index.js",
-    "test": "npm run format && npm run test-coverage"
+    "test": "npm run lint && npm run test-coverage"
   },
   "engines": {
     "node": ">=12.17.0"
