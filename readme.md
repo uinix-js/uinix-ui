@@ -148,9 +148,11 @@ const theme = {
 ```js
 import { Element, Layout, Icon, useStyles } from 'uinix-ui';
 
-const logoStyle = ({ size }) => ({
-  fontSize: size,
-});
+const styles = {
+  logo: ({ size }) => ({
+    fontSize: size,
+  }),
+};
 
 function MyPageLayout({ children }) {
   const handleClose = () => console.log('closed');
@@ -171,7 +173,7 @@ function MyPageLayout({ children }) {
           styleProps={{
             size: 24,
           }}
-          styles={logoStyle}>
+          styles={styles.logo}>
           Logo
         </Element>
         <Icon icon="search" size="icon.m" onClick={handleClose} />
