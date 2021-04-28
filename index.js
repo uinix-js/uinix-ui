@@ -8,12 +8,8 @@ export { Text } from './lib/components/text.js';
 export { useIcon, useStyles, useTheme } from './lib/context/hooks.js';
 export { Provider } from './lib/context/provider.js';
 
-// theme
+// utils
 export { createTheme } from 'uinix-theme';
-
-// styles
 export { createStyles } from './lib/styles/create-styles.js';
 export { createTypography } from './lib/styles/create-typography.js';
-
-// util
 export { merge } from 'uinix-fp';

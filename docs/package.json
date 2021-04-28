@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "name": "docs",
+  "version": "1.0.0",
+  "description": "uinix-ui docs",
+  "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "@mdx-js/mdx": "^1.6.22",
+    "@mdx-js/react": "^1.6.22",
+    "gatsby": "^3.3.1",
+    "gatsby-plugin-mdx": "^2.3.0",
+    "gatsby-remark-autolink-headers": "^4.0.0",
+    "gatsby-remark-highlight.js": "0.0.1",
+    "gatsby-remark-table-of-contents": "^1.0.0",
+    "gatsby-source-filesystem": "^3.3.0",
+    "gatsby-transformer-remark": "^4.0.0",
+    "palx": "^1.0.3",
+    "prismjs": "^1.23.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "uinix-ui": "file:.."
+  }
+}
