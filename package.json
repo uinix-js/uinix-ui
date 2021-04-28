@@ -49,7 +49,7 @@
     "react": "^17.0.2"
   },
   "scripts": {
-    "docs-build": "cd docs; npm run build",
+    "docs-build": "cd docs; npm install; npm run build",
     "docs-install": "cd docs; npm install",
     "docs-start": "cd docs; npm start",
     "lint": "xo --fix",
