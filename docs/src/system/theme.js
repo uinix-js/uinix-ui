@@ -10,6 +10,8 @@ const borderStyles = {
 
 const borderWidths = {
   s: '1px',
+  m: '2px',
+  l: '4px',
 };
 
 const brandPrimaryColor = '#0366d6';
@@ -97,6 +99,10 @@ const theme = createTheme({
       '0 3px 1px -2px rgba(0,0,0,.2),0 2px 2px 0 rgba(0,0,0,.14),0 1px 5px 0 rgba(0,0,0,.12)',
   },
   sizes: {
+    dot: {
+      m: '12px',
+      l: '32px',
+    },
     icon: {
       s: '16px',
       m: '24px',

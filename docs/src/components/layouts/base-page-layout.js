@@ -4,7 +4,6 @@ import { Layout, Text } from 'uinix-ui';
 
 import { GITHUB_REPO, GITHUB_USER } from '../../urls.js';
 import { useIsReady } from '../../hooks/use-is-ready.js';
-import Provider from '../../system/provider.js';
 import BrandText from '../ui/brand-text.js';
 import ScrollToTopIcon from '../ui/scroll-to-top-icon.js';
 
@@ -16,7 +15,7 @@ const BasePageLayout = ({ children }) => {
   }
 
   return (
-    <Provider>
+    <>
       <Layout direction="column" h="100vh" px="xl" pt="m" spacing="l">
         <Layout as="header" align="center" justify="space-between">
           <Link to="/">
@@ -31,7 +30,7 @@ const BasePageLayout = ({ children }) => {
           flex="auto"
           direction="column"
           mx="auto"
-          w="width.container">
+          styles={styles.container}>
           {children}
         </Layout>
         <Layout
@@ -50,8 +49,14 @@ const BasePageLayout = ({ children }) => {
         </Layout>
       </Layout>
       <ScrollToTopIcon />
-    </Provider>
+    </>
   );
+};
+
+const styles = {
+  container: {
+    maxWidth: 'width.container',
+  },
 };
 
 export default BasePageLayout;

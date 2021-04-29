@@ -13,7 +13,6 @@ module.exports = {
           // order matters
           'gatsby-remark-table-of-contents',
           'gatsby-remark-autolink-headers',
-          'gatsby-remark-highlight.js',
         ],
       },
     },

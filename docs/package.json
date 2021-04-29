@@ -17,14 +17,15 @@
     "gatsby": "^3.3.1",
     "gatsby-plugin-mdx": "^2.3.0",
     "gatsby-remark-autolink-headers": "^4.0.0",
-    "gatsby-remark-highlight.js": "0.0.1",
     "gatsby-remark-table-of-contents": "^1.0.0",
     "gatsby-source-filesystem": "^3.3.0",
     "gatsby-transformer-remark": "^4.0.0",
     "palx": "^1.0.3",
+    "prism-react-renderer": "^1.2.0",
     "prismjs": "^1.23.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-live": "^2.2.3",
     "uinix-ui": "file:.."
   }
 }

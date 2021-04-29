@@ -1,6 +1,16 @@
-import { Element } from 'uinix-ui';
+import antDesignSystemImage from '../assets/images/ant-design-system.png';
+import carbonDesignSystemImage from '../assets/images/carbon-design-system.png';
+import materialDesignSystemImage from '../assets/images/material-design-system.png';
 
 # UI Systems and Complexity
+
+> This document is a work in progress and has not been finalized.
+
+This whitepaper explores complexity in building and maintaining UI systems.
+
+It opens with a reminder of the importance of modelling UI as a function of state, a concept that is popular and widely understood by most developers.  It leads into the discussion of centralizing specs and patterns which enables building interoperable and composable UI components.  A brief overview of design systems is then naturally introduced.  While design and UI systems serve as a way to manage complexity, this document highlights common situations on how complexity becomes unavoidable.  The document argues that it is not "better" abstractions nor updating of specs that will provide the best tools to managing complexity, but rather, an increased emphasis on applying the [Unix philosophy][unix-philosophy] in building programs, paired with tools and processes improving inspection of system specs, that will provide us with an iterative approach to managing complexity in UI systems.
+
+This document contains interactive [React][react] code examples.  Feel free to edit the code appropriately in the editor to preview changes!
 
 ## Table of Contents
 ```toc
@@ -9,21 +19,333 @@ from-heading: 2
 to-heading: 6
 ```
 
-## Overview
+## v = f(d)
 
-This document aims to first establish the importance of UI systems, and proceeds to highlight inevitable challenges in managing growing complexities through the use of simple examples.  Further sections cover how the [Unix philosophy][unix-philosophy], and subsequently [the `uinix`-philosophy](#the-uinix-philosophy) provides remediations to the complexity problem.
+Modern declarative UI libraries (such as [React][react]) emphasize the important concept of:
 
-## Background
+> View as a function of state.
 
-### What are UI systems?
+This powerful model allows us to reason about building UIs as no more than writing and composing functions, as the following example demonstrates.
 
-### Why UI Systems?
+Here are some functions that we can compose:
 
-```ts
-interface Test {
-  s: string;
+```js live
+() => {
+  const greet = name => {
+    return `Hello ${name}`;
+  }
+  const uppercase = x => {
+    return x.toUpperCase();
+  }
+  const shout = name => {
+    return uppercase(greet(name));
+  }
+
+  return shout('Jesse Pinkman');
 }
 ```
+
+Noting that components are essentially functions, and composable:
+
+```js live
+() => {
+  const Button = ({ text }) => {
+    return <button>{text}</button>;
+  }
+  const Big = ({ children }) => {
+    return (
+      <div style={{ transform: 'scale(4.0)', transformOrigin: 'top left' }}>
+        {children}
+      </div>
+    );
+  }
+  const Red = ({ children }) => {
+    return (
+      <div style={{ border: '4px solid red' }}>
+        {children}
+      </div>
+    );
+  }
+  const BigRedButton = ({ text }) => {
+    return (
+      <Big>
+        <Red>
+          <Button text={text} />
+        </Red>
+      </Big>
+    );
+  }
+
+  return <BigRedButton text="Boom!" />
+}
+```
+
+## s = f(d)
+
+While the concept of function composition is well-understood by most people and are applied in all areas in the UI stack (components, APIs, state, utils, test),
+
+> Somewhere, somehow, and everytime, styles and CSS are always an afterthought.
+
+If you disagree on this, it is a simple experiment to see if you can bring forth and have full visibility of all styles and their interactions and effects on components.  If you are able to do this, that's awesome and great, and the further sections may still interest you.
+
+For most of the time, we will begin to fallback on the argument that *styles should be closely paired with components*, and continue to partially lie to ourselves that we have "organized" our code appropriately when it is clear that styles and CSS continue to be hardcoded and inherited in obsfucated ways.  Perhaps, we have all been subconcsciously influenced to not consider the quest to modularize and compose styles because of the inheritance nature of CSS.
+
+All is not lost!  We will now emphasize that if we applied the same principle in the preceding section, then we may build some confidence on the concept of:
+
+> Style as a function of state.
+
+Let's recap our simple functions,
+
+```js live
+() => {
+  const greet = name => {
+    return `Hello ${name}`;
+  }
+  const uppercase = x => {
+    return x.toUpperCase();
+  }
+  const shout = name => {
+    return uppercase(greet(name));
+  }
+
+  return shout('Jesse Pinkman');
+}
+```
+
+And think of ways to express some common styles as simple objects or functions, and render them accordingly with the help of an `Element` component that implements application of style functions.
+
+```js live
+() => {
+  const buttonStyle = { // a simple object
+    borderRadius: '4px',
+    border: '1px solid rgb(222, 225, 228)',
+    paddingBottom: '4px',
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    paddingTop: '4px',
+}
+  const interactiveStyle = ({ isClickable }) => { // a simple function
+    if (!isClickable) {
+      return null;
+    }
+    return {
+      cursor: 'pointer',
+      ':hover': {
+        opacity: 0.7,
+      }
+    }
+  }
+  const activeStyle = ({ isActive }) => {
+    return {
+      backgroundColor: isActive ? 'rgb(3, 102, 214)' : 'white',
+      color: isActive ? 'white' : 'rgb(97, 109, 123)',
+    }
+  }
+
+  return (
+    <Layout direction="column" spacing="l">
+      <Element
+        styles={buttonStyle}>
+        Button Style
+      </Element>
+      <Element
+        styleProps={{ isClickable: true }}
+        styles={interactiveStyle}>
+        Interactive Style (hover me)
+      </Element>
+      <Element
+        styleProps={{ isActive: true }}
+        styles={activeStyle}>
+        Active Style
+      </Element>
+    </Layout>
+  )
+}
+```
+
+Remember that the code examples are live, so feel free to configure the `styleProps` accordingly!
+
+You may have noticed that the example component uses the `styles` and `styleProps` props.  This is the exact implementation for how [`uinix-ui`][uinix-ui] supports style composition.  But for now, you can loosely think this interface as a way to define props for the style functions we created above.  While the details of how style composition is performed will not be covered in this section, the following example demonstrates how it can be done easily be simply specifying multiple styles for the `styles` prop.
+
+
+```js live
+() => {
+  const buttonStyle = { // a simple object
+    borderRadius: '4px',
+    border: '1px solid rgb(222, 225, 228)',
+    paddingBottom: '4px',
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    paddingTop: '4px',
+}
+  const interactiveStyle = ({ isClickable }) => { // a simple function
+    if (!isClickable) {
+      return null;
+    }
+    return {
+      cursor: 'pointer',
+      ':hover': {
+        opacity: 0.7,
+      }
+    }
+  }
+  const activeStyle = ({ isActive }) => {
+    return {
+      backgroundColor: isActive ? 'rgb(3, 102, 214)' : 'white',
+      color: isActive ? 'white' : 'rgb(97, 109, 123)',
+    }
+  }
+
+  return (
+    <Layout direction="column" spacing="l">
+      <Element
+        styleProps={{
+          isClickable: true,
+        }}
+        styles={[
+          buttonStyle,
+          interactiveStyle,
+        ]}>
+        An interactive button!
+      </Element>
+      <Element
+        styleProps={{
+          isActive: true,
+          isClickable: true,
+        }}
+        styles={[
+          buttonStyle,
+          interactiveStyle,
+          activeStyle,
+        ]}>
+        An interactive and active button!
+      </Element>
+      <Element
+        styleProps={{
+          isActive: true,
+        }}
+        styles={[
+          activeStyle,
+          { borderRadius: '100vh' },
+        ]}>
+        A custom active element
+      </Element>
+    </Layout>
+  )
+}
+```
+
+We now have a powerful foundation to organizing and composing styles, just as we would for components, or simple functions.  While it will take us time to shake off old habits and build new muscles, it is exciting to see how we might organize UI modules as pure simple functions as in the following example project layout:
+
+```sh
+src
+  utils/
+    ...
+    greet.js
+    uppercase.js
+    shout.js
+  components/
+    ...
+    button.js
+    big.js
+    red.js
+  styles
+    ...
+    button.js
+    interactive.js
+    active.js
+```
+
+## Design Systems
+
+The preceding sections describe the backbone on how code is organized and a pattern for composition, but it does not deal with the actual *decisions and choices* we make in deciding how these components and styles are composed.
+
+A [design system][design-system] serves as a source of truth on design decisions.  Design system frameworks and patterns are largely acknowledged to help manage growing complexities of building applications.  The following provides a list of examples:
+
+- [Material Design System][material-design-system]
+<img src={materialDesignSystemImage} width="100%" />
+- [Carbon][carbon-design-system]
+<img src={carbonDesignSystemImage} width="100%" />
+- [Ant][ant-design-system]
+<img src={antDesignSystemImage} width="100%" />
+
+It is important to note that every design system is different, not just visually, but philosophically, reflecting the decisions and choices made on specs and rules in the system.
+
+## UI Systems
+
+The definition of UI systems is not widely nor formally established in the community, but we will provide a simple one:
+
+> **UI System**: an implementation of a design system
+
+With this definition, the following are popular UI systems:
+- [`antd`][antd]: implements [Ant Design System][ant-design-system]
+- [`carbon-components`][carbon-components]: implements [Carbon Design System][carbon-design-system]
+- [`material-ui`][material-ui]: implements [Material Design System][material-design-system]
+
+## Entropy
+
+Entropy is a measure of disorder.  In the physical and natural world, entropy can only remain unchanged or increase in a closed system.  [Software entropy][entropy] echoes this phenomenon.  Relating back to design and UI systems, we should expect disorder to indefinitely build up with changes to the system.
+
+## Complexity
+
+[Software complexity][software-complexity] is not the same as entropy, but relates to it in a manner that additions and changes to a system tends to increase the possible interactions of system components.  I like to think that:
+
+> Complexity is the inevitable result of choice.
+
+While our choices make sense at first glance, they will always involve a cost somewhere.  Abstractions may seem to reduce complexity (by reducing branching of interactions of components), but are only as efficient as how subsequent abstractions and components understand and honor them.
+
+The following interactive example follows the quest of a frontend developer implementing new requirements and doing his/her best at reducing complexity at every point, only to find that we can never escape complexity, but we have to face the eventual beast, one that has been shaped by the exact choices we have made during the journey.
+
+We begin this journey with a simple element rendering some text:
+
+```js live
+<Element>
+  The quick brown fox jumps over the lazy dog
+</Element>
+```
+
+And receive initial requirements to style it accordingly:
+
+```js live
+<Element
+  styles={{
+    borderRadius: '4px',
+    border: '1px solid rgb(222, 225, 228)',
+    color: 'rgb(97, 109, 123)',
+    paddingBottom: '4px',
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    paddingTop: '4px',
+  }}>
+  The quick brown fox jumps over the lazy dog
+</Element>
+```
+
+We receive further requirements that this component should support conditional behaviors if it `isActive`.  We will do so and specify the props accordingly in `styleProps`.
+
+```js live {1,2,3-4}
+() => {
+  return (
+    <Element
+      styleProps={{
+        isActive: true,
+      }}
+      styles={({ isActive }) => ({
+        borderRadius: '4px',
+        border: '1px solid rgb(222, 225, 228)',
+        paddingBottom: '4px',
+        paddingLeft: '16px',
+        paddingRight: '16px',
+        paddingTop: '4px',
+        backgroundColor: isActive ? 'rgb(3, 102, 214)' : 'white',
+        color: isActive ? 'white' : 'rgb(97, 109, 123)',
+      })}>
+      The quick brown fox jumps over the lazy dog
+    </Element>
+  );
+}
+```
+
 
 ## The `uinix` philosophy
 
@@ -35,7 +357,7 @@ Visit https://uinix-ui-systems.netlify.com for a quick demo of UI systems built 
 Complexity
 - [Out of the Tarpit][out-of-the-tarpit]
 
-UI Systems and Component Libraries
+UI Systems Libraries
 - [`rebass`][rebass]
 - [`theme-ui`][theme-ui]
 
@@ -48,15 +370,27 @@ CSS in JS
 - [`emotion`][emotion]
 - [`styled-components`][styled-components]
 
-<Element color="blue">element</Element>
+## License
+
+Copyright © 2021 Chris Zhou. This document is licensed under a [Creative Commons Attribution 4.0 International License]((https://creativecommons.org/licenses/by/4.0/)).
 
 <!-- defs -->
+[antd]: https://github.com/ant-design/ant-design/
+[ant-design-system]: https://ant.design/
+[carbon-components]: https://github.com/carbon-design-system/carbon/tree/main/packages/components
+[carbon-design-system]: https://www.carbondesignsystem.com/
+[design-system]: https://en.wikipedia.org/wiki/Design_system
 [emotion]: https://github.com/emotion-js/emotion
 [fela]: https://github.com/robinweser/fela
+[material-design-system]: https://material.io/
+[material-ui]: https://github.com/mui-org/material-ui
 [out-of-the-tarpit]: http://curtclifton.net/papers/MoseleyMarks06a.pdf
 [rebass]: https://github.com/rebassjs/rebass
 [react]: https://github.com/facebook/react
 [redux]: https://github.com/reduxjs/redux
+[software-complexity]: https://en.wikipedia.org/wiki/Programming_complexity
+[software-entropy]: https://en.wikipedia.org/wiki/Software_entropy
 [styled-components]: https://github.com/styled-components/styled-components
 [theme-ui]: https://github.com/system-ui/theme-ui
 [unix-philosophy]: https://en.wikipedia.org/wiki/Unix_philosophy
+[uinix-ui]: https://github.com/uinix-js/uinix-ui

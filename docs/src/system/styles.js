@@ -38,23 +38,22 @@ const global = {
   html: {
     scrollBehavior: 'smooth',
   },
-  body: {
-    margin: 0,
-    padding: 0,
-  },
   'a:hover': {
     // TODO: https://github.com/robinweser/fela/issues/876
     opacity: 'interactive',
   },
-  button: {
-    backgroundColor: 'transparent',
-    border: 'none',
-    borderRadius: 'm',
-    fontSize: 'm',
-    paddingBottom: 's',
+  body: {
+    margin: 0,
+    padding: 0,
+  },
+  blockquote: {
+    borderLeft: 'bordered',
+    borderWidth: 'l',
+    fontSize: 'l',
+    fontStyle: 'italic',
+    margin: 0,
+    padding: 0,
     paddingLeft: 'm',
-    paddingRight: 'm',
-    paddingTop: 's',
   },
   hr: {
     borderBottom: 'bordered',
