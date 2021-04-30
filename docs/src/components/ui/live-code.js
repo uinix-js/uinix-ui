@@ -2,6 +2,7 @@ import Highlight, { defaultProps } from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/github/index.js';
 import React from 'react';
 import { LiveEditor, LiveError, LiveProvider, LivePreview } from 'react-live';
+import { pipe } from 'uinix-fp';
 import { Element, Icon, Layout, Text } from 'uinix-ui';
 
 import PreviewContainer from './preview-container.js';
@@ -11,6 +12,7 @@ const scope = {
   Icon,
   Layout,
   Text,
+  pipe,
 };
 
 const LiveCode = ({ code, language, live }) => {
@@ -22,11 +24,13 @@ const LiveCode = ({ code, language, live }) => {
             <Layout boxShadow="m" flex="0 0 40%" p="s">
               <LivePreview />
             </Layout>
-            <Layout direction="flex" flex="auto">
+            <Layout flex="auto" styles={styles.editor}>
               <LiveEditor style={{ fontSize: '12px' }} />
-              <LiveError />
             </Layout>
           </Layout>
+          <Text color="tone.error" fontSize="s">
+            <LiveError style={styles.editorInput} />
+          </Text>
         </PreviewContainer>
       </LiveProvider>
     );
@@ -47,6 +51,17 @@ const LiveCode = ({ code, language, live }) => {
       )}
     </Highlight>
   );
+};
+
+const styles = {
+  editor: {
+    maxHeight: 'height.editor',
+    overflow: 'auto',
+    '> div': {
+      flex: 'auto',
+      height: 'max-content',
+    },
+  },
 };
 
 export default LiveCode;

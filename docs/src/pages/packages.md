@@ -1,6 +1,6 @@
-# Packages
+## Packages
 
-[`uinix-js`][uinix-js] is an open-source project shipping micro utilities, components, and patterns to rapidly and cheaply build UIs.
+[`uinix-js`][uinix-js] is an open-source project shipping micro utilities, components, and patterns to support a rapid and cheap approach in building UIs.
 
 - [`uinix-fp`][uinix-fp]: FP utilities for authoring functional JS programs
 - [`uinix-theme`][uinix-theme]: Theme spec and utilties for building UIs with `uinix`

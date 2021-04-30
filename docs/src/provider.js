@@ -7,7 +7,6 @@ import SystemProvider from './system/provider.js';
 const components = {
   pre: (props) => {
     const { children: code, className, live, ...rest } = props.children.props;
-    console.log(props.children);
     return (
       <LiveCode
         code={code}

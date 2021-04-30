@@ -90,6 +90,16 @@
       "unicorn/no-array-reduce": "off",
       "unicorn/prefer-spread": "off",
       "unicorn/prevent-abbreviations": "off"
-    }
+    },
+    "overrides": [
+      {
+        "files": [
+          "docs/**/*.js"
+        ],
+        "rules": {
+          "react/no-array-index-key": "off"
+        }
+      }
+    ]
   }
 }

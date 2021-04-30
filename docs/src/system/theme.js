@@ -31,7 +31,7 @@ const palette = Object.entries(palx(brandPrimaryColor)).reduce(
 const brandSecondaryColor = palette.gray[8];
 const brandInverseColor = palette.gray[0];
 const brandLightColor = palette.gray[6];
-const brandLighterColor = palette.gray[1];
+const brandLighterColor = palette.gray[2];
 const brandWashColor = palette.blue[0];
 const brandBorderColor = palette.gray[2];
 
@@ -60,6 +60,9 @@ const theme = createTheme({
       primary: palette.gray[9],
       secondary: palette.gray[6],
     },
+    tone: {
+      error: 'red',
+    },
   },
   fontFamilies: {
     body: baseFontFamily,
@@ -74,6 +77,7 @@ const theme = createTheme({
     xxl: '32px',
   },
   fontWeights: {
+    light: 300,
     body: 400,
     bold: 700,
   },
@@ -108,6 +112,9 @@ const theme = createTheme({
       m: '24px',
       l: '28px',
       xl: '48px',
+    },
+    height: {
+      editor: '500px',
     },
     width: {
       container: '768px',

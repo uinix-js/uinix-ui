@@ -6,9 +6,9 @@ import materialDesignSystemImage from '../assets/images/material-design-system.p
 
 > This document is a work in progress and has not been finalized.
 
-This whitepaper explores complexity in building and maintaining UI systems.
+This whitepaper explores complexity in building and maintaining [UI systems](#ui-systems).
 
-It opens with a reminder of the importance of modelling UI as a function of state, a concept that is popular and widely understood by most developers.  It leads into the discussion of centralizing specs and patterns which enables building interoperable and composable UI components.  A brief overview of design systems is then naturally introduced.  While design and UI systems serve as a way to manage complexity, this document highlights common situations on how complexity becomes unavoidable.  The document argues that it is not "better" abstractions nor updating of specs that will provide the best tools to managing complexity, but rather, an increased emphasis on applying the [Unix philosophy][unix-philosophy] in building programs, paired with tools and processes improving inspection of system specs, that will provide us with an iterative approach to managing complexity in UI systems.
+The document opens with a reminder of the importance of modelling UI as a function of state, a concept that is widely understood and applied by most developers, while highlighting common negligence of such principles when managing styles and CSS.  A brief overview of design systems and a definition of UI systems is then naturally introduced.  While such systems serve as ways to manage complexity in UI development, the document presents an interactive story on how complexity becomes unavoidable irregardless of the ideal choices we make at every point of the way.  The document argues that it is not "good" abstractions nor updating specs that will guard us from growing complexity, but rather, an increased emphasis on applying the [Unix philosophy][unix-philosophy] in building small, composable and interoperable programs, paired with tools and processes that improve the visibility and knowledge of system specs, that will provide us with an iterative approach to managing complexity in UI systems.  The document ends with an exposition on [the `uinix` philosophy](#the-uinix-philosophy) as a way to remediate complexity in UI systems, accompanied with links to relevant demos and references.
 
 This document contains interactive [React][react] code examples.  Feel free to edit the code appropriately in the editor to preview changes!
 
@@ -19,53 +19,64 @@ from-heading: 2
 to-heading: 6
 ```
 
-## v = f(d)
+## view = f(s)
 
 Modern declarative UI libraries (such as [React][react]) emphasize the important concept of:
 
 > View as a function of state.
 
-This powerful model allows us to reason about building UIs as no more than writing and composing functions, as the following example demonstrates.
+This powerful model allows us to reason about building UIs as no more than writing and composing functions, as demonstrated by the following examples.
 
-Here are some functions that we can compose:
+### Simple functions
+
+Here are some simple functions that we can compose:
 
 ```js live
 () => {
   const greet = name => {
     return `Hello ${name}`;
-  }
+  };
+
   const uppercase = x => {
     return x.toUpperCase();
-  }
-  const shout = name => {
-    return uppercase(greet(name));
-  }
+  };
+
+  const shout = pipe([greet, uppercase]);
 
   return shout('Jesse Pinkman');
 }
 ```
 
-Noting that components are essentially functions, and composable:
+Feel free to edit the code on the right (e.g. providing another value for `name`, or changing the operation of the composed `shout` method).
+
+### View functions
+
+View functions, more commonly known as *components*, are simply functions!
 
 ```js live
 () => {
   const Button = ({ text }) => {
     return <button>{text}</button>;
-  }
+  };
+
   const Big = ({ children }) => {
     return (
-      <div style={{ transform: 'scale(4.0)', transformOrigin: 'top left' }}>
+      <div style={{ transform: 'scale(3)', transformOrigin: 'top left' }}>
         {children}
       </div>
     );
-  }
+  };
+
   const Red = ({ children }) => {
     return (
-      <div style={{ border: '4px solid red' }}>
+      <div style={{ backgroundColor: 'red', color: 'white' }}>
         {children}
       </div>
     );
-  }
+  };
+
+  const attachChildren = (x) => ({ children: x });
+
   const BigRedButton = ({ text }) => {
     return (
       <Big>
@@ -74,168 +85,162 @@ Noting that components are essentially functions, and composable:
         </Red>
       </Big>
     );
-  }
+    // can be composed as simple functions with a pipe!
+    // return pipe([
+    //   Button,
+    //   attachChildren,
+    //   Red,
+    //   attachChildren,
+    //   Big,
+    // ])({ text });
+  };
 
-  return <BigRedButton text="Boom!" />
+  return <BigRedButton text="Boom!" />;
 }
 ```
 
-## s = f(d)
+## style = f(s)
 
-While the concept of function composition is well-understood by most people and are applied in all areas in the UI stack (components, APIs, state, utils, test),
+### Styles/CSS: The unfairly unloved child of UI development
 
-> Somewhere, somehow, and everytime, styles and CSS are always an afterthought.
+While the concept of function composition is well-understood by most people and is rigorously applied in all areas in the UI stack (components, APIs, state, utils, test),
 
-If you disagree on this, it is a simple experiment to see if you can bring forth and have full visibility of all styles and their interactions and effects on components.  If you are able to do this, that's awesome and great, and the further sections may still interest you.
+> Somewhere, somehow, and everytime, styles/CSS are left as afterthoughts at best, and layers of overriding and duplicated logic in codebases.
 
-For most of the time, we will begin to fallback on the argument that *styles should be closely paired with components*, and continue to partially lie to ourselves that we have "organized" our code appropriately when it is clear that styles and CSS continue to be hardcoded and inherited in obsfucated ways.  Perhaps, we have all been subconcsciously influenced to not consider the quest to modularize and compose styles because of the inheritance nature of CSS.
+If you disagree on this, it is a simple experiment to see if you can lay out the full visible specs and rules on styles and their interactions and effects on components.  If you are able to do this, you have solved and mastered a commonly overlooked aspect of UI development, but the further sections may still interest you.
 
-All is not lost!  We will now emphasize that if we applied the same principle in the preceding section, then we may build some confidence on the concept of:
+For the rest of us, we will begin to fallback on the argument that *"our styles are closely organized with components and therefore it is not completely a bad situation"*, and continue to lie to ourselves that our abstractions guards us from fundamentally a lack of visibility and understanding on how inherited styles have an effect on components.  Perhaps, we have all been subconcsciously influenced to not consider the quest to modularize and compose styles because of the fundamental inheritance and cascading nature of C(ascading)S(tyle)S(heets).
+
+### Back to basics
+
+Let's keep an open mind and go back to basics with a simple proposition that we can reason about
 
 > Style as a function of state.
 
-Let's recap our simple functions,
+Revisiting our simple functions,
 
 ```js live
 () => {
   const greet = name => {
     return `Hello ${name}`;
-  }
+  };
+
   const uppercase = x => {
     return x.toUpperCase();
-  }
-  const shout = name => {
-    return uppercase(greet(name));
-  }
+  };
+
+  const shout = pipe([greet, uppercase]);
 
   return shout('Jesse Pinkman');
 }
 ```
 
-And think of ways to express some common styles as simple objects or functions, and render them accordingly with the help of an `Element` component that implements application of style functions.
+### Style functions
 
-```js live
-() => {
-  const buttonStyle = { // a simple object
-    borderRadius: '4px',
-    border: '1px solid rgb(222, 225, 228)',
-    paddingBottom: '4px',
-    paddingLeft: '16px',
-    paddingRight: '16px',
-    paddingTop: '4px',
-}
-  const interactiveStyle = ({ isClickable }) => { // a simple function
-    if (!isClickable) {
-      return null;
-    }
-    return {
-      cursor: 'pointer',
-      ':hover': {
-        opacity: 0.7,
-      }
-    }
-  }
-  const activeStyle = ({ isActive }) => {
-    return {
-      backgroundColor: isActive ? 'rgb(3, 102, 214)' : 'white',
-      color: isActive ? 'white' : 'rgb(97, 109, 123)',
-    }
-  }
-
-  return (
-    <Layout direction="column" spacing="l">
-      <Element
-        styles={buttonStyle}>
-        Button Style
-      </Element>
-      <Element
-        styleProps={{ isClickable: true }}
-        styles={interactiveStyle}>
-        Interactive Style (hover me)
-      </Element>
-      <Element
-        styleProps={{ isActive: true }}
-        styles={activeStyle}>
-        Active Style
-      </Element>
-    </Layout>
-  )
-}
-```
-
-Remember that the code examples are live, so feel free to configure the `styleProps` accordingly!
-
-You may have noticed that the example component uses the `styles` and `styleProps` props.  This is the exact implementation for how [`uinix-ui`][uinix-ui] supports style composition.  But for now, you can loosely think this interface as a way to define props for the style functions we created above.  While the details of how style composition is performed will not be covered in this section, the following example demonstrates how it can be done easily be simply specifying multiple styles for the `styles` prop.
+Let's try to model styles as either style objects or *style functions* that return style objects.  With the help of an [`Element`][element-component] component, we will assign these style functions to the `styles` propand specify the data for these function in the `styleProps` prop.
 
 
 ```js live
 () => {
-  const buttonStyle = { // a simple object
-    borderRadius: '4px',
-    border: '1px solid rgb(222, 225, 228)',
-    paddingBottom: '4px',
-    paddingLeft: '16px',
-    paddingRight: '16px',
-    paddingTop: '4px',
-}
-  const interactiveStyle = ({ isClickable }) => { // a simple function
-    if (!isClickable) {
-      return null;
-    }
-    return {
-      cursor: 'pointer',
-      ':hover': {
-        opacity: 0.7,
-      }
-    }
-  }
-  const activeStyle = ({ isActive }) => {
-    return {
-      backgroundColor: isActive ? 'rgb(3, 102, 214)' : 'white',
-      color: isActive ? 'white' : 'rgb(97, 109, 123)',
-    }
-  }
+  const styles = {
+    button: { // a simple object
+      borderRadius: '4px',
+      border: '1px solid rgb(222, 225, 228)',
+      paddingBottom: '4px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      paddingTop: '4px',
+    },
+    big: ({ isBig }) => { // a simple function
+      return {
+        fontSize: isBig ? '32px' : undefined,
+        padding: isBig ? '32px 16px': undefined
+      };
+    },
+    red: {
+      backgroundColor: 'red',
+      color: 'white',
+    },
+  };
 
   return (
     <Layout direction="column" spacing="l">
       <Element
-        styleProps={{
-          isClickable: true,
-        }}
-        styles={[
-          buttonStyle,
-          interactiveStyle,
-        ]}>
-        An interactive button!
+        as="button"
+        styles={styles.button}>
+        Button
       </Element>
       <Element
+        as="button"
         styleProps={{
-          isActive: true,
-          isClickable: true,
+          isBig: true,
         }}
-        styles={[
-          buttonStyle,
-          interactiveStyle,
-          activeStyle,
-        ]}>
-        An interactive and active button!
+        styles={styles.big}>
+        Big
       </Element>
       <Element
-        styleProps={{
-          isActive: true,
-        }}
-        styles={[
-          activeStyle,
-          { borderRadius: '100vh' },
-        ]}>
-        A custom active element
+        as="button"
+        styles={styles.red}>
+        Red
       </Element>
     </Layout>
-  )
+  );
 }
 ```
 
-We now have a powerful foundation to organizing and composing styles, just as we would for components, or simple functions.  While it will take us time to shake off old habits and build new muscles, it is exciting to see how we might organize UI modules as pure simple functions as in the following example project layout:
+Last reminder that the code examples are interactive, so feel free to configure the `styleProps` accordingly!
+
+Just as functions can be composed, we will compose styles by simply providing multiple smaller style functions to the `styles` prop.  For details on how style composition is implemented in the [`Element`][element-component] component, we recommend readers exploring the API sections of [`uinix-ui`][uinix-ui].
+
+```js live
+() => {
+  const styles = {
+    button: {
+      borderRadius: '4px',
+      border: '1px solid rgb(222, 225, 228)',
+      paddingBottom: '4px',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      paddingTop: '4px',
+    },
+    big: ({ isBig }) => {
+      return {
+        fontSize: isBig ? '32px' : undefined,
+        padding: isBig ? '32px 16px': undefined
+      };
+    },
+    red: {
+      backgroundColor: 'red',
+      color: 'white',
+    },
+  };
+
+  return (
+    <Layout direction="column" spacing="l">
+      <Element
+        as="button"
+        styleProps={{
+          isBig: true,
+        }}
+        styles={[
+          styles.big,
+          styles.red,
+          styles.button,
+        ]}>
+        BigRedButton
+      </Element>
+    </Layout>
+  );
+}
+```
+
+By going back to basics, we discovered that we can easily compose and organize styles as simple functions!  While it will take us time to shake off old habits and build new muscles, it is exciting to look forward on treating style functions with the same respect as other UI functions!
+
+💪
+
+## ui = f(s)
+
+With style functions formally joining the family of simple and composable functions, an example UI project might look like:
 
 ```sh
 src
@@ -249,18 +254,24 @@ src
     button.js
     big.js
     red.js
-  styles
+  styles/
     ...
     button.js
-    interactive.js
-    active.js
+    big.js
+    red.js
 ```
+
+And we can continue to develop with the principle that
+
+> UI as a function of state.
+
+🎉
 
 ## Design Systems
 
-The preceding sections describe the backbone on how code is organized and a pattern for composition, but it does not deal with the actual *decisions and choices* we make in deciding how these components and styles are composed.
+The preceding sections describe the backbone on how to organize building blocks in code, but does not deal with the actual *decisions and choices* we make to determine what we should be building and maintaining.
 
-A [design system][design-system] serves as a source of truth on design decisions.  Design system frameworks and patterns are largely acknowledged to help manage growing complexities of building applications.  The following provides a list of examples:
+A [design system][design-system] serves as a source of truth for design decisions.  Design system frameworks and patterns are largely acknowledged to help manage growing complexities of building applications.  The following provides a list of examples:
 
 - [Material Design System][material-design-system]
 <img src={materialDesignSystemImage} width="100%" />
@@ -269,34 +280,54 @@ A [design system][design-system] serves as a source of truth on design decisions
 - [Ant][ant-design-system]
 <img src={antDesignSystemImage} width="100%" />
 
-It is important to note that every design system is different, not just visually, but philosophically, reflecting the decisions and choices made on specs and rules in the system.
+It is important to note that every design system is different, not simply visually, but philosophically.  These differences reflect the *decisions and choices* on how the system manages and organizes design specs and rules.
 
 ## UI Systems
 
-The definition of UI systems is not widely nor formally established in the community, but we will provide a simple one:
+### Definition
 
-> **UI System**: an implementation of a design system
+The definition for UI systems is not formally established in the community, but we will provide a simple definition:
 
-With this definition, the following are popular UI systems:
+> **UI System**: an implementation of a design system in code
+
+With this definition, the following UI systems implement their corresponding design systems:
 - [`antd`][antd]: implements [Ant Design System][ant-design-system]
 - [`carbon-components`][carbon-components]: implements [Carbon Design System][carbon-design-system]
 - [`material-ui`][material-ui]: implements [Material Design System][material-design-system]
 
+### UI System Libraries
+
+It is also worthwhile to note that *UI system libraries* help implement UI systems.  Examples of UI system libraries include:
+- [`theme-ui`][theme-ui]
+- [`uinix-ui`][uinix-ui]
+
 ## Entropy
 
-Entropy is a measure of disorder.  In the physical and natural world, entropy can only remain unchanged or increase in a closed system.  [Software entropy][entropy] echoes this phenomenon.  Relating back to design and UI systems, we should expect disorder to indefinitely build up with changes to the system.
+When discussing systems, we should naturally talk about the entropy and complexity of systems.
+
+Entropy is a measure of disorder.  In the physical and natural world, entropy can only remain unchanged or increase in a closed system.  [Software entropy][software-entropy] echoes this phenomenon.  Relating back to design and UI systems, we should expect entropy to indefinitely build up with changes made to the system.
 
 ## Complexity
 
-[Software complexity][software-complexity] is not the same as entropy, but relates to it in a manner that additions and changes to a system tends to increase the possible interactions of system components.  I like to think that:
+[Complexity][complexity], while not the same as entropy, can be measured by the total independent ways components in a system can interact with each other.  A complex system is commonly mislabelled to be complicated.  The former concept deals with a certain and quantifiable way to measure a system, but the latter concept deals with our uncertain understanding of the system, to which imperfect or lack of knowledge on a system is commonly associated with the *human perception* that a system is complicated.
 
-> Complexity is the inevitable result of choice.
+We often say to ourselves,
 
-While our choices make sense at first glance, they will always involve a cost somewhere.  Abstractions may seem to reduce complexity (by reducing branching of interactions of components), but are only as efficient as how subsequent abstractions and components understand and honor them.
+> "This code is too complicated, and we need to refactor it."
 
-The following interactive example follows the quest of a frontend developer implementing new requirements and doing his/her best at reducing complexity at every point, only to find that we can never escape complexity, but we have to face the eventual beast, one that has been shaped by the exact choices we have made during the journey.
+But less often do we pause and reflect that the complicated code maybe due to our lack of understanding of the current system.  In most cases, we do not possess complete [system visibility](#system-visibility), which leads to imperfect knowledge of the system.  At best, we make the right choices based on limited knowledge and refactor code with better abstractions.  At worst, we believe our abstractions are well-formed and we unwittingly contribute to a more complex system with the choices we make.
 
-We begin this journey with a simple element rendering some text:
+Personally, I like to view complexity in the following way:
+
+> "Complexity is inevitable because of the choices we make, and limited understanding of the system leads to imperfect knowledge and imperfect choices which eventually leads into complications."
+
+## Elliot and the Complexity Beast
+
+The following interactive example follows the quest of a frontend developer, Elliot, as he works through building UI components with his Design team.  At every point of implementing new requirements, he tries his best at reducing complexity and being mindful of the choices he has made, only to find that he can never escape complexity, but faces the eventual beast, one that has been shaped by the exact choices made during the journey.
+
+### Hello Elliot
+
+Elliot begins his journey with a simple element rendering some text:
 
 ```js live
 <Element>
@@ -304,41 +335,33 @@ We begin this journey with a simple element rendering some text:
 </Element>
 ```
 
-And receive initial requirements to style it accordingly:
+He receives initial design requirements to style it accordingly:
 
 ```js live
 <Element
   styles={{
     borderRadius: '4px',
     border: '1px solid rgb(222, 225, 228)',
-    color: 'rgb(97, 109, 123)',
-    paddingBottom: '4px',
-    paddingLeft: '16px',
-    paddingRight: '16px',
-    paddingTop: '4px',
+    padding: '4px 16px',
   }}>
   The quick brown fox jumps over the lazy dog
 </Element>
 ```
 
-We receive further requirements that this component should support conditional behaviors if it `isActive`.  We will do so and specify the props accordingly in `styleProps`.
+He then receives further requirements that this component should support conditional behaviors if it `isBig`.  He does so and naturally implements it in a meaningful way:
 
-```js live {1,2,3-4}
+```js live
 () => {
   return (
     <Element
       styleProps={{
-        isActive: true,
+        isBig: true,
       }}
-      styles={({ isActive }) => ({
+      styles={({ isBig }) => ({
         borderRadius: '4px',
         border: '1px solid rgb(222, 225, 228)',
-        paddingBottom: '4px',
-        paddingLeft: '16px',
-        paddingRight: '16px',
-        paddingTop: '4px',
-        backgroundColor: isActive ? 'rgb(3, 102, 214)' : 'white',
-        color: isActive ? 'white' : 'rgb(97, 109, 123)',
+        fontSize: isBig ? '32px' : '14px',
+        padding: isBig ? '16px 32px': '4px 16px',
       })}>
       The quick brown fox jumps over the lazy dog
     </Element>
@@ -346,29 +369,405 @@ We receive further requirements that this component should support conditional b
 }
 ```
 
+### `Danger`
+
+A few days later, he receives another requirement to apply the red styles on this component:
+
+```js live
+() => {
+  return (
+    <Element
+      styleProps={{
+        isBig: true,
+      }}
+      styles={({ isBig }) => ({
+        backgroundColor: 'red',
+        borderRadius: '4px',
+        border: '1px solid rgb(222, 225, 228)',
+        color: 'white',
+        fontSize: isBig ? '32px' : '14px',
+        padding: isBig ? '16px 32px': '4px 16px',
+      })}>
+      The quick brown fox jumps over the lazy dog
+    </Element>
+  );
+}
+```
+
+He ships his simple and organized component, and gives it a name `Danger`.  Everyone, including himself, loves it and is proud of his work!
+
+### `Warning`
+
+A few days later, he receives design requirements on an area of an application that looks eerily similar upon implementation.  He's named the component `Warning` and here is the current implementation:
+
+```js live
+() => {
+  return (
+    <Element
+      styles={{
+        backgroundColor: '#ffe7ba',
+        borderRadius: '6px',
+        border: '1px solid rgb(222, 225, 228)',
+        color: '#ff7a45',
+        padding: '4px 16px',
+      }}>
+      The quick brown fox jumps over the lazy dog
+    </Element>
+  );
+}
+```
+
+### `Notice`
+
+He notices that `Danger` and `Warning` can share a common implementation and discusses it with his design team:
+
+> **Elliot**: "Hey folks, it seems that the only difference between `Danger` and `Warning` are due to `borderRadius` and the fact that `Warning` doesn't seem to support a `isBig` variant.  Is there a way for us to see how `Danger` and `Warning` relate with each other?"
+>
+> **Design**: "The borderRadius can be shared, but `Alert` can never be big, ever."
+
+Elliot goes back to the drawing board and thinks about how he would model this problem and manage its complexity and avoid duplication.  Luckily, this seems easy enough:
+
+```js live
+() => {
+  const styles = {
+    notice: ({ isBig, variant }) => ({
+      backgroundColor: variants[variant].backgroundColor,
+      borderRadius: '6px',
+      border: '1px solid rgb(222, 225, 228)',
+      color: variants[variant].color,
+      fontSize: isBig ? '32px' : '14px',
+      padding: isBig ? '16px 32px': '4px 16px',
+    })
+  };
+
+  const variants = {
+    'danger': {
+      backgroundColor: 'red',
+      color: 'white'
+    },
+    'warning': {
+      backgroundColor: '#ffe7ba',
+      color: '#ff7a45',
+    },
+  };
+
+  return (
+    <Layout direction="column" spacing="l">
+      <Element
+        styleProps={{
+          isBig: true,
+          variant: 'danger',
+        }}
+        styles={styles.notice}>
+        Danger
+      </Element>
+      <Element
+        styleProps={{
+          variant: 'warning',
+        }}
+        styles={styles.notice}>
+        Warning
+      </Element>
+    </Layout>
+  );
+}
+```
+
+What Elliot has done so far is great:
+- He was able to convince Design team to reduce a degree of complexity by only having a standardized `borderRadius`.
+- He was able to decouple and abstract styles as a function.
+- The style function supports both needs of `Danger` and `Alert` appropriately.
+
+Elliot proudly names this component `Notice` and explains how it works and behaves to his team.  The Design team did a review and confirmed everything looks great.
+
+### `BigRedButton`
+
+A few days later, Elliot receives requirements to create a `BigRedButton` component.  Implementing this to spec, he notices that it shares some aspects with the `Notice` component he created earlier.
+
+```js live
+() => {
+  return (
+    <Element
+      as="button"
+      styleProps={{
+        isBig: true
+      }}
+      styles={({ isBig }) => ({
+        backgroundColor: 'red',
+        borderRadius: '6px',
+        border: '1px solid rgb(222, 225, 228)',
+        color: 'white',
+        fontSize: isBig ? '32px' : '14px',
+        padding: isBig ? '32px 48px': '4px 16px',
+      })}>
+      BigRedButton
+    </Element>
+  );
+}
+```
+
+Being the diligent and responsible developer, Elliot goes back to the drawing board and see how he can decouple and organize this code into smaller parts:
+
+```js live
+() => {
+  const dangerStyle = {
+    backgroundColor: 'red',
+    color: 'white',
+  };
+
+  const warningStyle = {
+    backgroundColor: '#ffe7ba',
+    color: '#ff7a45',
+  }
+
+  const bigStyle = ({ isBig }) => ({
+    fontSize: isBig ? '32px' : '14px',
+    padding: isBig ? '16px 32px': '4px 16px',
+  });
+
+  const variants = {
+    danger: dangerStyle,
+    warning: warningStyle,
+  };
+
+  const styles = {
+    big: bigStyle,
+    danger: dangerStyle,
+    notice: ({ isBig, variant }) => ({
+      backgroundColor: variants[variant].backgroundColor,
+      borderRadius: '6px',
+      border: '1px solid rgb(222, 225, 228)',
+      color: variants[variant].color,
+      ...bigStyle({ isBig }),
+    }),
+  };
+
+  return (
+    <Layout direction="column" spacing="l">
+      <Element
+        styleProps={{
+          variant: 'danger',
+        }}
+        styles={styles.notice}>
+        Notice (Danger)
+      </Element>
+      <Element
+        styleProps={{
+          variant: 'warning',
+        }}
+        styles={styles.notice}>
+        Notice (Warning)
+      </Element>
+      <Element
+        as="button"
+        styleProps={{
+          isBig: true
+        }}
+        styles={[styles.danger, styles.big]}>
+        BigRedButton
+      </Element>
+    </Layout>
+  );
+}
+```
+
+Studying the style functions, he sees an opportunity to further refactor and organize this meaningfully, by breaking out the `big` and `danger` styles to aid composition, so that they can be reused in `BigRedButton` while leaving the exact same behaviors for `Notice`  He's following the exact recommendations that we've laid out in earlier sections on `s = f(d)`!
+
+But little does he know, this innocent and well-intentioned choice, will be what awakens the sleeping Complexity Beast.
+
+### `BigNotSoRedButton`
+
+A few days later, the Design team comes back to Elliot and raises a non-negotiable change that `BigRedButton` is too red, and that `BigNotSoRedButton` is what they had in mind to use.
+
+Elliot, after days of successfully refactoring code, confidently heads to the drawing board again, and studies the relevant parts of his code:
+
+```js live
+() => {
+  const dangerStyle = {
+    backgroundColor: 'red',
+    color: 'white',
+  };
+
+  const warningStyle = ({ isBig }) => ({
+    fontSize: isBig ? '32px' : '14px',
+    padding: isBig ? '16px 32px': '4px 16px',
+  });
+
+  const notSoRedStyle = {
+    backgroundColor: '#ff85c0',
+    color: 'white',
+  };
+
+  const bigStyle = ({ isBig }) => ({
+    fontSize: isBig ? '32px' : '14px',
+    padding: isBig ? '16px 32px': '4px 16px',
+  });
+
+  const styles = {
+    big: bigStyle,
+    danger: dangerStyle,
+    notSoRed: notSoRedStyle,
+  };
+
+  return (
+    <Layout direction="column" spacing="l">
+      <Element
+        as="button"
+        styleProps={{
+          isBig: true
+        }}
+        styles={[styles.notSoRed, styles.big]}>
+        BigNotSoRedButton
+      </Element>
+    </Layout>
+  );
+}
+```
+
+He realizes that the simplest way to do this is to introduce a new `notSoRedStyle`, since replacing the red value in `dangerStyle` would break the requirements for the `Notice` component.
+
+He is not very happy to add this new spec, but it doesn't seem feasible any other way without making significant changes to the code.  He double checks with the design team just to make sure:
+
+> **Elliot**: "Hey folks, are we absolutely sure the 'danger' color tone should differ across components?".
+>
+> **Design**: "Yeah we're sure, we've gotten feedback from users and let's go with what you have done here.  Great job!"
+
+### A few weeks later
+
+Over the next few weeks, various additional requirements are placed on `Notice` and `BigNotSoRedButton`, and Elliot repeats the process of managing complexity by refactoring shareable code, only to find that he cannot avoid:
+1. Introducing new specs, or
+2. Conditional-branching of applying shared logic
+
+The two points above are the inevitable factors of complexity.
+
+It occurred to him that the current state of the "reusable" code is actually **more complex** than the duplicated but more composable approach presented below:
+
+```js live
+() => {
+  const styles = {
+    big: ({ isBig }) => ({
+      fontSize: isBig ? '32px' : '14px',
+      padding: isBig ? '16px 32px': '4px 16px',
+    }),
+    danger: {
+      backgroundColor: 'red',
+      color: 'white'
+    },
+    warning: {
+      backgroundColor: '#ffe7ba',
+      color: '#ff7a45',
+    },
+    notSoRed: {
+      backgroundColor: '#ff85c0',
+      color: 'white',
+    },
+    notice: ({ isBig, variant }) => ({
+      borderRadius: '6px',
+      border: '1px solid rgb(222, 225, 228)',
+    }),
+  };
+
+  return (
+    <Layout direction="column" spacing="l">
+      <Element
+        styleProps={{
+          variant: 'danger',
+        }}
+        styles={[styles.notice, styles.big, styles.danger]}>
+        Notice (Danger)
+      </Element>
+      <Element
+        styleProps={{
+          variant: 'warning',
+        }}
+        styles={[styles.notice, styles.big, styles.warning]}>
+        Notice (Warning)
+      </Element>
+      <Element
+        as="button"
+        styleProps={{
+          isBig: true
+        }}
+        styles={[styles.notSoRed, styles.big]}>
+        BigNotSoRedButton
+      </Element>
+    </Layout>
+  );
+}
+```
+
+Although Elliot realizes a discipline of applying composition and [the Unix Philosophy](#the-unix-philosophy) will serve as a main way to combat Complexity, he has become much more aware that Complexity herself is unavoidable, and asks the question to himself and his Design team:
+
+> **Elliot**: "Do we have a full understanding of what we are building?"
+>
+> **Design**: "Of course!"
+>
+> **Elliot**: "Where can I visualize the decisions that we have made over the past few weeks?""
+>
+> **Design**: "In the mocks, docs and these links."
+>
+> **Elliot**: "Is there a central place to see everything?"
+>
+> **Design**: "No I don't think so, but that would be great to have.  We really need it too."
+
+As Elliot opens the various links, he realized that while every choice, including his, made perfect sense along the journey, the Complexity of the system has inevitably increased, because every choice was made on limited knowledge and understanding of the system *at present*, and not a reflection of the entire nature of the system itself.
+
+He is now convinced that no one can slay the Complexity Beast, but can only monitor and keep it at bay, and having complete knowledge of the enemy is of utmost importance.  But that is always lacking and unavailable, as the world inevitably paces forward with other pressing need.
+
+### Goodbye Elliot
+
+Elliot comes to peace with his journey on Complexity, and sets out to further his understanding of systems and complexity by exploring ways to make system specs and rules visible.
+
+## System Visibility
+
+In the previous example, we saw how the primary source of complexity comes from a limited understanding of systems.  Abstractions are a central tool to managing complexity by implementing shareable code, but they are only as effective as our understanding of the system, and more importantly,
+
+> Bad abstractions are worse than duplication.
+
+In order to make the right choices and decisions, we need to increase the system visibility, so that we understand its parts and how to make appropriate changes.
+
+The next sections cover how [the Unix Philosophy](#the-unix-philosophy) and subsequently [the `uinix` philosophy](#the-uinix-philosophy) allow for improving the system's visibility by keeping interactions of system components as simple and flat as possible.
+
+## The Unix philosophy
+
 
 ## The `uinix` philosophy
 
+## Remediations
+
 ## Demos
 
-Visit https://uinix-ui-systems.netlify.com for a quick demo of UI systems built easily and rapidly with `uinix-ui`!
+Visit https://uinix-ui-systems.netlify.com for a quick demo of UI systems built with [the `uinix` Philosophy](#the-uinix-philosophy).
+
+These demos reverse-engineer various well-known production applications into a minimal set of specs (`theme`, `icons`, `typography`, and `styles`), and are built from using just four component primitives (`Element`, `Layout`, `Icon`, and `Text`).
+
+More importantly, the [system visibility](#system-visibility) is fully made available to improve the knowledge on making choices about the system.
+
+## Influences
+
+This document and [the `uinix` philosophy](#the-uinix-philosophy) is largely inspired by the following projects and their relating philosophies:
+
+- [`react`][react]: view as a function of state
+- [`redux`][redux]: state management via composition
+- [`fela`][fela]: style as a function of state
+- [`theme-ui`][theme-ui]: the first [UI system library](#ui-system-libraries) to formally define interoperable system components with a theme spec
 
 ## References
-Complexity
-- [Out of the Tarpit][out-of-the-tarpit]
 
-UI Systems Libraries
-- [`rebass`][rebass]
-- [`theme-ui`][theme-ui]
+This document references concepts and ideas from the following sources:
 
-`f(s) => ui`
-- [`fela`][fela]
-- [`react`][react]
-- [`redux`][redux]
-
-CSS in JS
-- [`emotion`][emotion]
-- [`styled-components`][styled-components]
+- Complexity
+  - [Out of the Tarpit][out-of-the-tarpit]
+- UI Systems Libraries
+  - [`theme-ui`][theme-ui]
+  - [`rebass`][rebass] (progenitor of `theme-ui`)
+- ui = f(s)
+  - [`fela`][fela]
+  - [`react`][react]
+  - [`redux`][redux]
+- CSS in JS
+  - [`emotion`][emotion]
+  - [`styled-components`][styled-components]
 
 ## License
 
@@ -379,7 +778,9 @@ Copyright © 2021 Chris Zhou. This document is licensed under a [Creative Common
 [ant-design-system]: https://ant.design/
 [carbon-components]: https://github.com/carbon-design-system/carbon/tree/main/packages/components
 [carbon-design-system]: https://www.carbondesignsystem.com/
+[complexity]: https://en.wikipedia.org/wiki/Complexity
 [design-system]: https://en.wikipedia.org/wiki/Design_system
+[element-component]: ../api/components/element
 [emotion]: https://github.com/emotion-js/emotion
 [fela]: https://github.com/robinweser/fela
 [material-design-system]: https://material.io/
@@ -388,7 +789,6 @@ Copyright © 2021 Chris Zhou. This document is licensed under a [Creative Common
 [rebass]: https://github.com/rebassjs/rebass
 [react]: https://github.com/facebook/react
 [redux]: https://github.com/reduxjs/redux
-[software-complexity]: https://en.wikipedia.org/wiki/Programming_complexity
 [software-entropy]: https://en.wikipedia.org/wiki/Software_entropy
 [styled-components]: https://github.com/styled-components/styled-components
 [theme-ui]: https://github.com/system-ui/theme-ui

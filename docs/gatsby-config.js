@@ -1,5 +1,6 @@
 module.exports = {
   plugins: [
+    'gatsby-plugin-catch-links',
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
