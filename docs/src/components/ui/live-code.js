@@ -8,10 +8,12 @@ import { Element, Icon, Layout, Text } from 'uinix-ui';
 import PreviewContainer from './preview-container.js';
 
 const scope = {
+  // components
   Element,
   Icon,
   Layout,
   Text,
+  // utils
   pipe,
 };
 
@@ -39,7 +41,7 @@ const LiveCode = ({ code, language, live }) => {
   return (
     <Highlight {...defaultProps} code={code} language={language} theme={theme}>
       {({ className, style, tokens, getLineProps, getTokenProps }) => (
-        <pre className={className} style={{ ...style, padding: '20px' }}>
+        <Element as="pre" className={className} styles={[style, styles.pre]}>
           {tokens.map((line, i) => (
             <div key={i} {...getLineProps({ line, key: i })}>
               {line.map((token, key) => (
@@ -47,13 +49,19 @@ const LiveCode = ({ code, language, live }) => {
               ))}
             </div>
           ))}
-        </pre>
+        </Element>
       )}
     </Highlight>
   );
 };
 
 const styles = {
+  pre: {
+    fontSize: 's',
+    maxHeight: 'height.editor',
+    overflow: 'auto',
+    padding: 'm',
+  },
   editor: {
     maxHeight: 'height.editor',
     overflow: 'auto',
