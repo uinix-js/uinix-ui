@@ -298,7 +298,7 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 [bundle-size]: https://bundlephobia.com/result?p=uinix-ui
 
 <!-- defs -->
-[demos]: https://uinix-ui-systems.netlify.com
+[demos]: https://systems.uinix.dev
 [esm]: https://nodejs.org/api/esm.html
 [fela]: https://github.com/robinweser/fela
 [react]: https://github.com/facebook/react
