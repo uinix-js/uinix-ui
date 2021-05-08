@@ -11,7 +11,7 @@ module.exports = {
         },
         extensions: [`.mdx`, `.md`],
         gatsbyRemarkPlugins: [
-          // order matters
+          // Order matters
           'gatsby-remark-table-of-contents',
           'gatsby-remark-autolink-headers',
         ],

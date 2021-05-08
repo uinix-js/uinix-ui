@@ -1,4 +1,4 @@
-import { createStyles } from 'uinix-ui';
+import {createStyles} from 'uinix-ui';
 
 import typography from './typography.js';
 
@@ -11,7 +11,7 @@ const rules = {
     pointerEvents: 'none',
     opacity: 'disabled',
   },
-  interactive: ({ theme, onClick }) => ({
+  interactive: ({theme, onClick}) => ({
     cursor: onClick ? 'pointer' : undefined,
     ':active': {
       filter: onClick
@@ -26,7 +26,7 @@ const rules = {
 
 const components = {
   Element: [
-    ({ disabled }) => (disabled ? rules.disabled : null),
+    ({disabled}) => (disabled ? rules.disabled : null),
     rules.interactive,
   ],
 };

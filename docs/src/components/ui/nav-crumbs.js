@@ -1,9 +1,9 @@
-import { Link } from 'gatsby';
+import {Link} from 'gatsby';
 import React from 'react';
-import { i } from 'uinix-fp';
-import { Text } from 'uinix-ui';
+import {i} from 'uinix-fp';
+import {Text} from 'uinix-ui';
 
-const NavCrumbs = ({ uri }) => {
+const NavCrumbs = ({uri}) => {
   let path = '';
   const crumbs = uri
     .split('/')
@@ -17,7 +17,7 @@ const NavCrumbs = ({ uri }) => {
       };
     });
 
-  return crumbs.map(({ label, to }) => {
+  return crumbs.map(({label, to}) => {
     if (to) {
       return (
         <Link key={to} to={to}>

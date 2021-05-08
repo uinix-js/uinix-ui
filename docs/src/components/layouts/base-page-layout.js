@@ -1,14 +1,14 @@
-import { Link } from 'gatsby';
+import {Link} from 'gatsby';
 import React from 'react';
-import { Layout, Text } from 'uinix-ui';
+import {Layout, Text} from 'uinix-ui';
 
-import { GITHUB_REPO, GITHUB_USER } from '../../urls.js';
-import { useIsReady } from '../../hooks/use-is-ready.js';
+import {GITHUB_REPO, GITHUB_USER} from '../../urls.js';
+import {useIsReady} from '../../hooks/use-is-ready.js';
 import BrandText from '../ui/brand-text.js';
 import NavCrumbs from '../ui/nav-crumbs.js';
 import ScrollToTopIcon from '../ui/scroll-to-top-icon.js';
 
-const BasePageLayout = ({ children, uri }) => {
+const BasePageLayout = ({children, uri}) => {
   const isReady = useIsReady();
 
   if (!isReady) {
@@ -32,7 +32,8 @@ const BasePageLayout = ({ children, uri }) => {
           flex="auto"
           direction="column"
           mx="auto"
-          styles={styles.container}>
+          styles={styles.container}
+        >
           {children}
         </Layout>
         <Layout
@@ -42,7 +43,8 @@ const BasePageLayout = ({ children, uri }) => {
           mx="auto"
           justify="center"
           w="width.container"
-          spacing="m">
+          spacing="m"
+        >
           <a href={GITHUB_USER}>
             <BrandText text="uinix-js" />
           </a>

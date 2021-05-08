@@ -1,23 +1,23 @@
-import Highlight, { defaultProps } from 'prism-react-renderer';
+import Highlight, {defaultProps} from 'prism-react-renderer';
 import theme from 'prism-react-renderer/themes/github/index.js';
 import React from 'react';
-import { LiveEditor, LiveError, LiveProvider, LivePreview } from 'react-live';
-import { pipe } from 'uinix-fp';
-import { Element, Icon, Layout, Text } from 'uinix-ui';
+import {LiveEditor, LiveError, LiveProvider, LivePreview} from 'react-live';
+import {pipe} from 'uinix-fp';
+import {Element, Icon, Layout, Text} from 'uinix-ui';
 
 import PreviewContainer from './preview-container.js';
 
 const scope = {
-  // components
+  // Components
   Element,
   Icon,
   Layout,
   Text,
-  // utils
+  // Utils
   pipe,
 };
 
-const LiveCode = ({ code, language, live }) => {
+const LiveCode = ({code, language, live}) => {
   if (live) {
     return (
       <LiveProvider code={code} scope={scope} theme={theme}>
@@ -27,7 +27,7 @@ const LiveCode = ({ code, language, live }) => {
               <LivePreview />
             </Layout>
             <Layout flex="auto" styles={styles.editor}>
-              <LiveEditor style={{ fontSize: '12px' }} />
+              <LiveEditor style={{fontSize: '12px'}} />
             </Layout>
           </Layout>
           <Text color="tone.error" fontSize="s">
@@ -40,12 +40,12 @@ const LiveCode = ({ code, language, live }) => {
 
   return (
     <Highlight {...defaultProps} code={code} language={language} theme={theme}>
-      {({ className, style, tokens, getLineProps, getTokenProps }) => (
+      {({className, style, tokens, getLineProps, getTokenProps}) => (
         <Element as="pre" className={className} styles={[style, styles.pre]}>
           {tokens.map((line, i) => (
-            <div key={i} {...getLineProps({ line, key: i })}>
+            <div key={i} {...getLineProps({line, key: i})}>
               {line.map((token, key) => (
-                <span key={key} {...getTokenProps({ token, key })} />
+                <span key={key} {...getTokenProps({token, key})} />
               ))}
             </div>
           ))}

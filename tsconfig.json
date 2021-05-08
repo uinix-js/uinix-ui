@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "checkJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "lib": ["es2020"],
+    "moduleResolution": "node",
+    "module": "es2020",
+    "skipLibCheck": true,
+    "target": "es2020"
+  },
+  "include": ["*.js"],
+}

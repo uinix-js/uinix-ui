@@ -1,9 +1,9 @@
 import React from 'react';
-import { Element, Layout } from 'uinix-ui';
+import {Element, Layout} from 'uinix-ui';
 
 import Dot from './dot.js';
 
-const PreviewContainer = ({ children }) => {
+const PreviewContainer = ({children}) => {
   return (
     <Element b="bordered" borderRadius="m" boxShadow="m" my="m">
       <Layout align="center" bb="bordered" px="m" py="s" spacing="s">

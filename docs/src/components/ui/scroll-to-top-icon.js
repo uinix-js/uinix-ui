@@ -1,7 +1,7 @@
 import React from 'react';
-import { Icon } from 'uinix-ui';
+import {Icon} from 'uinix-ui';
 
-import { useScrollTop } from '../../hooks/use-scroll-top.js';
+import {useScrollTop} from '../../hooks/use-scroll-top.js';
 
 const ScrollToTopIcon = () => {
   const [canScrollTop, scrollTop] = useScrollTop();

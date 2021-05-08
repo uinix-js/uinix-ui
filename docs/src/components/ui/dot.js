@@ -1,7 +1,7 @@
 import React from 'react';
-import { Element } from 'uinix-ui';
+import {Element} from 'uinix-ui';
 
-const Dot = ({ color = 'brand.primary', isBordered, size = 'dot.m' }) => {
+const Dot = ({color = 'brand.primary', isBordered, size = 'dot.m'}) => {
   return (
     <Element
       bg={color}

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Layout } from '../../index.js';
-import { mountWithTheme } from '../util/mount-with-theme.js';
+import {Layout} from '../../index.js';
+import {mountWithTheme} from '../util/mount-with-theme.js';
 
 describe('Layout', () => {
   it('should render', () => {

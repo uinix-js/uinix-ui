@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text } from 'uinix-ui';
+import {Text} from 'uinix-ui';
 
-const BrandText = ({ text }) => {
+const BrandText = ({text}) => {
   const ui = text.slice(0, 2);
   const nix = text.slice(2, 5);
   const rest = text.slice(5);

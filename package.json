@@ -1,14 +1,15 @@
 {
   "name": "uinix-ui",
   "version": "0.1.0",
-  "description": "Primitives for building themable UIs",
+  "description": "Minimal primitives to build and compose rich UIs ",
   "license": "MIT",
   "keywords": [
     "uinix",
     "ui",
     "components",
     "theme",
-    "design-system"
+    "design-system",
+    "ui-system"
   ],
   "repository": "uinix-js/uinix-ui",
   "bugs": "https://github.com/uinix-js/uinix-ui/issues",
@@ -20,7 +21,6 @@
     "index.d.ts"
   ],
   "main": "index.js",
-  "types": "index.d.ts",
   "dependencies": {
     "fela": "^11.6.1",
     "fela-enforce-longhands": "^11.6.1",
@@ -28,50 +28,64 @@
     "fela-plugin-responsive-value": "^11.6.1",
     "fela-preset-web": "^11.6.1",
     "react-fela": "^11.6.1",
-    "react-inlinesvg": "^2.2.2",
-    "uinix-fp": "github:uinix-js/uinix-fp",
+    "react-inlinesvg": "^2.3.0",
+    "uinix-fp": "^0.1.0",
     "uinix-theme": "github:uinix-js/uinix-theme"
   },
   "devDependencies": {
     "@cypress/react": "^4.16.4",
-    "c8": "^7.7.1",
+    "c8": "^7.7.2",
     "cypress": "^6.8.0",
     "eslint-config-xo-react": "^0.25.0",
-    "eslint-plugin-cypress": "^2.11.2",
+    "eslint-plugin-cypress": "^2.11.3",
     "eslint-plugin-react": "^7.23.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "rimraf": "^3.0.2",
     "tape": "^5.2.2",
+    "type-coverage": "^2.17.5",
+    "typescript": "^4.2.4",
     "xo": "^0.39.1"
   },
   "peerDependencies": {
     "react": "^17.0.2"
   },
   "scripts": {
+    "clean": "rimraf {lib/**,lib/**/**}*.d.ts",
+    "coverage": "npm run type-coverage && npm run test-coverage",
     "docs-build": "cd docs; npm install; npm run build",
     "docs-install": "cd docs; npm install",
     "docs-start": "cd docs; npm start",
     "lint": "xo --fix",
+    "prepack": "npm run clean && npm run coverage && npm run lint",
     "test-all": "npm run test-lib && npm run test-components",
     "test-components": "cypress run",
     "test-coverage": "c8 --check-coverage --lines 100 --functions 100 --branches 100 --reporter lcov npm run test-all",
     "test-cypress": "cypress open",
     "test-lib": "node test/index.js",
-    "test": "npm run lint && npm run test-coverage"
+    "type-coverage": "tsc && type-coverage",
+    "test": "npm run prepack"
   },
   "engines": {
-    "node": ">=12.17.0"
+    "node": ">=12"
   },
   "prettier": {
-    "bracketSpacing": true,
-    "jsxBracketSameLine": true,
+    "bracketSpacing": false,
+    "semi": true,
+    "singleQuote": true,
+    "tabWidth": 2,
     "trailingComma": "all",
     "useTabs": false
   },
+  "typeCoverage": {
+    "atLeast": 100,
+    "detail": true,
+    "strict": true
+  },
   "xo": {
-    "prettier": true,
     "esnext": false,
+    "prettier": true,
     "extends": [
       "plugin:cypress/recommended",
       "xo-react"
@@ -80,16 +94,10 @@
       "cypress"
     ],
     "rules": {
-      "capitalized-comments": "off",
-      "new-cap": "off",
-      "node/no-unsupported-features/es-syntax": "off",
-      "padding-line-between-statements": "off",
       "react/prop-types": "off",
       "unicorn/no-array-callback-reference": "off",
       "unicorn/no-array-for-each": "off",
-      "unicorn/no-array-reduce": "off",
-      "unicorn/prefer-spread": "off",
-      "unicorn/prevent-abbreviations": "off"
+      "unicorn/no-array-reduce": "off"
     },
     "overrides": [
       {

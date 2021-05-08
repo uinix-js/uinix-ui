@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 
 // TODO: hacky way to get css-in-js (fela) loaded
 export const useIsReady = (ms = 100) => {
@@ -12,6 +12,7 @@ export const useIsReady = (ms = 100) => {
     } else {
       timeout = setTimeout(() => setIsReady(true));
     }
+
     return () => clearTimeout(timeout);
   }, [ms]);
 

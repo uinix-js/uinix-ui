@@ -1,5 +1,5 @@
 import palx from 'palx';
-import { createTheme } from 'uinix-ui';
+import {createTheme} from 'uinix-ui';
 
 const baseFontFamily =
   'apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol';
@@ -23,6 +23,7 @@ const palette = Object.entries(palx(brandPrimaryColor)).reduce(
         acc[color][i] = value;
       });
     }
+
     return acc;
   },
   {},

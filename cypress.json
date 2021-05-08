@@ -1,5 +1,6 @@
 {
   "componentFolder": "lib/components",
   "experimentalComponentTesting": true,
+  "testFiles": "**/*.js",
   "video": false
 }

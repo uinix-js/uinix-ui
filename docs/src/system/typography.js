@@ -1,4 +1,4 @@
-import { createTypography } from 'uinix-ui';
+import {createTypography} from 'uinix-ui';
 
 const typography = createTypography({
   global: {
@@ -64,7 +64,7 @@ const typography = createTypography({
       marginTop: 0,
     },
 
-    // anchors
+    // Anchors
     '.anchor.before': {
       left: '-l',
       position: 'absolute',

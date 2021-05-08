@@ -13,6 +13,8 @@ Minimal primitives to build and compose rich UIs.
 
 > TODO
 
+- Move docs to `docs` repo (i.e. `uinix.dev`)
+
 ## Contents
 
 - [Install](#install)
