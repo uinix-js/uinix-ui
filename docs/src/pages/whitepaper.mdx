@@ -12,7 +12,7 @@ import typography from '../system/typography.js';
 
 This whitepaper explores complexity in building and maintaining [UI systems](#ui-systems).
 
-The document opens with a reminder of the importance of modelling UI as a function of state, a concept that is widely understood and applied by most developers, while highlighting common negligence of such principles when managing styles and CSS.  A brief overview of design systems and a definition of UI systems is then naturally introduced.  While such systems serve as ways to manage complexity in UI development, the document presents an interactive story on how complexity becomes unavoidable irregardless of the ideal choices we make at every point of the way.  The document argues that it is not "good" abstractions nor updating specs that will guard us from growing complexity, but rather, an increased emphasis on applying [the Unix philosophy](#the-unix-philosophy) in building small, composable and interoperable programs, paired with tools and processes that improve our [system knowledge](#system-knowledge), that will provide us with an iterative approach to managing complexity in UI systems.  The document ends with an exposition on [the `uinix` philosophy](#the-uinix-philosophy) as a way to remediate complexity in UI systems, accompanied with relevant links to [demos](#uinix-systems) and [references](#references).
+The document opens with a reminder of the importance of modelling UI as a function of state, a concept that is widely understood and applied by most developers, while highlighting common negligence of such principles when managing styles and CSS.  A brief overview of design systems and a definition of UI systems is then naturally introduced.  While such systems serve as ways to manage complexity in UI development, the document presents an interactive story on how complexity becomes unavoidable irregardless of the well-intentioned choices we make at every point of the way.  The document argues that it is not "good" abstractions nor updating specs that will guard us from growing complexity, but an increased emphasis on applying [the Unix philosophy](#the-unix-philosophy) in building small, composable and interoperable programs, paired with tools and processes that improve our [system knowledge](#system-knowledge), that will allow us to iteratively make better decisions in managing complexity in UI systems.  The document ends with an exposition on [the `uinix` philosophy](#the-uinix-philosophy) as a way to remediate complexity in UI systems, accompanied with relevant links to [demos](#uinix-systems) and [references](#references).
 
 This document contains *interactive* [React][react] code examples.  Feel free to edit the code appropriately in the editor to preview changes!
 
@@ -25,11 +25,11 @@ to-heading: 3
 
 ## view = f(s)
 
-Modern declarative UI libraries (such as [React][react]) emphasize the important concept of:
+Modern declarative UI libraries, such as [React][react] emphasize the important concept of:
 
 > View as a function of state.
 
-This powerful model allows us to reason about building UIs as no more than writing and composing functions, as demonstrated by the following examples.
+This powerful model allows us to reason about building UIs as no more than writing and composing functions, as demonstrated in the next few sections.
 
 ### Simple functions
 
@@ -38,20 +38,27 @@ Here are some simple functions that we can compose:
 ```js live
 () => {
   const greet = name => {
-    return `Hello ${name}`;
+    return `Hi ${name}`;
   };
 
   const uppercase = x => {
     return x.toUpperCase();
   };
 
-  const shout = pipe([greet, uppercase]);
+  const exclaim = x => x + '!!!';
+
+  // shout(x) === exclaim(uppercase(greet(x)))
+  const shout = pipe([
+    greet,
+    uppercase,
+    exclaim,
+  ]);
 
   return shout('Jesse Pinkman');
 }
 ```
 
-Feel free to edit the code on the right (e.g. providing another value for `name`, or changing the operation of the composed `shout` method).
+Feel free to edit the code on the right (e.g. change the piped functions in `shout`, or supply your own functions for composition).
 
 ### View functions
 
@@ -79,8 +86,6 @@ View functions, more commonly known as *components*, are simply functions!
     );
   };
 
-  const attachChildren = (x) => ({ children: x });
-
   const BigRedButton = ({ text }) => {
     return (
       <Big>
@@ -89,31 +94,49 @@ View functions, more commonly known as *components*, are simply functions!
         </Red>
       </Big>
     );
-    // can be composed as simple functions with a pipe!
-    // return pipe([
-    //   Button,
-    //   attachChildren,
-    //   Red,
-    //   attachChildren,
-    //   Big,
-    // ])({ text });
   };
 
   return <BigRedButton text="Boom!" />;
 }
 ```
 
+The above example uses the JSX syntax commonly used in [React][react], but components are just functions, so we should be able to compose them just as regular functions with a `pipe`.
+
+To confirm this, you can update the <code><span style="color: red;">BigRedButton</span></code> in the earlier example with this vanilla JS code instead, and modify and experiment with the pipe accordingly.
+
+```js
+const attachChildren = (x) => ({ children: x }); // a helper to remap arguments into an object under the `children` property.
+
+const BigRedButton = ({ text }) => {
+  return pipe([
+    Button,
+    attachChildren,
+    Red,
+    attachChildren,
+    Big,
+  ])({ text });
+}
+```
+
+<div>
+  <code><span style="color: red;">BigRedButton</span></code> is just a function!
+</div>
+
 ## style = f(s)
 
-### Styles/CSS: The unfairly unloved child of UI development
+### Neglecting Styles and CSS
 
-While the concept of function composition is well-understood by most people and is rigorously applied in all areas in the UI stack (components, APIs, state, utils, test),
+While the concept of function composition is well-understood by most people and is rigorously applied in all areas in UI development (components, APIs, state, utils, testing etc),
 
-> Somewhere, somehow, and everytime, styles/CSS are left as an afterthought at best, and layers of overriding and duplicated logic in codebases at worst.
+> Somewhere, somehow, and everytime, styles and CSS are left as an afterthought at best, and layers of overriding and duplicated logic in codebases at worst.
 
-If you disagree on this, it is a simple experiment to see if you can lay out the full visible specs and rules on styles and their interactions and effects on components.  If you are able to do this, you have solved and mastered a commonly overlooked aspect of UI development, but the further sections may still interest you.
+If you disagree on this, it is a simple experiment to see if you can collect all style declarations and their interactions and effects on components.  If you are able to do this, you have solved and mastered a commonly overlooked aspect of UI development, but the further sections may still interest you.
 
-For the rest of us, we will begin to fallback on the argument that *"our styles are closely organized with components and therefore it is not completely a bad situation"*, and continue to lie to ourselves that our abstractions guards us from fundamentally a lack of visibility and understanding on how inherited styles have their effects on components.  Perhaps, we have all been subconcsciously influenced to not consider the quest to modularize and compose styles because of the fundamental inheritance nature of C(ascading)S(tyle)S(heets).
+For the rest of us, we will begin to fallback on the argument that,
+
+> "Our styles are closely organized with components and is, therefore, organized."
+
+and continue to lie to ourselves that we are using the excuse of a private implementation to mask the fact that we are still duplicating and overriding external styles.  Perhaps we are all subconsciously influenced by the very nature of C(ascading)S(tyle)S(heets), and not actively aware that we do not make conscious efforts to modularize, organize and compose styles.
 
 ### Back to basics
 
@@ -126,14 +149,21 @@ Revisiting our simple functions,
 ```js live
 () => {
   const greet = name => {
-    return `Hello ${name}`;
+    return `Hi ${name}`;
   };
 
   const uppercase = x => {
     return x.toUpperCase();
   };
 
-  const shout = pipe([greet, uppercase]);
+  const exclaim = x => x + '!!!';
+
+  // shout(x) === exclaim(uppercase(greet(x)))
+  const shout = pipe([
+    greet,
+    uppercase,
+    exclaim,
+  ]);
 
   return shout('Jesse Pinkman');
 }
@@ -141,7 +171,7 @@ Revisiting our simple functions,
 
 ### Style functions
 
-Let's try to model styles as either style objects or *style functions* that return style objects.  With the help of an [`Element`][element-component] component, we will assign these style functions to the `styles` propand specify the data for these function in the `styleProps` prop.
+Let's now try to model style declarations as either style objects or *style functions* returning style objects.  With the help of an [`Element`][element-component] component, we will assign these style functions to the `styles` prop and specify the data for these function in the `styleProps` prop.
 
 
 ```js live
@@ -192,9 +222,9 @@ Let's try to model styles as either style objects or *style functions* that retu
 }
 ```
 
-Last reminder that the code examples are interactive, so feel free to configure the `styleProps` accordingly!
+Feel free to configure the `styleProps` in the editor or create new style definitions appropriately.
 
-Just as functions can be composed, we will compose styles by simply providing multiple smaller style functions to the `styles` prop.  For details on how style composition is implemented in the [`Element`][element-component] component, we recommend readers exploring [`uinix-ui`][uinix-ui] in more detail.
+Just as components, and generally functions, can be composed, we will compose styles by simply piping multiple smaller style functions to the `styles` prop.  Details on how style composition is performed by the [`Element`][element-component] component will be left as a future reading in the [`uinix-ui`][uinix-ui] docs.
 
 ```js live
 () => {
@@ -238,34 +268,35 @@ Just as functions can be composed, we will compose styles by simply providing mu
 }
 ```
 
-By going back to basics, we discovered that we can easily compose and organize styles as simple functions!  While it will take us time to shake off old habits and build new muscles, it is exciting to look forward on treating style functions with the same respect as other UI functions!
+By going back to basics, we discovered that we can easily compose and organize styles as simple functions!  While it will take us time to shake off old habits and build new muscles, it is exciting to start treating style functions with the same respect as any other UI functions!
 
 💪
 
 ## ui = f(s)
 
-With style functions formally joining the family of simple and composable functions, an example UI project might look like:
+With style functions formally joining the family of simple and composable functions, an example UI project can be organized and might look like:
 
 ```sh
 src
-  utils/
-    ...
-    greet.js
-    uppercase.js
-    shout.js
   components/
     ...
-    button.js
     big.js
+    button.js
     red.js
   styles/
     ...
-    button.js
     big.js
+    button.js
     red.js
+  utils/
+    ...
+    exclaim.js
+    greet.js
+    uppercase.js
+    shout.js
 ```
 
-And we can continue to develop with the principle that
+And we can continue to develop with the principle of
 
 > UI as a function of state.
 
@@ -273,9 +304,9 @@ And we can continue to develop with the principle that
 
 ## Design Systems
 
-The preceding sections describe the backbone on how to organize building blocks in code, but does not deal with the actual *decisions and choices* we make to determine what we should be building and maintaining.
+The preceding sections describe the backbone on how to organize building blocks of code, but does not deal with the actual *decisions and choices* we make on what we are building and maintaining.
 
-A [design system][design-system] serves as a source of truth for design decisions.  Design system frameworks and patterns are largely acknowledged to help manage growing complexities of building applications.  The following provides a list of popular design systems:
+A [design system][design-system] serves as a source of truth for design decisions.  Design system frameworks and patterns are popularly utilized to help manage growing complexities of building applications.  The following is a list of well known design systems:
 
 - [Material Design System][material-design-system]
 <img src={materialDesignSystemImage} width="100%" />
@@ -284,17 +315,17 @@ A [design system][design-system] serves as a source of truth for design decision
 - [Ant][ant-design-system]
 <img src={antDesignSystemImage} width="100%" />
 
-It is important to note that every design system is different, not simply visually, but philosophically.  These differences reflect the *decisions and choices* on how the system manages and organizes design specs and rules.
+It is important to note that every design system is different, not just in visuals and interactions, but in principles and approach.  These differences reflect the *decisions and choices* on how the system organizes design specs and rules.
 
 ## UI Systems
 
 ### Definition
 
-The definition for UI systems is not formally established in the community, but we will provide a simple definition:
+The definition for UI systems is not formally established in the community, but we will provide a simple one:
 
 > **UI System**: an implementation of a design system in code.
 
-With this definition, the following UI systems implement their corresponding design systems:
+With this definition, the following UI systems implement their corresponding design systems,
 - [`antd`][antd]: implements [Ant Design System][ant-design-system]
 - [`carbon-components`][carbon-components]: implements [Carbon Design System][carbon-design-system]
 - [`material-ui`][material-ui]: implements [Material Design System][material-design-system]
@@ -309,7 +340,7 @@ It is also worthwhile to note that *UI system libraries* implement UI systems.  
 
 As we further our discussions into systems, we will naturally talk about the entropy and complexity of systems.
 
-Entropy is a measure of disorder.  In the natural world, the [second law of thermodynamics][second-law-of-thermodynamics] states that entropy can only remain unchanged or increase in a closed system.  [Software entropy][software-entropy] echoes this phenomenon in development of (closed) software systems.  Relating back to design and UI systems, we should expect entropy to ineviatbly build up as we make changes to systems.
+Entropy is a measure of disorder.  In the natural world, the [second law of thermodynamics][second-law-of-thermodynamics] states that entropy can only remain unchanged or increase in a closed system.  [Software entropy][software-entropy] echoes this phenomenon on the development of closed software systems.  Relating back to design and UI systems, we should expect entropy to ineviatbly build up as we make changes to systems.
 
 ## Complexity
 
@@ -319,15 +350,15 @@ We often say to ourselves,
 
 > "This code is too complicated, and we need to refactor it."
 
-But less often do we pause and reflect that the complicated code maybe due to our lack of understanding of the current system. Rarely do we possess complete [system knowledge](#system-knowledge) and we should safely assume our knowledge and understanding of any system is imperfect at best.  In the best case scenarios, we make the right choices on limited knowledge and refactor code with meaningful abstractions.  In the worst case scenarios, we convince ourselves that our abstractions are well-formed, as we unknowingly increase system complexity and future complications.
+But less often do we pause and reflect that the complicated code maybe due to our lack of understanding of the current system. We rarely possess complete [system knowledge](#system-knowledge), and should safely assume our knowledge and understanding of any system is imperfect at best.  In the best case scenarios, we make the right choices on limited knowledge and refactor code with meaningful abstractions.  In the worst case scenarios, we convince ourselves that our abstractions are well-formed, and unknowingly increase system complexity and future complications.
 
 Personally, I like to view complexity in the following way:
 
-> "Complexity is unavoidable because we have to make choices, and imperfect knowledge of systems contribute to eventual complications experienced in the system."
+> "Complexity is unavoidable because we have to make choices, and imperfect knowledge of systems contribute to undesired complexity, experienced by us as eventual complications in the system."
 
 ## Elliot and the Complexity Beast
 
-This section assumes the form of an interactive story, and follows the quest of a frontend developer, Elliot, as he works through building UI components with his Design team.  At every point of implementation, he tries his best at thoughtfully reducing and managing complexity, only to find that he can never escape complexity, but faces the eventual beast, one that has been shaped by the very choices made during the journey.
+This section borrows the format of an interactive story, and follows the quest of a frontend developer, Elliot, as he works on building UI components with his Design team.  At every point of implementation, he tries his best to thoughtfully reduce and manage complexity, only to find that he can never conquer complexity, but faces the eventual beast, one that has been shaped by the very choices made during the journey.
 
 A quick reminder again that all code examples are *interactive*, so feel free to adjust the code as you follow Elliot on his journey!
 
@@ -354,7 +385,7 @@ He receives initial design requirements to style it accordingly:
 </Element>
 ```
 
-He then receives further requirements that this component should support conditional behaviors if it `isBig`.  He does so and implements it in a naturally simple way:
+He then receives further requirements that this component should support conditional behaviors if it `isBig`.  He does so and implements it naturally in a simple way:
 
 ```js live
 () => {
@@ -404,7 +435,7 @@ He ships his simple component, and gives it a name `Danger`.  Everyone, includin
 
 ### `Warning`
 
-A few days later, he receives design requirements on a new area of an application.  He's named the component `Warning` and here is the current implementation:
+A few days later, he receives design requirements on a new component.  He's named the component `Warning` and here is the current implementation:
 
 ```js live
 () => {
@@ -425,13 +456,13 @@ A few days later, he receives design requirements on a new area of an applicatio
 
 ### `Notice`
 
-He notices that `Danger` and `Warning` can share a common implementation and discusses it with his design team:
+He notices that `Danger` and `Warning` are very similar and can potentially share a common implementation.  He discusses it with his design team:
 
-> **Elliot**: "Hey folks, it seems that the only differences between `Danger` and `Warning` are the  `borderRadius`, and that `Warning` does not require a `isBig` variant.  Can we confirm how we should reason about `Danger` and `Warning`?"
+> **Elliot**: "Hey folks, it seems that the only differences between `Danger` and `Warning` are 1) differing `borderRadius` values, and 2) `Warning` does not support an `isBig` variant.  Can we confirm how we should reason about `Danger` and `Warning`?"
 >
-> **Design**: "The `borderRadius` should be the same, but `Warning` can never be big, ever."
+> **Design**: "The `borderRadius` for both components should be the same, that was probably an inconsistent mistake on our side, but `Warning` should never support an `isBig` variant."
 
-Elliot goes back to the drawing board and thinks carefully how he would model this new requirement and avoid duplication and reduce complexity.  Luckily, this seems easy enough:
+Elliot goes back to the drawing board and thinks carefully how he implement the new requirements and paying careful attention to avoid duplication and reduce complexity.  Luckily, this seems easy enough:
 
 ```js live
 () => {
@@ -482,13 +513,13 @@ What Elliot has done is great so far:
 - He was able to convince the Design team to reduce an unwanted degree of complexity by standardizing `borderRadius`.
 - He was able to decouple and abstract styles as a function.
 - The style function supports both needs of `Danger` and `Warning` appropriately.
-- Both the Engineering and Design team can now reason about this code as a centralized component.
+- Both the Engineering and Design team can now reason about this design decision as a common component.
 
-Elliot proudly names this component `Notice` and explains how its behavior to his team.  The Design team did a review and confirmed everything looks great and they loved the updates.
+Elliot proudly names this component `Notice` and explains its behaviors to his team.  The Design team reviewed it and confirmed they loved the improvements!
 
 ### `BigRedButton`
 
-A few days later, Elliot receives requirements to create a `BigRedButton` component.  Implementing this to spec, he notices that it shares some aspects with the `Notice` component he created earlier.
+A few days later, Elliot receives requirements to create a <code><span style="color: red;">BigRedButton</span></code>  component.  Here is his implementation:
 
 ```js live
 () => {
@@ -512,38 +543,38 @@ A few days later, Elliot receives requirements to create a `BigRedButton` compon
 }
 ```
 
-Being the diligent and responsible developer, Elliot goes back to the drawing board to see how he can decouple and organize this code into smaller parts:
+He notices that it shares some aspects with the `Notice` component he created earlier.  Being the diligent and responsible developer, Elliot goes back to the drawing board to see how he can decouple and organize this code into smaller parts:
 
 ```js live
 () => {
-  const dangerStyle = {
+  const danger = {
     backgroundColor: 'red',
     color: 'white',
   };
 
-  const warningStyle = {
+  const warning = {
     backgroundColor: '#ffe7ba',
     color: '#ff7a45',
   }
 
-  const bigStyle = ({ isBig }) => ({
+  const big = ({ isBig }) => ({
     fontSize: isBig ? '32px' : '14px',
     padding: isBig ? '16px 32px': '4px 16px',
   });
 
   const variants = {
-    danger: dangerStyle,
-    warning: warningStyle,
+    danger,
+    warning,
   };
 
   const styles = {
-    big: bigStyle,
-    danger: dangerStyle,
+    big,
+    danger,
     notice: ({ isBig, variant }) => ({
       borderRadius: '6px',
       border: '1px solid rgb(222, 225, 228)',
       ...variants[variant],
-      ...bigStyle({ isBig }),
+      ...big({ isBig }),
     }),
   };
 
@@ -579,7 +610,7 @@ Being the diligent and responsible developer, Elliot goes back to the drawing bo
 }
 ```
 
-Studying the style functions, he sees an opportunity to further refactor and organize this meaningfully, by breaking out the `big` and `danger` styles to aid composition, so that they can be reused in `BigRedButton` while leaving the exact same behaviors for `Notice`  He's following the exact recommendations that we've laid out in earlier sections on [`style = f(s)`](#style--fs)!
+Studying the style functions, he sees an opportunity to further refactor and organize this meaningfully, by breaking out the `big` and `danger` styles to aid composition, so that they can be reused in <code><span style="color: red;">BigRedButton</span></code>  while leaving the exact same behaviors for `Notice`  He's following the exact recommendations that we've laid out in earlier sections on [`style = f(s)`](#style--fs)!
 
 But little does he know, this innocent and well-intentioned choice, will be what awakens the sleeping Complexity Beast.
 
@@ -591,30 +622,30 @@ Elliot, after days of successfully refactoring code, confidently heads to the dr
 
 ```js live
 () => {
-  const dangerStyle = {
+  const danger = {
     backgroundColor: 'red',
     color: 'white',
   };
 
-  const warningStyle = ({ isBig }) => ({
+  const warning = ({ isBig }) => ({
     fontSize: isBig ? '32px' : '14px',
     padding: isBig ? '16px 32px': '4px 16px',
   });
 
-  const notSoRedStyle = {
+  const notSoRed = {
     backgroundColor: '#ff85c0',
     color: 'white',
   };
 
-  const bigStyle = ({ isBig }) => ({
+  const big = ({ isBig }) => ({
     fontSize: isBig ? '32px' : '14px',
     padding: isBig ? '16px 32px': '4px 16px',
   });
 
   const styles = {
-    big: bigStyle,
-    danger: dangerStyle,
-    notSoRed: notSoRedStyle,
+    big,
+    danger,
+    notSoRed,
   };
 
   return (
@@ -635,11 +666,11 @@ Elliot, after days of successfully refactoring code, confidently heads to the dr
 }
 ```
 
-He realizes that the simplest way to do this is to introduce a new `notSoRedStyle`, since replacing the red value in `dangerStyle` would break the requirements for the `Notice` component.
+He realizes that the simplest way to do this is to introduce a new `notSoRed` style, since replacing the red value in the existing `danger` style would break the requirements for the `Notice` component.
 
-He is not very happy to add this new spec, but there doesn't seem to be any other better way to model this problem.  He double checks with the design team just to make sure:
+He is a little reluctant to simply add a new spec, but there doesn't seem to be a better way to model this problem.  He double checks with the design team just to make sure:
 
-> **Elliot**: "Hey folks, are we absolutely sure the `danger` color tone should differ across components?  It's <span style="color: red;">red</span> in `Notice.danger` but <span style="color: #ff85c0;">notSoRed</span> in `BigNotSoRedButton`.".
+> **Elliot**: "Hey folks, are we absolutely sure the `danger` color tone should differ across components?  It's <span style="color: red;"><code>red</code></span> in `Notice.danger` but <span style="color: #ff85c0;"><code>notSoRed</code></span> in `BigNotSoRedButton`.".
 >
 > **Design**: "Yeah we're sure, we've gotten feedback from users and let's go with what you have done here."
 
@@ -649,9 +680,9 @@ Over the next few weeks, various additional requirements are placed on `Notice` 
 1. Introducing new specs, or
 2. Conditional-branching of applying shared logic
 
-Note that the two points above are the inevitable factors of complexity.
+Note that the two points above are the inevitable precursors to complexity.
 
-It occurred to him that the current state of the "reusable" and abstracted code is actually *more complex* than the duplicated but more *composable* approach presented below:
+It occurred to him that the current state of the *reusable and abstracted* code is actually *more complex* than the duplicated but more *composable* approach presented below:
 
 ```js live
 () => {
@@ -714,9 +745,9 @@ A key thing to note here is that the conditional branching logic in style functi
 
 ### 409 Conflict
 
-Although Elliot realized a discipline of applying composition will serve as a main way to combat the Complexity Beast, he started noticing that the Complexity Beast always seems to be lurking *everytime* changes are made to the system.
+Although Elliot realized a discipline of composing functions will serve as a main way to combat complexity, he started noticing that the Complexity Beast always seems to be lurking *everytime* changes are made to the system.
 
-Conflicted by his seemingly endless quest at managing complexity, he curiously asks his Design team an innocent question:
+Conflicted by his seemingly endless quest at managing complexity, he curiously asks the Design team an innocent question:
 
 > **Elliot**: "Do we have a full understanding of what we are building?"
 >
@@ -728,7 +759,7 @@ Conflicted by his seemingly endless quest at managing complexity, he curiously a
 >
 > **Elliot**: "Is there a central place to see everything and how everything relates to each other?"
 >
-> **Design**: "No I don't think so, but that would be great to have.  We really need it too."
+> **Design**: "No we don't have that.  We really need it too."
 
 With the design resources sent to him, Elliot meticulously organizes the notes by date/domain/owner/etc.  The notes are obviously imperfect, and no amount of organization is able to fully describe the system he thought he had built over the weeks.
 
@@ -736,7 +767,7 @@ Over in another room, he overhears teammates arguing over the conflict on what t
 
 ### Goodbye Elliot
 
-Elliot realizes that the source of complexity was never truly related to his implementation, nor by the decisions made the Design team.  At every point, everyone was doing their best and due dilligence in building a system that made sense.  He eventually came to a realization that the Complexity Beast will always be lurking somewhere, waiting for the right moment to strike on people's eventual bad decisions implementation.
+Elliot realizes that the source of complexity was never truly related to his implementation, nor by the decisions made the Design team.  At every point, everyone was doing their best and due dilligence in building a system that made sense.  He eventually came to a realization that the Complexity Beast was born out of the very decisions and choices made by everyone, on changes that made sense in a smaller timeframe and scope of the system, but not to the system as a whole because no one understood that in its entirety.
 
 Understanding and coming to peace that the source of complexity is related to an imperfect knowledge of systems, Elliot finds renewed strength and begins thinking about how one might increase the transparency and accessibility of system knowledge.
 
@@ -746,25 +777,25 @@ The Design team did mention that *"We really need it too"*, he thought to himsel
 
 In hindsight, it is easy to identify the mistakes that Elliot made technically (i.e. not favoring composition in earlier stages), but that would be disrespectful on our end to forget how well-intentioned Elliot had tried in writing just the minimal code that accurately satisfies requirements.  In fact, as we followed his journey, every choice he made was *thoughtful and reasonable* in relation to the scope of the problem presented to him.  Pre-optimizing and early abstractions can be argued to lead to more complexity since they don't solve the current problem meaningfully.
 
-It is also tempting to assign blame to the Design team on not maintaining a source of truth.  Every team works with tools and sources of truth.  As engineers, we abstract and share code to create sources of truth, but we face the exact problems at every level that the Design team does, which is imperfect knowledge of the system we are building.  Unless it is a deliberate effort on our part to *systematically* build [system knowledge][system-knowledge], our decisions will always be made on imperfect knowledge.
+It is also tempting to assign blame to the Design team on not maintaining a source of truth.  Every team works with tools and sources of truth.  As engineers, we abstract and share code to create sources of truth, but we face the exact problems as the Design team does, which is system knowledge *always* trails behind changes and updates made to the system.  Unless there is a deliberate effort on our part to *systematically* build [system knowledge](#system-knowledge), our decisions will always be made on imperfect knowledge.
 
-It is this very imperfect knowledge, that is the real essence of how complexity arises.  Without sufficient knowledge of the system, we make short-sighted decisions that affect the introduce unintended complexity of the system.  Any abstractions built on these decisions will further propagate the complexity and misknowledge of the system for future contributors.
+It is this very imperfect knowledge that fuels eventual complexity.  Without sufficient knowledge of the system, we make less ideal decisions that may introduce unintended complexity.  Any abstractions built on these decisions will then further propagate the complexity and misknowledge of the system for future contributors.
 
 ## System Knowledge
 
-In the previous example, we observed how imperfect knowledge of systems creates inevitable complexity.  While building abstractions is important in reducing a system's complexity, it is important to note that:
+In the previous section, we observed how imperfect knowledge of systems creates inevitable complexity.  While building abstractions is important in reducing a system's complexity, it is important to note that:
 
-> Wrong abstractions can create more complexity than duplication.
+> Building the wrong abstractions creates more complexity than duplication.
 
-The next sections cover how [the Unix Philosophy](#the-unix-philosophy), and correspondingly [the `uinix` philosophy](#the-uinix-philosophy), aid in improving system knowledge.
+The next sections cover how [the Unix Philosophy](#the-unix-philosophy), and subsequently [the `uinix` philosophy](#the-uinix-philosophy), aid in improving system knowledge.
 
 ### The Unix philosophy
 
-With Elliot's journey, we [learned](#a-few-weeks-later) that while we cannot avoid and conquer complexity, our most powerful tool is a careful and meaningful breakdown of programs into smaller composable parts.  What Elliot has done was managing complexity using the Unix philosophy.
+With Elliot's journey, we [learned](#a-few-weeks-later) that while we cannot avoid and conquer complexity, our most powerful tool is a careful and meaningful breakdown of programs into smaller composable parts.  What Elliot did was managing complexity using the Unix philosophy.
 
 The [Unix philosophy][unix-philosophy] proposes minimalist and modular software development.  Unix programs tend to:
-- do one thing and do it well
-- be inteoperable with other relating programs
+- do one thing and do it well.
+- be inteoperable with other relating programs.
 - are modular, composable, and extensible.
 
 In relation to [system knowledge](#system-knowledge), by nature of their simplicity and interoperability, it is easy to study and understand higher forms of programs that are built with Unix programs.
@@ -774,8 +805,8 @@ In relation to [system knowledge](#system-knowledge), by nature of their simplic
 The `uinix` philosophy is based on [the Unix philosophy](#the-unix-philosophy), and approaches all aspects of UI development by keeping programs small and interoperable.
 
 Like Unix programs, `uinix` programs aim to:
-- do one thing and do it well
-- be interoperable with other relating programs
+- do one thing and do it well.
+- be interoperable with other relating programs.
 - are modular, composable, and extensible.
 
 In relation to [system knowledge](#system-knowledge), the API surfaces of `uinix` programs are kept extremely small.
@@ -784,7 +815,7 @@ A detailed look at the `uinix` ecosytem of [packages][packages] will provide a b
 
 ### `uinix` system specs
 
-System specs and configurations in `uinix` are designed to serve as sources of truth, allowing access to system knowledge even in the absence of tooling.  The [`uinix-ui`][uinix-ui] UI system library is designed in this exact way, and makes the UI system specs of `theme`, `icons`, `styles`, `typography` easily accessible even in its native serializable form.
+System specs and configurations in `uinix` are designed to serve as sources of truth, allowing access to system knowledge even in the absence of tooling.  The [`uinix-ui`][uinix-ui] UI system library is designed with this philosophy, and makes the UI system specs of `theme`, `icons`, `styles`, `typography` easily accessible even in its native serializable form.
 
 Shown below are the actual `uinix-ui` system specs used to render this site and whitepaper:
 
@@ -816,11 +847,11 @@ Shown below are the actual `uinix-ui` system specs used to render this site and 
   </code>
 </pre>
 
-These specs can also be rendered in more interactive ways that further improves understanding of system knowledge through visual means, as shown in the following custom theme previewer.
+These specs can also be rendered in more interactive ways that further improves our system knowledge through visual means, as shown in the following custom theme previewer.
 
 <img src={themePreviewImage} width="100%" />
 
-`uinix` specs, as shown above, are interoperable with each other, and together with a base set of just four primitive but interoperable and composable components (`Element`, `Icon`, `Layout`, `Text`), the `uinix` philosophy allows building and composing complex UIs with ease, as detailed in the upcoming section.
+`uinix` specs, as shown above, are interoperable with each other, and together with a small set of just four interoperable and composable primitive components (`Element`, `Icon`, `Layout`, `Text`), the `uinix` philosophy allows building and composing complex UIs with ease, as detailed in the upcoming section.
 
 ### `uinix` systems
 
@@ -830,17 +861,17 @@ The demos showcase popular web applications that are reverse-engineered into a *
 
 More importantly, the [system knowledge](#system-knowledge) of every UI system is easily and explicitly accessible.
 
-## Conclusions
+## Conclusion
 
-As we finally come to the closing section of this document, we want to take some time to reflect on key points raised during our journey on managing complexity in UI systems.
+As we finally come to the closing section of this document, let us take some time to reflect on key points learned during our journey on managing complexity in UI systems.
 
-- It remains important to always think of [UI as a function of state](#ui--fs) (i.e. ui = f(s)).
-- Treatment of styles and CSS should be no different than treatment of regular functions.  We have learned a few techniques for approaching this by simply emphasizing and thinking of [styles as a function of state](#style--fs) (i.e. style = f(s)).
-- [Design systems](#design-systems) and [UI systems](#ui-systems), while highly important in managing complexity of projects, should be thought of no more as simply closed systems.
+- It remains important to always think of UI as a function of state i.e. [ui = f(s)](#ui--fs).
+- Treatment of styles and CSS should be no different than treatment of regular functions.  We have learned a few techniques by simply emphasizing and thinking of style as a function of state i.e. [style = f(s)](#style--fs).
+- [Design systems](#design-systems) and [UI systems](#ui-systems), while highly important in managing complexity in UI development, should be thought of no more as simply closed systems.
 - We learned basic concepts and unavoidable truths about the [entropy](#entropy) and [complexity](#complexity) of closed systems.
 - We followed the journey of [Elliot and the Complexity Beast](#elliot-and-the-complexity-beast) to gain a deeper understanding, through the use of a simple example, that complexity is unavoidable despite the well-intentioned choices we make.
-- We identified that such problems relate to imperfect [system knowledge](#system-knowledge) and seek remediations through [the Unix philosophy](#the-unix-philosophy).
-- We provided a remediation that is more specific to UI systems, by introducing how [the `uinix` philosophy](#the-uinix-philosophy) and its focus on building interoperable primitives that emphasize on expanding and making [system knowledge](#system-knowledge) more accessible.
+- We learned that our choices that create complexity relate to imperfect [system knowledge](#system-knowledge), and seek appropriate remediations by applying [the Unix philosophy](#the-unix-philosophy).
+- We provided a remediation that is more specific to UI systems, by introducing how [the `uinix` philosophy](#the-uinix-philosophy) allows building systems from interoperable primitives through composition, and an approach to making the underlying [system knowledge](#system-knowledge) easily accessible.
 
 With final closing remarks, I hope that our journey with [UI systems and Complexity](#ui-systems-and-complexity) has made it clear on the truths that complexity can never be avoided.  As much as this fact may sound troubling, we now have a deeper understanding of the problem that was oftenly overlooked.  With a peace of what we cannot change, and an understanding of what we can change and improve, we gain a newfound respect for the systems we build, and own both our choices and complexity proudly.  Because, that is exactly the *story of software engineering* after all:
 
