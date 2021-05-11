@@ -30,7 +30,7 @@
     "react-fela": "^11.6.1",
     "react-inlinesvg": "^2.3.0",
     "uinix-fp": "^0.1.0",
-    "uinix-theme": "github:uinix-js/uinix-theme"
+    "uinix-theme": "^0.1.1"
   },
   "devDependencies": {
     "@cypress/react": "^4.16.4",
