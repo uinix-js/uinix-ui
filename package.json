@@ -21,6 +21,7 @@
     "index.d.ts"
   ],
   "main": "index.js",
+  "types": "index.d.ts",
   "dependencies": {
     "fela": "^11.6.1",
     "fela-enforce-longhands": "^11.6.1",
@@ -33,6 +34,7 @@
     "uinix-theme": "^0.1.1"
   },
   "devDependencies": {
+    "@types/tape": "^4.13.0",
     "@cypress/react": "^4.16.4",
     "c8": "^7.7.2",
     "cypress": "^6.8.0",
