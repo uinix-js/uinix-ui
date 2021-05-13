@@ -11,8 +11,14 @@ Minimal primitives to build and compose rich UIs.
 
 ## Intro
 
-> TODO
+## TODOs
 
+- rename `Provider` to `SystemProvider`
+- rework where variants/globalStyles/elementStyles are defined
+  - think about plugins/enhancers
+- JSDoc-based typings
+- update readme and APIs
+- tests
 - Move docs to `docs` repo (i.e. `uinix.dev`)
 
 ## Contents
