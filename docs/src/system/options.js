@@ -1,42 +1,5 @@
 import styles from './styles.js';
 
-const elementStyles = [
-  ({disabled}) => (disabled ? styles.disabled : null),
-  styles.interactive,
-];
-
-const globalStyles = {
-  '*': {
-    boxSizing: 'border-box',
-  },
-  html: {
-    scrollBehavior: 'smooth',
-  },
-  'a:hover': {
-    // TODO: https://github.com/robinweser/fela/issues/876
-    opacity: 'interactive',
-  },
-  body: {
-    margin: 0,
-    padding: 0,
-  },
-  blockquote: {
-    borderLeft: 'bordered',
-    borderWidth: 'l',
-    fontSize: 'l',
-    fontStyle: 'italic',
-    margin: 0,
-    padding: 0,
-    paddingLeft: 'm',
-  },
-  hr: {
-    borderBottom: 'bordered',
-    borderTop: 'none',
-    margin: 0,
-    width: '100%',
-  },
-};
-
 const shorthandPropsMapping = {
   backgroundColor: ['bg'],
   borderRadius: ['borderRadius'],
@@ -69,11 +32,18 @@ const shorthandPropsMapping = {
 };
 
 const options = {
-  elementStyles,
-  shorthandPropsMapping,
-  globalStyles,
-  responsiveAttributes: ['color'],
-  responsiveBreakpoints: ['480px', '768px'],
+  element: {
+    shorthandPropsMapping,
+    styles: [
+      ({disabled}) => (disabled ? styles.disabled : null),
+      styles.interactive,
+    ],
+  },
+  styles: {
+    isAtomicCss: false,
+    responsiveAttributes: ['color'],
+    responsiveBreakpoints: ['480px', '768px'],
+  },
 };
 
 export default options;

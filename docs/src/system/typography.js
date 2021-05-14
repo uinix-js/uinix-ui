@@ -70,6 +70,7 @@ const typography = createTypography({
       position: 'absolute',
     },
   },
+  variants: {},
 });
 
 export default typography;
