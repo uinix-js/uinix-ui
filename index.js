@@ -13,7 +13,7 @@ export {
   useTheme,
   useVariant,
 } from './lib/context/hooks.js';
-export {Provider} from './lib/context/provider.js';
+export {SystemProvider} from './lib/context/system-provider.js';
 
 // Utils
 export {createSystem} from './lib/system/index.js';

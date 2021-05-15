@@ -1,6 +1,6 @@
 import {MDXProvider} from '@mdx-js/react';
 import React from 'react';
-import {Provider as SystemProvider} from 'uinix-ui';
+import {SystemProvider} from 'uinix-ui';
 
 import LiveCode from './components/ui/live-code.js';
 import system from './system/index.js';

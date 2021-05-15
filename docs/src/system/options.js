@@ -41,8 +41,8 @@ const options = {
   },
   styles: {
     isAtomicCss: false,
-    responsiveAttributes: ['color'],
     responsiveBreakpoints: ['480px', '768px'],
+    responsiveCssProperties: ['color'],
   },
 };
 
