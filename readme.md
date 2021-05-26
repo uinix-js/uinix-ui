@@ -295,6 +295,9 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 - [ ] docs
 - [ ] cypress tests
 
+## Development Issues
+- Code coverage for `@cypress/code-coverage` via `babel-plugin-istanbul` is not writing anything to `.nyc_output/out.json`.
+
 <!-- badges -->
 [build-badge]: https://github.com/uinix-js/uinix-ui/workflows/main/badge.svg
 [build]: https://github.com/uinix-js/uinix-ui/actions

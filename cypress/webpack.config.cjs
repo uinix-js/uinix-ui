@@ -4,12 +4,7 @@ module.exports = {
       {
         test: /\.js?$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/env', '@babel/react'],
-          },
-        },
+        use: 'babel-loader',
       },
     ],
   },
