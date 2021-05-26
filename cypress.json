@@ -1,0 +1,6 @@
+{
+  "componentFolder": "cypress/tests",
+  "integrationFolder": "cypress/tests",
+  "pluginsFile": "cypress/plugins/index.cjs",
+  "testFiles": "**/*.js"
+}
