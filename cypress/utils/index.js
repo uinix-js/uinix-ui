@@ -1,1 +1,1 @@
-export * from './mount.js';
+export {mount} from './mount.js';

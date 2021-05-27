@@ -73,10 +73,10 @@
     "docs-install": "cd docs; npm install",
     "docs-start": "cd docs; npm start",
     "lint": "xo --fix",
-    "test-coverage": "echo 'todo'",
+    "test-coverage": "nyc report",
     "test-esm": "node test/esm.js",
     "type-coverage": "tsc && type-coverage",
-    "test": "npm run clean && npm run lint && npm run coverage"
+    "test": "npm run clean && npm run lint && npm run test-esm && npm run coverage"
   },
   "engines": {
     "node": ">=12"
@@ -118,6 +118,8 @@
         ],
         "rules": {
           "import/no-unassigned-import": "off",
+          "max-nested-callbacks": "off",
+          "promise/prefer-await-to-then": "off",
           "react/no-array-index-key": "off",
           "unicorn/prefer-module": "off"
         }
