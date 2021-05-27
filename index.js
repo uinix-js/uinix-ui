@@ -18,7 +18,7 @@ export {SystemProvider} from './lib/context/system-provider.js';
 // Utils
 export {createSystem} from './lib/system/index.js';
 export {createIcons} from './lib/system/icons.js';
-export {createOptions} from './lib/system/options.js';
+export {createConfig} from './lib/system/config.js';
 export {createStyles} from './lib/system/styles.js';
 export {createTheme} from './lib/system/theme.js';
 export {createTypography} from './lib/system/typography.js';

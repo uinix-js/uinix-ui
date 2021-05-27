@@ -31,7 +31,7 @@ const shorthandPropsMapping = {
   zIndex: ['z'],
 };
 
-const options = {
+const config = {
   element: {
     shorthandPropsMapping,
     styles: [
@@ -46,4 +46,4 @@ const options = {
   },
 };
 
-export default options;
+export default config;

@@ -38,8 +38,8 @@
     "@babel/preset-env": "^7.14.2",
     "@babel/preset-react": "^7.13.13",
     "@cypress/code-coverage": "^3.9.5",
-    "@cypress/react": "^5.8.0",
-    "@cypress/webpack-dev-server": "^1.3.0",
+    "@cypress/react": "^5.8.1",
+    "@cypress/webpack-dev-server": "^1.3.1",
     "@types/react": "^17.0.5",
     "@types/tape": "^4.13.0",
     "babel-loader": "^8.2.2",
@@ -55,7 +55,7 @@
     "react-dom": "^17.0.2",
     "tape": "^5.2.2",
     "type-coverage": "^2.17.5",
-    "typescript": "^4.2.4",
+    "typescript": "^4.3.2",
     "uinix-scripts": "^0.1.2",
     "webpack": "^5.37.1",
     "webpack-dev-server": "^3.11.2",
@@ -74,7 +74,7 @@
     "docs-start": "cd docs; npm start",
     "lint": "xo --fix",
     "test-coverage": "nyc report",
-    "test-esm": "node test/esm.js",
+    "test-lib": "node test/index.js",
     "type-coverage": "tsc && type-coverage",
     "test": "npm run clean && npm run lint && npm run test-esm && npm run coverage"
   },
@@ -114,7 +114,8 @@
       {
         "files": [
           "cypress/**/*.(cjs|js)",
-          "docs/**/*.js"
+          "docs/**/*.js",
+          "test/**/*.js"
         ],
         "rules": {
           "import/no-unassigned-import": "off",

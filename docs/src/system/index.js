@@ -1,12 +1,12 @@
+import config from './config.js';
 import icons from './icons.js';
-import options from './options.js';
 import styles from './styles.js';
 import theme from './theme.js';
 import typography from './typography.js';
 
 const system = {
+  config,
   icons,
-  options,
   styles,
   theme,
   typography,
