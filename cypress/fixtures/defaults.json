@@ -1,0 +1,47 @@
+{
+  "icons": {},
+  "options": {
+    "element": {
+      "shorthandPropsMapping": {},
+      "styles": []
+    },
+    "styles": {
+      "isAtomicCss": false,
+      "responsiveBreakpoints": [],
+      "responsiveCssProperties": []
+    }
+  },
+  "styles": {
+    "fontFaces": {},
+    "global": {},
+    "variants": {
+      "Text": {}
+    }
+  },
+  "theme": {
+    "animations": {},
+    "borders": {},
+    "borderStyles": {},
+    "borderWidths": {},
+    "colors": {},
+    "fontFamilies": {},
+    "fontSizes": {},
+    "fontWeights": {},
+    "keyframes": {},
+    "letterSpacings": {},
+    "lineHeights": {},
+    "opacities": {},
+    "radii": {},
+    "shadows": {},
+    "sizes": {},
+    "spacings": {},
+    "transforms": {},
+    "transitions": {},
+    "zIndices": {}
+  },
+  "typography": {
+    "fontFaces": {},
+    "global": {},
+    "variants": {}
+  }
+}

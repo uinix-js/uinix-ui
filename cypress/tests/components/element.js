@@ -19,10 +19,11 @@ describe('Element', () => {
       it('should render with React elements', () => {
         mount(
           <Element>
-            <strong>Element</strong>
+            <strong>Strong</strong>
+            Element
           </Element>,
         );
-        cy.contains('strong', 'Element').should('exist');
+        cy.contains('strong', 'Strong').should('exist');
       });
     });
 

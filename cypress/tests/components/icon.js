@@ -26,7 +26,7 @@ const iconSelector = 'div:has(>svg)';
 describe('Icon', () => {
   describe('Errors', () => {
     it('should throw if icon is missing or invalid', () => {
-      cy.get().should(() => {
+      cy.get('div').should(() => {
         expect(() => mount(<Icon />, system)).to.throw();
         expect(() => mount(<Icon icon="invalid" />, system)).to.throw();
       });
@@ -34,6 +34,13 @@ describe('Icon', () => {
   });
 
   describe('Props', () => {
+    describe('children', () => {
+      it('should not render provided children', () => {
+        mount(<Icon icon="x">Children</Icon>, system);
+        cy.get(iconSelector).should('not.contain.text', 'Children');
+      });
+    });
+
     describe('icon', () => {
       it('should render the icon as an div element containing an svg element', () => {
         mount(<Icon icon="x" />, system);
@@ -96,7 +103,10 @@ describe('Icon', () => {
       });
 
       it('should support Element props', () => {
-        const style1 = {color: 'rgb(255, 0, 0)', cursor: 'pointer'};
+        const style1 = {
+          color: 'rgb(255, 0, 0)',
+          cursor: 'pointer',
+        };
         const style2 = ({isActive}) => ({
           color: isActive ? 'rgb(0, 0, 255)' : undefined,
         });
@@ -105,6 +115,7 @@ describe('Icon', () => {
 
         mount(
           <Icon
+            className="a b"
             icon="x"
             styles={styles}
             styleProps={styleProps}
@@ -113,6 +124,8 @@ describe('Icon', () => {
           system,
         );
         cy.get(iconSelector)
+          .should('have.class', 'a')
+          .should('have.class', 'b')
           .should('have.css', 'cursor', 'pointer') // Via style1
           .should('have.css', 'color', 'rgb(0, 0, 255)') // Via style2
           .should('have.css', 'opacity', '0.3'); // Variant
