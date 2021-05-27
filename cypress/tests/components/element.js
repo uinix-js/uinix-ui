@@ -6,11 +6,6 @@ import {mount} from '../../utils/index.js';
 describe('Element', () => {
   describe('Props', () => {
     describe('children', () => {
-      it('should render with no content', () => {
-        mount(<Element />);
-        cy.get('div').should('exist');
-      });
-
       it('should render with text content', () => {
         mount(<Element>Element</Element>);
         cy.contains('div', 'Element').should('exist');
@@ -19,8 +14,7 @@ describe('Element', () => {
       it('should render with React elements', () => {
         mount(
           <Element>
-            <strong>Strong</strong>
-            Element
+            <strong>Strong</strong> Element
           </Element>,
         );
         cy.contains('strong', 'Strong').should('exist');
@@ -136,10 +130,10 @@ describe('Element', () => {
 
         mount(
           <Element
-            styles={styles}
             styleProps={{
               isActive: true,
             }}
+            styles={styles}
           >
             Active Element
           </Element>,
@@ -150,10 +144,10 @@ describe('Element', () => {
 
         mount(
           <Element
-            styles={styles}
             styleProps={{
               isBold: true,
             }}
+            styles={styles}
           >
             Bold Element
           </Element>,
@@ -164,11 +158,11 @@ describe('Element', () => {
 
         mount(
           <Element
-            styles={styles}
             styleProps={{
               isActive: true,
               isBold: true,
             }}
+            styles={styles}
           >
             Active and Bold Element
           </Element>,
@@ -181,33 +175,19 @@ describe('Element', () => {
 
     describe('variant', () => {
       it('should apply styles specified through the system.styles.variants API', () => {
-        const system = {
-          styles: {
-            variants: {
-              Button: {
-                primary: {
-                  color: 'rgb(0, 0, 255)',
-                  ':focus': {
-                    opacity: '0.7',
-                    color: 'rgb(0, 0, 125)',
-                  },
-                },
-              },
-            },
-          },
-        };
-
-        mount(
-          <Element as="button" variant="Button.primary">
-            Element
-          </Element>,
-          system,
-        );
-        cy.contains('button', 'Element')
-          .should('have.css', 'color', 'rgb(0, 0, 255)')
-          .focus()
-          .should('have.css', 'opacity', '0.7')
-          .should('have.css', 'color', 'rgb(0, 0, 125)');
+        cy.fixture('system').then((system) => {
+          mount(
+            <Element as="button" variant="Button.primary">
+              Element
+            </Element>,
+            system,
+          );
+          cy.contains('button', 'Element')
+            .should('have.css', 'color', 'rgb(0, 0, 255)')
+            .focus()
+            .should('have.css', 'opacity', '0.7')
+            .should('have.css', 'color', 'rgb(0, 0, 125)');
+        });
       });
     });
 

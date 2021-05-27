@@ -3,20 +3,6 @@ import React from 'react';
 import {Text} from '../../../index.js';
 import {mount} from '../../utils/index.js';
 
-const system = {
-  typography: {
-    variants: {
-      heading: {
-        1: {
-          color: 'rgb(0, 0, 255)',
-          fontSize: '32px',
-          fontWeight: '700',
-        },
-      },
-    },
-  },
-};
-
 describe('Text', () => {
   describe('Props', () => {
     describe('children', () => {
@@ -28,8 +14,7 @@ describe('Text', () => {
       it('should render with React elements', () => {
         mount(
           <Text>
-            <strong>Strong</strong>
-            Text
+            <strong>Strong</strong> Text
           </Text>,
         );
         cy.contains('strong', 'Strong').should('exist');
@@ -55,13 +40,13 @@ describe('Text', () => {
     ];
     fontProps.forEach((props) => {
       const [propName, propValue] = Object.entries(props)[0];
+      const cssPropertyName = propName.replace(
+        /[A-Z]/g,
+        (match) => `-${match.toLowerCase()}`,
+      );
       describe(propName, () => {
-        it(`should apply the specified ${propName}`, () => {
+        it(`should apply to the CSS "${cssPropertyName}" property`, () => {
           mount(<Text {...props}>Text</Text>);
-          const cssPropertyName = propName.replace(
-            /[A-Z]/g,
-            (match) => `-${match.toLowerCase()}`,
-          );
           cy.contains('span', 'Text').should(
             'have.css',
             cssPropertyName,
@@ -83,22 +68,24 @@ describe('Text', () => {
         const styles = [style1, style2];
         const styleProps = {isActive: true};
 
-        mount(
-          <Text
-            as="button"
-            className="a b"
-            styles={styles}
-            styleProps={styleProps}
-          >
-            Text
-          </Text>,
-          system,
-        );
-        cy.contains('button', 'Text')
-          .should('have.class', 'a')
-          .should('have.class', 'b')
-          .should('have.css', 'cursor', 'pointer') // Via style1
-          .should('have.css', 'color', 'rgb(0, 0, 255)'); // Via style2
+        cy.fixture('system').then((system) => {
+          mount(
+            <Text
+              as="button"
+              className="a b"
+              styleProps={styleProps}
+              styles={styles}
+            >
+              Text
+            </Text>,
+            system,
+          );
+          cy.contains('button', 'Text')
+            .should('have.class', 'a')
+            .should('have.class', 'b')
+            .should('have.css', 'cursor', 'pointer') // Via style1
+            .should('have.css', 'color', 'rgb(0, 0, 255)'); // Via style2
+        });
       });
     });
   });

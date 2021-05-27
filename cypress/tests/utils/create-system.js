@@ -1,4 +1,5 @@
 import {merge} from 'uinix-fp';
+
 import {createStyles, createSystem} from '../../../index.js';
 
 describe('createSystem', () => {

@@ -2,26 +2,10 @@ import React from 'react';
 
 import {Icon} from '../../../index.js';
 import {mount} from '../../utils/index.js';
-
-const iconSvg =
-  '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
-
-const system = {
-  icons: {
-    x: iconSvg,
-  },
-  styles: {
-    variants: {
-      Icon: {
-        disabled: {
-          opacity: 0.3,
-        },
-      },
-    },
-  },
-};
+import system from '../../fixtures/system.json';
 
 const iconSelector = 'div:has(>svg)';
+const icon = 'x';
 
 describe('Icon', () => {
   describe('Errors', () => {
@@ -36,58 +20,54 @@ describe('Icon', () => {
   describe('Props', () => {
     describe('children', () => {
       it('should not render provided children', () => {
-        mount(<Icon icon="x">Children</Icon>, system);
+        mount(<Icon icon={icon}>Children</Icon>, system);
         cy.get(iconSelector).should('not.contain.text', 'Children');
       });
     });
 
     describe('icon', () => {
       it('should render the icon as an div element containing an svg element', () => {
-        mount(<Icon icon="x" />, system);
-        cy.get(iconSelector).should('contain.html', iconSvg);
+        mount(<Icon icon={icon} />, system);
+        cy.get(iconSelector).should('contain.html', system.icons[icon]);
       });
     });
 
     describe('onClick', () => {
       it('should render the icon as a button element containing an svg element if an onClick handler is provided', () => {
         const onClick = cy.spy(console, 'log').as('log');
-        mount(<Icon icon="x" onClick={onClick} />, system);
+        mount(<Icon icon={icon} onClick={onClick} />, system);
         cy.get('button:has(>svg)')
-          .should('contain.html', iconSvg)
+          .should('contain.html', system.icons[icon])
           .click()
           .click();
-        cy.get('@log').its('callCount').should('eq', 2);
+        cy.get('@log').its('callCount').should('equal', 2);
       });
     });
 
     describe('color', () => {
-      it('should apply the specified color', () => {
-        mount(<Icon icon="x" color="rgb(255, 0, 0)" />, system);
+      it('should apply to the CSS "color" property', () => {
+        mount(<Icon icon={icon} color="rgb(255, 0, 0)" />, system);
         cy.get(iconSelector).should('have.css', 'color', 'rgb(255, 0, 0)');
       });
     });
 
     describe('height', () => {
-      it('should apply the specified height', () => {
-        mount(<Icon icon="x" height="16px" />, system);
-        cy.get(iconSelector)
-          .should('have.css', 'height', '16px')
-          .should('not.have.css', 'width', '16px');
+      it('should apply to the CSS "height" property', () => {
+        mount(<Icon icon={icon} height="16px" />, system);
+        cy.get(iconSelector).should('have.css', 'height', '16px');
       });
     });
 
     describe('width', () => {
-      it('should apply the specified width', () => {
-        mount(<Icon icon="x" width="16px" />, system);
-        cy.get(iconSelector)
-          .should('have.css', 'width', '16px')
-          .should('have.css', 'height', '16px');
+      it('should apply to the CSS "width" property', () => {
+        mount(<Icon icon={icon} width="16px" />, system);
+        cy.get(iconSelector).should('have.css', 'width', '16px');
       });
     });
 
     describe('size', () => {
-      it('should apply the specified size to both height and width', () => {
-        mount(<Icon icon="x" size="16px" />, system);
+      it('should apply to the CSS "height" and "width" properties', () => {
+        mount(<Icon icon={icon} size="16px" />, system);
         cy.get(iconSelector)
           .should('have.css', 'height', '16px')
           .should('have.css', 'width', '16px');
@@ -95,8 +75,8 @@ describe('Icon', () => {
     });
 
     describe('Other', () => {
-      it('should allow independent application of height and width', () => {
-        mount(<Icon icon="x" height="16px" width="24px" />, system);
+      it('should support independent application of CSS "height" and "width" properties', () => {
+        mount(<Icon icon={icon} height="16px" width="24px" />, system);
         cy.get(iconSelector)
           .should('have.css', 'height', '16px')
           .should('have.css', 'width', '24px');
@@ -116,9 +96,9 @@ describe('Icon', () => {
         mount(
           <Icon
             className="a b"
-            icon="x"
-            styles={styles}
+            icon={icon}
             styleProps={styleProps}
+            styles={styles}
             variant="Icon.disabled"
           />,
           system,
@@ -128,7 +108,7 @@ describe('Icon', () => {
           .should('have.class', 'b')
           .should('have.css', 'cursor', 'pointer') // Via style1
           .should('have.css', 'color', 'rgb(0, 0, 255)') // Via style2
-          .should('have.css', 'opacity', '0.3'); // Variant
+          .should('have.css', 'opacity', '0.3'); // Via variant
       });
     });
   });

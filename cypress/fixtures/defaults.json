@@ -1,6 +1,5 @@
 {
-  "icons": {},
-  "options": {
+  "config": {
     "element": {
       "shorthandPropsMapping": {},
       "styles": []
@@ -11,6 +10,7 @@
       "responsiveCssProperties": []
     }
   },
+  "icons": {},
   "styles": {
     "fontFaces": {},
     "global": {},

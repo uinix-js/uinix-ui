@@ -1,4 +1,5 @@
 import {merge} from 'uinix-fp';
+
 import {createTypography} from '../../../index.js';
 
 describe('createTypography', () => {
