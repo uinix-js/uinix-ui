@@ -30,7 +30,7 @@
     "fela-preset-web": "^11.6.1",
     "react-fela": "^11.6.1",
     "react-inlinesvg": "^2.3.0",
-    "uinix-fp": "^0.1.0",
+    "uinix-fp": "^0.2.1",
     "uinix-theme": "^0.2.0"
   },
   "devDependencies": {
@@ -57,7 +57,7 @@
     "type-coverage": "^2.17.5",
     "typescript": "^4.3.2",
     "uinix-scripts": "^0.1.2",
-    "webpack": "^5.37.1",
+    "webpack": "^5.38.1",
     "webpack-dev-server": "^3.11.2",
     "xo": "^0.40.1"
   },
