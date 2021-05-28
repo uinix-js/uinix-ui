@@ -12,11 +12,15 @@ const CustomElement = ({icon}) => {
 const icon = 'x';
 
 describe('useIcon', () => {
-  it('should retrieve an icon SVG content from the system', () => {
+  it('should return undefined if icon is not found in the system', () => {
     cy.fixture('system').then((system) => {
       mount(<CustomElement icon="invalid icon" />, system);
       cy.get('@iconSvg').should('equal', undefined);
+    });
+  });
 
+  it('should return the SVG content for the specified icon from the system', () => {
+    cy.fixture('system').then((system) => {
       mount(<CustomElement icon={icon} />, system);
       cy.get('@iconSvg').should('equal', system.icons[icon]);
     });

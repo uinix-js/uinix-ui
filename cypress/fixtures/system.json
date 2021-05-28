@@ -1,28 +1,20 @@
 {
   "config": {
-    "element": {
-      "shorthandPropsMapping": {
-        "height": [
-          "h"
-        ],
-        "width": [
-          "w"
-        ]
-      },
-      "styles": [
-        null
+    "elementShorthandPropsMapping": {
+      "height": [
+        "h"
+      ],
+      "width": [
+        "w"
       ]
     },
-    "styles": {
-      "isAtomicCss": false,
-      "responsiveBreakpoints": [
-        "480px",
-        "768px"
-      ],
-      "responsiveCssProperties": [
-        "color"
-      ]
-    }
+    "elementStyles": [
+      null
+    ],
+    "isAtomicCss": false,
+    "responsiveCssProperties": [
+      "color"
+    ]
   },
   "icons": {
     "x": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100%\" height=\"100%\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\"></line><line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\"></line></svg>"
@@ -31,9 +23,40 @@
     "red": {
       "color": "rgb(255, 0, 0)"
     },
+    "breakpoints": [
+      "480px",
+      "768px"
+    ],
     "global": {
       "h1": {
         "fontSize": "42px"
+      }
+    },
+    "typography": {
+      "fontFaces": {
+        "raleway": {
+          "src": [
+            "./font.woff"
+          ],
+          "fontWeight": "700"
+        }
+      },
+      "global": {
+        "h1": {
+          "fontSize": "84px"
+        }
+      },
+      "variants": {
+        "heading": {
+          "1": {
+            "color": "rgb(0, 0, 255)",
+            "fontSize": "32px",
+            "fontWeight": "700"
+          }
+        },
+        "small": {
+          "fontSize": "10px"
+        }
       }
     },
     "variants": {
@@ -124,33 +147,6 @@
         "fast": "opacity 0.3s ease-in-out",
         "default": "opacity 0.5s ease-in-out",
         "slow": "opacity 1s ease-in-out"
-      }
-    }
-  },
-  "typography": {
-    "fontFaces": {
-      "raleway": {
-        "src": [
-          "./font.woff"
-        ],
-        "fontWeight": "700"
-      }
-    },
-    "global": {
-      "h1": {
-        "fontSize": "84px"
-      }
-    },
-    "variants": {
-      "heading": {
-        "1": {
-          "color": "rgb(0, 0, 255)",
-          "fontSize": "32px",
-          "fontWeight": "700"
-        }
-      },
-      "small": {
-        "fontSize": "10px"
       }
     }
   }

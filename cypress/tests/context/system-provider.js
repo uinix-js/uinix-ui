@@ -1,7 +1,7 @@
 import {mount as cypressMount} from '@cypress/react';
 import React from 'react';
 
-import {createSystem, SystemProvider, useSystem} from '../../../index.js';
+import {SystemProvider, createSystem, useSystem} from '../../../index.js';
 
 const CustomElement = () => {
   const system = useSystem();

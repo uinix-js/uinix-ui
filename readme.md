@@ -295,7 +295,8 @@ As a personal challenge, I enjoy reverse-engineering problems to explore if comm
 - [ ] docs
 - [ ] cypress tests
 
-## Development Issues
+## Known Issues
+- Specifying an invalid `typography.fontFaces` source file hangs the Fela `renderer.renderFont` call
 - Code coverage for `@cypress/code-coverage` via `babel-plugin-istanbul` is not writing anything to `.nyc_output/out.json`.
 
 <!-- badges -->

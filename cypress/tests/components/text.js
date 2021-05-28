@@ -56,6 +56,18 @@ describe('Text', () => {
       });
     });
 
+    describe('variant', () => {
+      it('should use the variant style defined in system.styles.typography.variants', () => {
+        cy.fixture('system').then((system) => {
+          mount(<Text variant="heading.1">Text</Text>, system);
+          cy.contains('span', 'Text')
+            .should('have.css', 'color', 'rgb(0, 0, 255)')
+            .should('have.css', 'font-size', '32px')
+            .should('have.css', 'font-weight', '700');
+        });
+      });
+    });
+
     describe('Other', () => {
       it('should support Element props', () => {
         const style1 = {

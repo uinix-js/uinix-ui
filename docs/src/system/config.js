@@ -1,6 +1,6 @@
 import styles from './styles.js';
 
-const shorthandPropsMapping = {
+const elementShorthandPropsMapping = {
   backgroundColor: ['bg'],
   borderRadius: ['borderRadius'],
   border: ['b'],
@@ -32,18 +32,13 @@ const shorthandPropsMapping = {
 };
 
 const config = {
-  element: {
-    shorthandPropsMapping,
-    styles: [
-      ({disabled}) => (disabled ? styles.disabled : null),
-      styles.interactive,
-    ],
-  },
-  styles: {
-    isAtomicCss: false,
-    responsiveBreakpoints: ['480px', '768px'],
-    responsiveCssProperties: ['color'],
-  },
+  elementShorthandPropsMapping,
+  elementStyles: [
+    ({disabled}) => (disabled ? styles.disabled : null),
+    styles.interactive,
+  ],
+  isAtomicCss: false,
+  responsiveCssProperties: ['color'],
 };
 
 export default config;

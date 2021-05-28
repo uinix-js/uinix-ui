@@ -1,6 +1,11 @@
-import {createTypography} from 'uinix-ui';
-
-const typography = createTypography({
+const typography = {
+  fontFaces: {
+    OpenSans: {
+      src: [
+        'https://raw.githubusercontent.com/fontsource/fontsource/main/packages/raleway/files/raleway-all-400-normal.woff',
+      ],
+    },
+  },
   global: {
     a: {
       color: 'brand.primary',
@@ -70,7 +75,13 @@ const typography = createTypography({
       position: 'absolute',
     },
   },
-  variants: {},
-});
+  variants: {
+    test: {
+      color: 'red',
+      fontSize: 42,
+      fontFamily: 'OpenSans',
+    },
+  },
+};
 
 export default typography;

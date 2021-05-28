@@ -1,3 +1,7 @@
+import typography from './typography.js';
+
+const breakpoints = ['480px', '768px'];
+
 const global = {
   '*': {
     boxSizing: 'border-box',
@@ -32,7 +36,7 @@ const global = {
 
 const variants = {};
 
-const styles = {
+const rules = {
   active: {
     backgroundColor: 'brand.active',
     color: 'brand.primaryInverse',
@@ -52,8 +56,14 @@ const styles = {
       opacity: onClick ? 'interactive' : undefined,
     },
   }),
+};
+
+const styles = {
+  ...rules,
+  breakpoints,
   global,
   variants,
+  typography,
 };
 
 export default styles;

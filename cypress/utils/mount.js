@@ -5,8 +5,6 @@ import {createSystem, SystemProvider} from '../../index.js';
 
 export {mount};
 
-const mount = (element, system = createSystem()) => {
-  return cypressMount(
-    <SystemProvider system={system}>{element}</SystemProvider>,
+const mount = (element, system) => cypressMount(
+    <SystemProvider system={createSystem(system)}>{element}</SystemProvider>,
   );
-};

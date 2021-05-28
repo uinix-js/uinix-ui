@@ -1,22 +1,20 @@
 {
   "config": {
-    "element": {
-      "shorthandPropsMapping": {},
-      "styles": []
-    },
-    "styles": {
-      "isAtomicCss": false,
-      "responsiveBreakpoints": [],
-      "responsiveCssProperties": []
-    }
+    "elementShorthandPropsMapping": {},
+    "elementStyles": [],
+    "isAtomicCss": false,
+    "responsiveCssProperties": []
   },
   "icons": {},
   "styles": {
-    "fontFaces": {},
+    "breakpoints": [],
     "global": {},
-    "variants": {
-      "Text": {}
-    }
+    "typography": {
+      "fontFaces": {},
+      "global": {},
+      "variants": {}
+    },
+    "variants": {}
   },
   "theme": {
     "animations": {},
@@ -38,10 +36,5 @@
     "transforms": {},
     "transitions": {},
     "zIndices": {}
-  },
-  "typography": {
-    "fontFaces": {},
-    "global": {},
-    "variants": {}
   }
 }
