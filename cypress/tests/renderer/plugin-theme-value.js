@@ -1,0 +1,9 @@
+import {themeValue} from '../../../lib/renderer/plugin-theme-value.js';
+
+describe('themeValue', () => {
+  it('should not throw when initialized', () => {
+    expect(() => themeValue()).to.not.throw();
+  });
+
+  it('has features and behaviors tested in other test suites (i.e. system/)', () => {});
+});

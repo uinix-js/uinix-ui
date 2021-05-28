@@ -74,7 +74,7 @@
     "docs-start": "cd docs; npm start",
     "lint": "xo --fix",
     "test-coverage": "nyc report",
-    "test-lib": "node test/index.js",
+    "test-esm": "node test/esm.js",
     "type-coverage": "tsc && type-coverage",
     "test": "npm run clean && npm run lint && npm run test-esm && npm run coverage"
   },
