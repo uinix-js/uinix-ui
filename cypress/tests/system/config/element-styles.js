@@ -12,9 +12,6 @@ const system = {
       ({fontSize}) => ({fontSize}),
     ],
   },
-  icons: {
-    x: '<svg>x</svg>',
-  },
 };
 
 describe('elementStyles', () => {
@@ -47,9 +44,8 @@ describe('elementStyles', () => {
 
   it('should apply elementStyles for all UI components', () => {
     [Element, Icon, Layout, Text].forEach((Component) => {
-      const restProps = {icon: 'x'};
       mount(
-        <Component disabled id="component" fontSize="42px" {...restProps}>
+        <Component disabled id="component" fontSize="42px">
           Component
         </Component>,
         system,

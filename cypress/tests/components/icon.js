@@ -8,15 +8,6 @@ const iconSelector = 'div:has(>svg)';
 const icon = 'x';
 
 describe('Icon', () => {
-  describe('Errors', () => {
-    it('should throw if icon is missing or invalid', () => {
-      cy.get('div').should(() => {
-        expect(() => mount(<Icon />, system)).to.throw();
-        expect(() => mount(<Icon icon="invalid" />, system)).to.throw();
-      });
-    });
-  });
-
   describe('Props', () => {
     describe('children', () => {
       it('should not render provided children', () => {

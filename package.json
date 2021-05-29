@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
-    "@babel/preset-env": "^7.14.2",
+    "@babel/preset-env": "^7.14.4",
     "@babel/preset-react": "^7.13.13",
     "@cypress/code-coverage": "^3.9.5",
     "@cypress/react": "^5.8.1",

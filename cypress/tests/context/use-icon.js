@@ -9,8 +9,6 @@ const CustomElement = ({icon}) => {
   return <pre>{iconSvg}</pre>;
 };
 
-const icon = 'x';
-
 describe('useIcon', () => {
   it('should return undefined if icon is not found in the system', () => {
     cy.fixture('system').then((system) => {
@@ -20,6 +18,8 @@ describe('useIcon', () => {
   });
 
   it('should return the SVG content for the specified icon from the system', () => {
+    const icon = 'x';
+
     cy.fixture('system').then((system) => {
       mount(<CustomElement icon={icon} />, system);
       cy.get('@iconSvg').should('equal', system.icons[icon]);

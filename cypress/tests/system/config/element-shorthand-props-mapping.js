@@ -70,21 +70,11 @@ describe('elementShorthandPropsMapping', () => {
           padding: ['p'],
         },
       },
-      icons: {
-        x: '<svg>x</svg>',
-      },
     };
 
     [Element, Icon, Layout, Text].forEach((Component) => {
-      const restProps = {icon: 'x'};
       mount(
-        <Component
-          id="component"
-          color="rgb(255, 0, 0)"
-          m="42px"
-          p="24px"
-          {...restProps}
-        >
+        <Component id="component" color="rgb(255, 0, 0)" m="42px" p="24px">
           Component
         </Component>,
         system,
