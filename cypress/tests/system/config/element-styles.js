@@ -16,13 +16,13 @@ const system = {
 
 describe('config.elementStyles', () => {
   it('should not render any CSS if no styles are provided', () => {
-    mount(<Element>Element</Element>);
-    cy.contains('div', 'Element').should('have.class', '');
+    mount(<Element id="test">Element</Element>);
+    cy.get('#test').should('have.class', '');
   });
 
   it('should render CSS if styles are provided', () => {
-    mount(<Element>Element</Element>, system);
-    cy.contains('div', 'Element')
+    mount(<Element id="test">Element</Element>, system);
+    cy.get('#test')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
       .should('have.css', 'background-color', 'rgb(225, 225, 225)')
       .should('have.css', 'opacity', '1');
@@ -30,12 +30,12 @@ describe('config.elementStyles', () => {
 
   it('should apply component props to style functions', () => {
     mount(
-      <Element disabled fontSize="42px">
+      <Element disabled id="test" fontSize="42px">
         Element
       </Element>,
       system,
     );
-    cy.contains('div', 'Element')
+    cy.get('#test')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
       .should('have.css', 'background-color', 'rgb(225, 225, 225)')
       .should('have.css', 'opacity', '0.3')
@@ -45,12 +45,12 @@ describe('config.elementStyles', () => {
   it('should apply elementStyles for all UI components', () => {
     [Element, Icon, Layout, Text].forEach((Component) => {
       mount(
-        <Component disabled id="component" fontSize="42px">
+        <Component disabled id="test" fontSize="42px">
           Component
         </Component>,
         system,
       );
-      cy.get('#component')
+      cy.get('#test')
         .should('have.css', 'color', 'rgb(255, 0, 0)')
         .should('have.css', 'background-color', 'rgb(225, 225, 225)')
         .should('have.css', 'opacity', '0.3')

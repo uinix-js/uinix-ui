@@ -27,12 +27,12 @@ const system = {
 describe('styles.typography', () => {
   it('should not apply global typography styles on DOM element if not specified', () => {
     mount(<h1>Heading</h1>);
-    cy.get('body h1').should('have.class', '');
+    cy.get('h1').should('have.class', '');
   });
 
   it('should apply global typography styles on DOM element if specified', () => {
     mount(<h1>Heading</h1>, system);
-    cy.get('body h1')
+    cy.get('h1')
       .should('have.class', '')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
       .should('have.css', 'font-size', '42px')
@@ -40,8 +40,13 @@ describe('styles.typography', () => {
   });
 
   it('should apply global typography styles on Element if specified', () => {
-    mount(<Element as="h1">Element</Element>, system);
-    cy.contains('h1', 'Element')
+    mount(
+      <Element id="test" as="h1">
+        Element
+      </Element>,
+      system,
+    );
+    cy.get('#test')
       .should('have.class', '')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
       .should('have.css', 'font-size', '42px')
@@ -49,8 +54,13 @@ describe('styles.typography', () => {
   });
 
   it('should apply global typography styles on Text if specified', () => {
-    mount(<Text as="h1">Text</Text>, system);
-    cy.contains('h1', 'Text')
+    mount(
+      <Text id="test" as="h1">
+        Text
+      </Text>,
+      system,
+    );
+    cy.get('#test')
       .should('have.class', '')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
       .should('have.css', 'font-size', '42px')
@@ -58,7 +68,12 @@ describe('styles.typography', () => {
   });
 
   it('should apply typography variant style via Text element', () => {
-    mount(<Text variant="Link.primary">Text</Text>, system);
-    cy.contains('span', 'Text').should('have.css', 'color', 'rgb(0, 0, 255)');
+    mount(
+      <Text id="test" variant="Link.primary">
+        Text
+      </Text>,
+      system,
+    );
+    cy.get('#test').should('have.css', 'color', 'rgb(0, 0, 255)');
   });
 });

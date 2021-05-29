@@ -7,33 +7,39 @@ describe('Element', () => {
   describe('Props', () => {
     describe('children', () => {
       it('should render with text content', () => {
-        mount(<Element>Element</Element>);
-        cy.contains('div', 'Element').should('exist');
+        mount(<Element id="test">Element</Element>);
+        cy.get('#test').should('exist');
       });
 
       it('should render with React elements', () => {
         mount(
-          <Element>
+          <Element id="test">
             <strong>Strong</strong> Element
           </Element>,
         );
-        cy.contains('strong', 'Strong').should('exist');
+        cy.get('#test').should('exist');
       });
     });
 
     describe('as', () => {
       it('should render as the specified element', () => {
-        mount(<Element as="strong">Element</Element>);
-        cy.contains('strong', 'Element').should('exist');
+        mount(
+          <Element id="test" as="strong">
+            Element
+          </Element>,
+        );
+        cy.get('#test').should('exist');
       });
     });
 
     describe('className', () => {
       it('should apply the className prop', () => {
-        mount(<Element className="a b">Element</Element>);
-        cy.contains('div', 'Element')
-          .should('have.class', 'a')
-          .should('have.class', 'b');
+        mount(
+          <Element id="test" className="a b">
+            Element
+          </Element>,
+        );
+        cy.get('#test').should('have.class', 'a').should('have.class', 'b');
       });
     });
 
@@ -41,6 +47,7 @@ describe('Element', () => {
       it('should apply CSS styles with common CSS-in-JS features when specified as a singleton object', () => {
         mount(
           <Element
+            id="test"
             styles={{
               backgroundColor: 'rgb(225, 225, 225)',
               color: 'rgb(255, 0, 0)',
@@ -59,10 +66,10 @@ describe('Element', () => {
             Element
           </Element>,
         );
-        cy.contains('div', 'Element')
+        cy.get('#test')
           .should('have.css', 'backgroundColor', 'rgb(225, 225, 225)')
           .should('have.css', 'color', 'rgb(255, 0, 0)');
-        cy.contains('button', 'Button')
+        cy.get('#test > button')
           .should('have.css', 'color', 'rgb(0, 0, 255)')
           .focus()
           .should('have.css', 'color', 'rgb(0, 255, 0)')
@@ -92,15 +99,15 @@ describe('Element', () => {
         const style3 = () => ({color: 'rgb(255, 0, 255)'});
 
         mount(
-          <Element styles={[style1, style2, style3]}>
+          <Element id="test" styles={[style1, style2, style3]}>
             <button type="button">Button</button>
             Element
           </Element>,
         );
-        cy.contains('div', 'Element')
+        cy.get('#test')
           .should('have.css', 'backgroundColor', 'rgb(225, 225, 225)')
           .should('have.css', 'color', 'rgb(255, 0, 255)');
-        cy.contains('button', 'Button')
+        cy.get('#test > button')
           .should('have.css', 'color', 'rgb(0, 0, 255)')
           .focus()
           .should('have.css', 'color', 'rgb(0, 255, 0)')
@@ -123,13 +130,18 @@ describe('Element', () => {
         });
         const styles = [style1, style2];
 
-        mount(<Element styles={styles}>Regular Element</Element>);
-        cy.contains('div', 'Regular Element')
+        mount(
+          <Element id="test" styles={styles}>
+            Element
+          </Element>,
+        );
+        cy.get('#test')
           .should('have.css', 'color', 'rgb(0, 0, 0)')
           .should('have.css', 'fontWeight', '400');
 
         mount(
           <Element
+            id="test"
             styleProps={{
               isActive: true,
             }}
@@ -138,12 +150,13 @@ describe('Element', () => {
             Active Element
           </Element>,
         );
-        cy.contains('div', 'Active Element')
+        cy.get('#test')
           .should('have.css', 'color', 'rgb(0, 0, 255)')
           .should('have.css', 'fontWeight', '400');
 
         mount(
           <Element
+            id="test"
             styleProps={{
               isBold: true,
             }}
@@ -152,12 +165,13 @@ describe('Element', () => {
             Bold Element
           </Element>,
         );
-        cy.contains('div', 'Bold Element')
+        cy.get('#test')
           .should('have.css', 'color', 'rgb(0, 0, 0)')
           .should('have.css', 'fontWeight', '700');
 
         mount(
           <Element
+            id="test"
             styleProps={{
               isActive: true,
               isBold: true,
@@ -167,7 +181,7 @@ describe('Element', () => {
             Active and Bold Element
           </Element>,
         );
-        cy.contains('div', 'Active and Bold Element')
+        cy.get('#test')
           .should('have.css', 'color', 'rgb(0, 0, 255)')
           .should('have.css', 'fontWeight', '700');
       });
@@ -177,12 +191,12 @@ describe('Element', () => {
       it('should apply styles specified through the system.styles.variants API', () => {
         cy.fixture('system').then((system) => {
           mount(
-            <Element as="button" variant="Button.primary">
+            <Element id="test" as="button" variant="Button.primary">
               Element
             </Element>,
             system,
           );
-          cy.contains('button', 'Element')
+          cy.get('#test')
             .should('have.css', 'color', 'rgb(0, 0, 255)')
             .focus()
             .should('have.css', 'opacity', '0.7')
@@ -195,20 +209,20 @@ describe('Element', () => {
       it('should attach HTML attributes as a React element would', () => {
         mount(
           <Element
+            id="test"
             aria-title="aria-title"
             data-field="data-field"
             name="name"
-            id="id"
             htmlFor="for"
           >
             Element
           </Element>,
         );
-        cy.contains('div', 'Element')
+        cy.get('#test')
+          .should('have.attr', 'id', 'test')
           .should('have.attr', 'aria-title', 'aria-title')
           .should('have.attr', 'data-field', 'data-field')
           .should('have.attr', 'name', 'name')
-          .should('have.attr', 'id', 'id')
           .should('have.attr', 'for', 'for');
       });
     });

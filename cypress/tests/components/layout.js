@@ -9,92 +9,118 @@ const children = Array.from({length: 3}).map((_, i) => (
   </button>
 ));
 
-const layoutSelector = 'div:has(>button)';
-
 describe('Layout', () => {
   describe('Props', () => {
     describe('children', () => {
       it('should render as a flex container with text content', () => {
-        mount(<Layout>Layout</Layout>);
-        cy.contains('div', 'Layout').should('have.css', 'display', 'flex');
+        mount(<Layout id="test">Layout</Layout>);
+        cy.get('#test').should('have.css', 'display', 'flex');
       });
 
       it('should render with React elements', () => {
-        mount(<Layout>{children}</Layout>);
-        cy.contains('button', 'Button 1').should('exist');
-        cy.contains('button', 'Button 2').should('exist');
-        cy.contains('button', 'Button 3').should('exist');
+        mount(<Layout id="test">{children}</Layout>);
+        cy.contains('#test > button', 'Button 1').should('exist');
+        cy.contains('#test > button', 'Button 2').should('exist');
+        cy.contains('#test > button', 'Button 3').should('exist');
       });
     });
 
     describe('align', () => {
       it('should apply to the CSS "align-items" property', () => {
-        mount(<Layout align="flex-end">{children}</Layout>);
-        cy.get(layoutSelector).should('have.css', 'align-items', 'flex-end');
+        mount(
+          <Layout id="test" align="flex-end">
+            {children}
+          </Layout>,
+        );
+        cy.get('#test').should('have.css', 'align-items', 'flex-end');
       });
     });
 
     describe('alignSelf', () => {
       it('should apply to the CSS "align-self" property', () => {
-        mount(<Layout alignSelf="flex-end">{children}</Layout>);
-        cy.get(layoutSelector).should('have.css', 'align-self', 'flex-end');
+        mount(
+          <Layout id="test" alignSelf="flex-end">
+            {children}
+          </Layout>,
+        );
+        cy.get('#test').should('have.css', 'align-self', 'flex-end');
       });
     });
 
     describe('direction', () => {
       it('should apply to the CSS "flex-direction" property', () => {
-        mount(<Layout direction="column">{children}</Layout>);
-        cy.get(layoutSelector).should('have.css', 'flex-direction', 'column');
+        mount(
+          <Layout id="test" direction="column">
+            {children}
+          </Layout>,
+        );
+        cy.get('#test').should('have.css', 'flex-direction', 'column');
       });
     });
 
     describe('flex', () => {
       it('should apply to the CSS "flex" property', () => {
-        mount(<Layout flex="1 1 auto">{children}</Layout>);
-        cy.get(layoutSelector).should('have.css', 'flex', '1 1 auto');
+        mount(
+          <Layout id="test" flex="1 1 auto">
+            {children}
+          </Layout>,
+        );
+        cy.get('#test').should('have.css', 'flex', '1 1 auto');
       });
     });
 
     describe('inline', () => {
       it('should set the CSS "display" property to "inline-flex" if true', () => {
-        mount(<Layout inline>{children}</Layout>);
-        cy.get(layoutSelector).should('have.css', 'display', 'inline-flex');
+        mount(
+          <Layout inline id="test">
+            {children}
+          </Layout>,
+        );
+        cy.get('#test').should('have.css', 'display', 'inline-flex');
       });
     });
 
     describe('justify', () => {
       it('should apply to the CSS "justify-content" property', () => {
-        mount(<Layout justify="flex-end">{children}</Layout>);
-        cy.get(layoutSelector).should(
-          'have.css',
-          'justify-content',
-          'flex-end',
+        mount(
+          <Layout id="test" justify="flex-end">
+            {children}
+          </Layout>,
         );
+        cy.get('#test').should('have.css', 'justify-content', 'flex-end');
       });
     });
 
     describe('justifySelf', () => {
       it('should apply to the CSS "justify-self" property', () => {
-        mount(<Layout justifySelf="flex-end">{children}</Layout>);
-        cy.get(layoutSelector).should('have.css', 'justify-self', 'flex-end');
+        mount(
+          <Layout id="test" justifySelf="flex-end">
+            {children}
+          </Layout>,
+        );
+        cy.get('#test').should('have.css', 'justify-self', 'flex-end');
       });
     });
 
     describe('spacing', () => {
       it('should space children evenly by applying "margin-right" on all children except the last', () => {
         const spacing = '20px';
-        mount(<Layout spacing={spacing}>{children}</Layout>);
-        cy.contains('button', 'Button 1').should(
+        mount(
+          <Layout id="test" spacing={spacing}>
+            {children}
+          </Layout>,
+        );
+        cy.contains('#test > button', 'Button 1').should(
           'have.css',
           'margin-right',
           spacing,
         );
-        cy.contains('button', 'Button 2').should(
+        cy.contains('#test > button', 'Button 2').should(
           'have.css',
           'margin-right',
           spacing,
         );
-        cy.contains('button', 'Button 3').should(
+        cy.contains('#test > button', 'Button 3').should(
           'not.have.css',
           'margin-right',
           spacing,
@@ -104,21 +130,21 @@ describe('Layout', () => {
       it('should space children evenly by applying "margin-bottom" on all children except the last if the "direction" prop is set to "column"', () => {
         const spacing = '20px';
         mount(
-          <Layout direction="column" spacing={spacing}>
+          <Layout id="test" direction="column" spacing={spacing}>
             {children}
           </Layout>,
         );
-        cy.contains('button', 'Button 1').should(
+        cy.contains('#test > button', 'Button 1').should(
           'have.css',
           'margin-bottom',
           spacing,
         );
-        cy.contains('button', 'Button 2').should(
+        cy.contains('#test > button', 'Button 2').should(
           'have.css',
           'margin-bottom',
           spacing,
         );
-        cy.contains('button', 'Button 3').should(
+        cy.contains('#test > button', 'Button 3').should(
           'not.have.css',
           'margin-bottom',
           spacing,
@@ -128,28 +154,32 @@ describe('Layout', () => {
 
     describe('wrap', () => {
       it('should set the CSS "flex-wrap" property to "wrap" if true', () => {
-        mount(<Layout wrap>{children}</Layout>);
-        cy.get(layoutSelector).should('have.css', 'flex-wrap', 'wrap');
+        mount(
+          <Layout wrap id="test">
+            {children}
+          </Layout>,
+        );
+        cy.get('#test').should('have.css', 'flex-wrap', 'wrap');
       });
     });
 
     describe('wrapSpacing', () => {
       it('should apply "margin-top" on all children and an equal negative margin-top on the layout container when the "wrap" property is true', () => {
         mount(
-          <Layout wrap wrapSpacing="10px" spacing="20px">
+          <Layout wrap id="test" wrapSpacing="10px" spacing="20px">
             {children}
           </Layout>,
         );
-        cy.get(layoutSelector)
+        cy.get('#test')
           .should('have.css', 'flex-wrap', 'wrap')
           .should('have.css', 'margin-top', '-10px');
-        cy.contains('button', 'Button 1')
+        cy.contains('#test > button', 'Button 1')
           .should('have.css', 'margin-right', '20px')
           .should('have.css', 'margin-top', '10px');
-        cy.contains('button', 'Button 2')
+        cy.contains('#test > button', 'Button 2')
           .should('have.css', 'margin-right', '20px')
           .should('have.css', 'margin-top', '10px');
-        cy.contains('button', 'Button 3')
+        cy.contains('#test > button', 'Button 3')
           .should('not.have.css', 'margin-right', '20px')
           .should('have.css', 'margin-top', '10px');
       });
@@ -170,6 +200,7 @@ describe('Layout', () => {
         cy.fixture('system').then((system) => {
           mount(
             <Layout
+              id="test"
               as="p"
               className="a b"
               styleProps={styleProps}
@@ -180,7 +211,7 @@ describe('Layout', () => {
             </Layout>,
             system,
           );
-          cy.get('p:has(>button)')
+          cy.get('#test')
             .should('have.class', 'a')
             .should('have.class', 'b')
             .should('have.css', 'cursor', 'pointer') // Via style1

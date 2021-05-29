@@ -5,8 +5,12 @@ import {mount} from '../../../utils/index.js';
 
 describe('config.elementShorthandPropsMapping', () => {
   it('should not apply shorthand props style if not configured', () => {
-    mount(<Element p="24px">Element</Element>);
-    cy.contains('div', 'Element').should('not.have.css', 'padding', '24px');
+    mount(
+      <Element id="test" p="24px">
+        Element
+      </Element>,
+    );
+    cy.get('#test').should('not.have.css', 'padding', '24px');
   });
 
   it('should apply shorthand props style if configured', () => {
@@ -20,12 +24,12 @@ describe('config.elementShorthandPropsMapping', () => {
       },
     };
     mount(
-      <Element color="rgb(255, 0, 0)" m="12px" p="24px">
+      <Element id="test" color="rgb(255, 0, 0)" m="12px" p="24px">
         Element
       </Element>,
       system,
     );
-    cy.contains('div', 'Element')
+    cy.get('#test')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
       .should('have.css', 'margin', '12px')
       .should('have.css', 'padding', '24px');
@@ -43,18 +47,23 @@ describe('config.elementShorthandPropsMapping', () => {
         },
       },
     };
-    mount(<Element mx="24px">Element</Element>, system);
-    cy.contains('div', 'Element')
-      .should('have.css', 'margin-left', '24px')
-      .should('have.css', 'margin-right', '24px');
-
     mount(
-      <Element mx="4px" mt="12px" m="48px">
+      <Element id="test" mx="24px">
         Element
       </Element>,
       system,
     );
-    cy.contains('div', 'Element')
+    cy.get('#test')
+      .should('have.css', 'margin-left', '24px')
+      .should('have.css', 'margin-right', '24px');
+
+    mount(
+      <Element id="test" mx="4px" mt="12px" m="48px">
+        Element
+      </Element>,
+      system,
+    );
+    cy.get('#test')
       .should('have.css', 'margin-bottom', '48px')
       .should('have.css', 'margin-top', '12px')
       .should('have.css', 'margin-left', '4px')
@@ -74,12 +83,12 @@ describe('config.elementShorthandPropsMapping', () => {
 
     [Element, Icon, Layout, Text].forEach((Component) => {
       mount(
-        <Component id="component" color="rgb(255, 0, 0)" m="42px" p="24px">
+        <Component id="test" color="rgb(255, 0, 0)" m="42px" p="24px">
           Component
         </Component>,
         system,
       );
-      cy.get('#component')
+      cy.get('#test')
         .should('have.css', 'color', 'rgb(255, 0, 0)')
         .should('have.css', 'margin', '42px')
         .should('have.css', 'padding', '24px');

@@ -1,23 +1,23 @@
 import React from 'react';
 
 import {Text} from '../../../index.js';
-import {mount} from '../../utils/index.js';
+import {decamelizeCssProperty, mount} from '../../utils/index.js';
 
 describe('Text', () => {
   describe('Props', () => {
     describe('children', () => {
       it('should render as a span with text content', () => {
-        mount(<Text>Text</Text>);
-        cy.contains('span', 'Text').should('exist');
+        mount(<Text id="test">Text</Text>);
+        cy.get('#test').should('exist');
       });
 
       it('should render with React elements', () => {
         mount(
-          <Text>
+          <Text id="test">
             <strong>Strong</strong> Text
           </Text>,
         );
-        cy.contains('strong', 'Strong').should('exist');
+        cy.get('#test').should('exist');
       });
     });
 
@@ -40,18 +40,15 @@ describe('Text', () => {
     ];
     fontProps.forEach((props) => {
       const [propName, propValue] = Object.entries(props)[0];
-      const cssPropertyName = propName.replace(
-        /[A-Z]/g,
-        (match) => `-${match.toLowerCase()}`,
-      );
+      const cssPropertyName = decamelizeCssProperty(propName);
       describe(propName, () => {
         it(`should apply to the CSS "${cssPropertyName}" property`, () => {
-          mount(<Text {...props}>Text</Text>);
-          cy.contains('span', 'Text').should(
-            'have.css',
-            cssPropertyName,
-            propValue,
+          mount(
+            <Text id="test" {...props}>
+              Text
+            </Text>,
           );
+          cy.get('#test').should('have.css', cssPropertyName, propValue);
         });
       });
     });
@@ -59,8 +56,13 @@ describe('Text', () => {
     describe('variant', () => {
       it('should use the variant style defined in system.styles.typography.variants', () => {
         cy.fixture('system').then((system) => {
-          mount(<Text variant="heading.1">Text</Text>, system);
-          cy.contains('span', 'Text')
+          mount(
+            <Text id="test" variant="heading.1">
+              Text
+            </Text>,
+            system,
+          );
+          cy.get('#test')
             .should('have.css', 'color', 'rgb(0, 0, 255)')
             .should('have.css', 'font-size', '32px')
             .should('have.css', 'font-weight', '700');
@@ -83,6 +85,7 @@ describe('Text', () => {
         cy.fixture('system').then((system) => {
           mount(
             <Text
+              id="test"
               as="button"
               className="a b"
               styleProps={styleProps}
@@ -92,7 +95,7 @@ describe('Text', () => {
             </Text>,
             system,
           );
-          cy.contains('button', 'Text')
+          cy.get('#test')
             .should('have.class', 'a')
             .should('have.class', 'b')
             .should('have.css', 'cursor', 'pointer') // Via style1

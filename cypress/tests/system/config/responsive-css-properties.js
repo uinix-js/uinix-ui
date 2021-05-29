@@ -29,8 +29,13 @@ describe('config.responsiveCssProperties', () => {
         breakpoints: ['480px', '768px'],
       },
     };
-    mount(<Element styles={responsiveStyles}>Element</Element>, system);
-    cy.contains('div', 'Element')
+    mount(
+      <Element id="test" styles={responsiveStyles}>
+        Element
+      </Element>,
+      system,
+    );
+    cy.get('#test')
       .should('have.css', 'background-color', 'rgb(225, 225, 225)')
       .should('have.css', 'color', responsiveStyles.color[2])
       .should('have.css', 'margin', responsiveStyles.margin[2])
@@ -39,9 +44,14 @@ describe('config.responsiveCssProperties', () => {
 
   it('should apply responsive style value on specified responsive CSS properties', () => {
     viewportWidths.forEach((viewportWidth, i) => {
-      mount(<Element styles={responsiveStyles}>Element</Element>, system);
+      mount(
+        <Element id="test" styles={responsiveStyles}>
+          Element
+        </Element>,
+        system,
+      );
       cy.viewport(viewportWidth, viewportHeight);
-      cy.contains('div', 'Element')
+      cy.get('#test')
         // Registered responsive styles
         .should('have.css', 'color', responsiveStyles.color[i])
         .should('have.css', 'padding', responsiveStyles.padding[i])
@@ -55,13 +65,13 @@ describe('config.responsiveCssProperties', () => {
     [Element, Icon, Layout, Text].forEach((Component) => {
       viewportWidths.forEach((viewportWidth, i) => {
         mount(
-          <Component id="component" styles={responsiveStyles}>
+          <Component id="test" styles={responsiveStyles}>
             Element
           </Component>,
           system,
         );
         cy.viewport(viewportWidth, viewportHeight);
-        cy.get('#component')
+        cy.get('#test')
           // Registered responsive styles
           .should('have.css', 'color', responsiveStyles.color[i])
           .should('have.css', 'padding', responsiveStyles.padding[i])

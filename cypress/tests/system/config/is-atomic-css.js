@@ -11,13 +11,17 @@ const styles = [
 
 describe('config.isAtomicCss', () => {
   it('should not render any className if no styles are provided', () => {
-    mount(<Element>Element</Element>);
-    cy.contains('div', 'Element').should('have.class', '');
+    mount(<Element id="test">Element</Element>);
+    cy.get('#test').should('have.class', '');
   });
 
   it('should render a single className if isAtomicCss is false (default value)', () => {
-    mount(<Element styles={styles}>Element</Element>);
-    cy.contains('div', 'Element').should(($element) => {
+    mount(
+      <Element id="test" styles={styles}>
+        Element
+      </Element>,
+    );
+    cy.get('#test').should(($element) => {
       const classNames = $element[0].className.split(' ');
       expect(classNames.length).to.equal(1);
     });
@@ -30,8 +34,13 @@ describe('config.isAtomicCss', () => {
       },
     };
 
-    mount(<Element styles={styles}>Element</Element>, system);
-    cy.contains('div', 'Element').should(($element) => {
+    mount(
+      <Element id="test" styles={styles}>
+        Element
+      </Element>,
+      system,
+    );
+    cy.get('#test').should(($element) => {
       const classNames = $element[0].className.split(' ');
       expect(classNames.length).to.equal(3);
     });

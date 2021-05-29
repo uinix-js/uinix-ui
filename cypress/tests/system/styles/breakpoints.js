@@ -24,8 +24,12 @@ const viewportWidths = [300, 500, 800]; // Covering all situations specified in 
 
 describe('styles.breakpoints', () => {
   it('should apply the last responsive style value if breakpoints are not specified', () => {
-    mount(<Element styles={responsiveStyles}>Element</Element>);
-    cy.contains('div', 'Element')
+    mount(
+      <Element id="test" styles={responsiveStyles}>
+        Element
+      </Element>,
+    );
+    cy.get('#test')
       .should('have.css', 'background-color', responsiveStyles.backgroundColor)
       .should('have.css', 'color', responsiveStyles.color[2])
       .should('have.css', 'margin', responsiveStyles.margin[2])
@@ -36,13 +40,13 @@ describe('styles.breakpoints', () => {
     [Element, Icon, Layout, Text].forEach((Component) => {
       viewportWidths.forEach((viewportWidth, i) => {
         mount(
-          <Component id="component" styles={responsiveStyles}>
+          <Component id="test" styles={responsiveStyles}>
             Element
           </Component>,
           system,
         );
         cy.viewport(viewportWidth, viewportHeight);
-        cy.get('#component')
+        cy.get('#test')
           // Registered responsive styles
           .should('have.css', 'color', responsiveStyles.color[i])
           .should('have.css', 'padding', responsiveStyles.padding[i])

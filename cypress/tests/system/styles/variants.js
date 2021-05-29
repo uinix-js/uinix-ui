@@ -20,12 +20,12 @@ describe('styles.variants', () => {
   it('should apply variant style via Element, Icon, Layout element', () => {
     [Element, Icon, Layout].forEach((Component) => {
       mount(
-        <Component id="component" variant="Container.primary">
+        <Component id="test" variant="Container.primary">
           Component
         </Component>,
         system,
       );
-      cy.get('#component')
+      cy.get('#test')
         .should('have.css', 'margin', '42px')
         .should('have.css', 'padding', '42px');
     });
