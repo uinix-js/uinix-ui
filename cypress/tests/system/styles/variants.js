@@ -16,7 +16,7 @@ const system = {
   },
 };
 
-describe('variants', () => {
+describe('styles.variants', () => {
   it('should apply variant style via Element, Icon, Layout element', () => {
     [Element, Icon, Layout].forEach((Component) => {
       mount(

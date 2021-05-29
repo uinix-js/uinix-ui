@@ -22,7 +22,7 @@ const system = {
 const viewportHeight = 400;
 const viewportWidths = [300, 500, 800]; // Covering all situations specified in system.styles.breakpoints
 
-describe('responsiveCssProperties', () => {
+describe('config.responsiveCssProperties', () => {
   it('should apply the last respective responsive style if breakpoints are specified but responsive CSS properties are not specified', () => {
     const system = {
       styles: {

@@ -9,7 +9,7 @@ const styles = [
   {color: 'rgb(0, 255, 0)'},
 ];
 
-describe('isAtomicCss', () => {
+describe('config.isAtomicCss', () => {
   it('should not render any className if no styles are provided', () => {
     mount(<Element>Element</Element>);
     cy.contains('div', 'Element').should('have.class', '');

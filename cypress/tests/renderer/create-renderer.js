@@ -7,5 +7,5 @@ describe('createRenderer', () => {
     });
   });
 
-  it('has features and behaviors tested in other test suites (i.e. components/, context/, system/)', () => {});
+  it('is tested in components/, context/, system/', () => {});
 });

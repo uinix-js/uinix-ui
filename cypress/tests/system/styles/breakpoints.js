@@ -22,7 +22,7 @@ const system = {
 const viewportHeight = 400;
 const viewportWidths = [300, 500, 800]; // Covering all situations specified in system.styles.breakpoints
 
-describe('breakpoints', () => {
+describe('styles.breakpoints', () => {
   it('should apply the last responsive style value if breakpoints are not specified', () => {
     mount(<Element styles={responsiveStyles}>Element</Element>);
     cy.contains('div', 'Element')

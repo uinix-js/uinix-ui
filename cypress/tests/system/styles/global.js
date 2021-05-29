@@ -15,7 +15,7 @@ const system = {
   },
 };
 
-describe('global', () => {
+describe('styles.global', () => {
   it('should not apply global styles on DOM element if not specified', () => {
     mount(<h1>Heading</h1>);
     cy.get('body h1').should('have.class', '');

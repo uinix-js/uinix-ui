@@ -14,7 +14,7 @@ const system = {
   },
 };
 
-describe('elementStyles', () => {
+describe('config.elementStyles', () => {
   it('should not render any CSS if no styles are provided', () => {
     mount(<Element>Element</Element>);
     cy.contains('div', 'Element').should('have.class', '');

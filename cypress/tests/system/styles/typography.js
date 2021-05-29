@@ -24,7 +24,7 @@ const system = {
   },
 };
 
-describe('typography', () => {
+describe('styles.typography', () => {
   it('should not apply global typography styles on DOM element if not specified', () => {
     mount(<h1>Heading</h1>);
     cy.get('body h1').should('have.class', '');
