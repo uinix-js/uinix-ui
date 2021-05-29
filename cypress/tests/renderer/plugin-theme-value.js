@@ -5,5 +5,5 @@ describe('themeValue', () => {
     expect(() => themeValue()).to.not.throw();
   });
 
-  it('has features and behaviors tested in other test suites (i.e. system/)', () => {});
+  it('is tested in system/theme/', () => {});
 });

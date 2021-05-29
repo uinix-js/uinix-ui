@@ -38,7 +38,7 @@ const config = {
     styles.interactive,
   ],
   isAtomicCss: false,
-  responsiveCssProperties: ['color'],
+  responsiveCssProperties: ['color', 'padding'],
 };
 
 export default config;

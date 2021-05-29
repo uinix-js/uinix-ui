@@ -10,5 +10,5 @@ describe('responsiveValue', () => {
     ).to.not.throw();
   });
 
-  it('has features and behaviors tested in other test suites (i.e. system/)', () => {});
+  it('is tested in system/config/responsive-css-properties.js', () => {});
 });
