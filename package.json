@@ -30,8 +30,7 @@
     "fela-preset-web": "^11.6.1",
     "react-fela": "^11.6.1",
     "react-inlinesvg": "^2.3.0",
-    "uinix-fp": "^0.2.1",
-    "uinix-theme": "^0.2.1"
+    "uinix-theme": "^0.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
@@ -65,8 +64,8 @@
     "react": "^17.0.2"
   },
   "scripts": {
+    "build": "npm run clean && tsc && type-coverage",
     "clean": "uinix-scripts clean",
-    "coverage": "npm run type-coverage && npm run test-coverage",
     "cypress-open": "cypress open-ct",
     "cypress-run": "cypress run-ct",
     "docs-build": "cd docs; npm install; npm run build",
@@ -75,8 +74,7 @@
     "lint": "xo --fix",
     "test-coverage": "npm run test-esm && npm run cypress-run && nyc report",
     "test-esm": "node test/esm.js",
-    "type-coverage": "tsc && type-coverage",
-    "test": "npm run clean && npm run lint && npm run coverage"
+    "test": "npm run build && npm run lint && npm run test-coverage"
   },
   "engines": {
     "node": ">=12"
