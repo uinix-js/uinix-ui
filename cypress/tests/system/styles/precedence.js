@@ -1,0 +1,87 @@
+import React from 'react';
+
+import {Element} from '../../../../index.js';
+import {mount} from '../../../utils/index.js';
+
+const system = {
+  config: {
+    elementShorthandPropsMapping: {
+      color: ['color'],
+    },
+  },
+  styles: {
+    variants: {
+      variant: {
+        color: 'rgb(20, 0, 0)',
+      },
+    },
+  },
+};
+
+// In descending order of precendence/importance
+const styleProps = [
+  {
+    name: 'style',
+    value: {color: 'rgb(10, 0, 0)'},
+  },
+  {
+    name: 'variant',
+    value: 'variant',
+  },
+  {
+    name: 'color', // Shorthand prop
+    value: 'rgb(30, 0, 0)',
+  },
+  {
+    name: 'styles',
+    value: {color: 'rgb(40, 0, 0)'},
+  },
+];
+
+const getProps = (styleProps) =>
+  styleProps.reduce((acc, {name, value}) => {
+    acc[name] = value;
+    return acc;
+  }, {});
+
+describe('Precendence', () => {
+  it('should take style props precedence in the order of style > variant > shorthandProps > styles', () => {
+    // Include all styleProps and assert that the highest precendence style is applied.  Remove the highest precedence styleProp in the next assertions.
+
+    // style prop takes precendence
+    mount(
+      <Element id="test" {...getProps([...styleProps])}>
+        Element
+      </Element>,
+      system,
+    );
+    cy.get('#test').should('have.css', 'color', 'rgb(10, 0, 0)');
+
+    // Variant prop takes precendence
+    mount(
+      <Element id="test" {...getProps(styleProps.slice(1))}>
+        Element
+      </Element>,
+      system,
+    );
+    cy.get('#test').should('have.css', 'color', 'rgb(20, 0, 0)');
+
+    // Shorthand prop takes precendence
+    mount(
+      <Element id="test" {...getProps(styleProps.slice(2))}>
+        Element
+      </Element>,
+      system,
+    );
+    cy.get('#test').should('have.css', 'color', 'rgb(30, 0, 0)');
+
+    // Styles prop takes precendence
+    mount(
+      <Element id="test" {...getProps(styleProps.slice(3))}>
+        Element
+      </Element>,
+      system,
+    );
+    cy.get('#test').should('have.css', 'color', 'rgb(40, 0, 0)');
+  });
+});

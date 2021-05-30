@@ -70,6 +70,21 @@ describe('Icon', () => {
     });
 
     describe('Other', () => {
+      it('should apply default fixed styles', () => {
+        mount(<Icon id="test" icon={icon} />, system);
+        cy.get('#test')
+          .should('have.css', 'align-items', 'center')
+          .should(
+            'have.css',
+            'background',
+            'rgba(0, 0, 0, 0) none repeat scroll 0% 0% / auto padding-box border-box',
+          )
+          .should('have.css', 'border', '0px none rgb(0, 0, 0)')
+          .should('have.css', 'display', 'flex')
+          .should('have.css', 'margin', '0px')
+          .should('have.css', 'padding', '0px');
+      });
+
       it('should support independent application of CSS "height" and "width" properties', () => {
         mount(
           <Icon id="test" icon={icon} height="16px" width="24px" />,
