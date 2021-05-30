@@ -31,13 +31,13 @@
     "react-fela": "^11.6.1",
     "react-inlinesvg": "^2.3.0",
     "uinix-fp": "^0.2.1",
-    "uinix-theme": "^0.2.0"
+    "uinix-theme": "^0.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.14.3",
     "@babel/preset-env": "^7.14.4",
     "@babel/preset-react": "^7.13.13",
-    "@cypress/code-coverage": "^3.9.5",
+    "@cypress/code-coverage": "^3.9.6",
     "@cypress/react": "^5.8.1",
     "@cypress/webpack-dev-server": "^1.3.1",
     "@types/react": "^17.0.5",
@@ -48,7 +48,7 @@
     "cypress": "^7.4.0",
     "eslint-config-xo-react": "^0.25.0",
     "eslint-plugin-cypress": "^2.11.3",
-    "eslint-plugin-react": "^7.23.1",
+    "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
     "html-webpack-plugin": "^5.3.1",
     "react": "^17.0.2",
@@ -73,10 +73,10 @@
     "docs-install": "cd docs; npm install",
     "docs-start": "cd docs; npm start",
     "lint": "xo --fix",
-    "test-coverage": "nyc report",
+    "test-coverage": "npm run test-esm && npm run cypress-run && nyc report",
     "test-esm": "node test/esm.js",
     "type-coverage": "tsc && type-coverage",
-    "test": "npm run clean && npm run lint && npm run test-esm && npm run coverage"
+    "test": "npm run clean && npm run lint && npm run coverage"
   },
   "engines": {
     "node": ">=12"
