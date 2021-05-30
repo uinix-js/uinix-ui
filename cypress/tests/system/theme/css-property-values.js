@@ -78,7 +78,7 @@ describe('CSS property values', () => {
   Object.entries(themeMapping).forEach(([themeProperty, cssProperties]) => {
     describe(themeProperty, () => {
       cssProperties.forEach((cssProperty) => {
-        it(`should access and apply ${cssProperty} styles`, () => {
+        it(`should apply ${cssProperty} styles accessed via theme.${themeProperty}.default`, () => {
           const styles = {
             ...defaultStyle,
             [cssProperty]: 'default',
