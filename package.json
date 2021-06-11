@@ -1,7 +1,7 @@
 {
   "name": "uinix-ui",
   "version": "0.1.0",
-  "description": "Minimal primitives to build and compose rich UIs ",
+  "description": "A minimal UI system to build UI systems",
   "license": "MIT",
   "keywords": [
     "uinix",
@@ -68,9 +68,6 @@
     "clean": "uinix-scripts clean",
     "cypress-open": "cypress open-ct",
     "cypress-run": "cypress run-ct",
-    "docs-build": "cd docs; npm install; npm run build",
-    "docs-install": "cd docs; npm install",
-    "docs-start": "cd docs; npm start",
     "lint": "xo --fix",
     "test-coverage": "npm run test-esm && npm run cypress-run && nyc report",
     "test-esm": "node test/esm.js",
@@ -112,7 +109,6 @@
       {
         "files": [
           "cypress/**/*.(cjs|js)",
-          "docs/**/*.js",
           "test/**/*.js"
         ],
         "rules": {
