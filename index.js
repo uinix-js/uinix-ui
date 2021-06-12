@@ -13,12 +13,14 @@ export {
   useTheme,
   useVariant,
 } from './lib/system/api.js';
+export {
+  createConfig,
+  createIcons,
+  createStyles,
+  createSystem,
+  createTheme,
+} from './lib/system/create.js';
 export {SystemProvider} from './lib/context/system-provider.js';
 
 // Utils
-export {createConfig} from './lib/system/config.js';
-export {createIcons} from './lib/system/icons.js';
-export {createStyles} from './lib/system/styles.js';
-export {createSystem} from './lib/system/index.js';
-export {createTheme} from './lib/system/theme.js';
 export {merge} from 'uinix-fp';

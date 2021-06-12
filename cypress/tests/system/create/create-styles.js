@@ -1,8 +1,8 @@
 import {merge} from 'uinix-fp';
 
-import {createStyles} from '../../../index.js';
-import defaultSystem from '../../fixtures/default-system.js';
-import testSystem from '../../fixtures/test-system.js';
+import {createStyles} from '../../../../index.js';
+import defaultSystem from '../../../fixtures/default-system.js';
+import testSystem from '../../../fixtures/test-system.js';
 
 describe('createStyles', () => {
   it('should create default styles', () => {

@@ -1,8 +1,8 @@
 import {merge} from 'uinix-fp';
 
-import {createSystem} from '../../../index.js';
-import defaultSystem from '../../fixtures/default-system.js';
-import testSystem from '../../fixtures/test-system.js';
+import {createSystem} from '../../../../index.js';
+import defaultSystem from '../../../fixtures/default-system.js';
+import testSystem from '../../../fixtures/test-system.js';
 
 describe('createSystem', () => {
   it('should create a default system', () => {

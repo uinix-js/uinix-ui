@@ -1,8 +1,8 @@
 import {merge} from 'uinix-fp';
 
-import {createTheme} from '../../../index.js';
-import defaultSystem from '../../fixtures/default-system.js';
-import testSystem from '../../fixtures/test-system.js';
+import {createTheme} from '../../../../index.js';
+import defaultSystem from '../../../fixtures/default-system.js';
+import testSystem from '../../../fixtures/test-system.js';
 
 describe('createTheme', () => {
   it('should create default theme', () => {
