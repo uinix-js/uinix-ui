@@ -28,10 +28,12 @@
   "types": "index.d.ts",
   "dependencies": {
     "fela": "^11.6.1",
+    "fela-dom": "^11.6.1",
     "fela-enforce-longhands": "^11.6.1",
     "fela-monolithic": "^11.6.1",
     "fela-plugin-responsive-value": "^11.6.1",
     "fela-preset-web": "^11.6.1",
+    "nanostores": "^0.3.3",
     "react-fela": "^11.6.1",
     "react-inlinesvg": "^2.3.0",
     "uinix-theme": "^0.2.2"
