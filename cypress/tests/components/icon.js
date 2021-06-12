@@ -52,21 +52,21 @@ describe('Icon', () => {
     describe('height', () => {
       it('should apply to the CSS "height" property', () => {
         mount(<Icon id="test" icon={icon} height="16px" />, testSystem);
-        cy.get('#test').should('have.css', 'height', '16px');
+        cy.get('#test > svg').should('have.css', 'height', '16px');
       });
     });
 
     describe('width', () => {
       it('should apply to the CSS "width" property', () => {
         mount(<Icon id="test" icon={icon} width="16px" />, testSystem);
-        cy.get('#test').should('have.css', 'width', '16px');
+        cy.get('#test > svg').should('have.css', 'width', '16px');
       });
     });
 
     describe('size', () => {
       it('should apply to the CSS "height" and "width" properties', () => {
         mount(<Icon id="test" icon={icon} size="16px" />, testSystem);
-        cy.get('#test')
+        cy.get('#test > svg')
           .should('have.css', 'height', '16px')
           .should('have.css', 'width', '16px');
       });
@@ -93,7 +93,7 @@ describe('Icon', () => {
           <Icon id="test" icon={icon} height="16px" width="24px" />,
           testSystem,
         );
-        cy.get('#test')
+        cy.get('#test > svg')
           .should('have.css', 'height', '16px')
           .should('have.css', 'width', '24px');
       });
