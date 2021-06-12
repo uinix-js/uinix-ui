@@ -2,7 +2,7 @@ const defaultSystem = {
   config: {
     elementShorthandPropsMapping: {},
     elementStyles: [],
-    isAtomicCss: false,
+    enableAtomicCss: false,
     responsiveCssProperties: [],
   },
   icons: {},

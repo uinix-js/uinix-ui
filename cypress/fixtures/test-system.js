@@ -8,7 +8,7 @@ const testSystem = {
     },
     elementStyles: [null],
     h: React.createElement,
-    isAtomicCss: false,
+    enableAtomicCss: false,
     responsiveCssProperties: ['color'],
   },
   icons: {

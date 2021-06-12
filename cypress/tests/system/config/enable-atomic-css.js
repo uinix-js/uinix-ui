@@ -9,13 +9,13 @@ const styles = [
   {color: 'rgb(0, 255, 0)'},
 ];
 
-describe('config.isAtomicCss', () => {
+describe('config.enableAtomicCss', () => {
   it('should not render any className if no styles are provided', () => {
     mount(<Element id="test">Element</Element>);
     cy.get('#test').should('have.class', '');
   });
 
-  it('should render a single className if isAtomicCss is false (default value)', () => {
+  it('should render a single className if enableAtomicCss is false (default value)', () => {
     mount(
       <Element id="test" styles={styles}>
         Element
@@ -27,10 +27,10 @@ describe('config.isAtomicCss', () => {
     });
   });
 
-  it('should render multiple classNames based on unique CSS property/values if isAtomicCss is true', () => {
+  it('should render multiple classNames based on unique CSS property/values if enableAtomicCss is true', () => {
     const system = {
       config: {
-        isAtomicCss: true,
+        enableAtomicCss: true,
       },
     };
 
