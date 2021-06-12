@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {createTheme, useTheme} from '../../../index.js';
-import testSystem from '../../fixtures/test-system.js';
-import {mount} from '../../utils/index.js';
+import {createTheme, useTheme} from '../../../../index.js';
+import testSystem from '../../../fixtures/test-system.js';
+import {mount} from '../../../utils/index.js';
 
 const CustomElement = () => {
   const theme = useTheme();

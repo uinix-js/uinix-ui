@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {useCss} from '../../../index.js';
-import {mount} from '../../utils/index.js';
+import {useCss} from '../../../../index.js';
+import {mount} from '../../../utils/index.js';
 
 const style1 = {
   backgroundColor: 'rgb(225, 225, 225)',

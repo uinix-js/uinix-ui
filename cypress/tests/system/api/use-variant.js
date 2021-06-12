@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {useVariant} from '../../../index.js';
-import testSystem from '../../fixtures/test-system.js';
-import {mount} from '../../utils/index.js';
+import {useVariant} from '../../../../index.js';
+import testSystem from '../../../fixtures/test-system.js';
+import {mount} from '../../../utils/index.js';
 
 const CustomElement = ({variant}) => {
   const variantStyle = useVariant(variant);

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {useIcon} from '../../../index.js';
-import testSystem from '../../fixtures/test-system.js';
-import {mount} from '../../utils/index.js';
+import {useIcon} from '../../../../index.js';
+import testSystem from '../../../fixtures/test-system.js';
+import {mount} from '../../../utils/index.js';
 
 const CustomElement = ({icon}) => {
   const iconSvg = useIcon(icon);

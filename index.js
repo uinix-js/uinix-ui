@@ -4,7 +4,7 @@ export {Icon} from './lib/components/icon.js';
 export {Layout} from './lib/components/layout.js';
 export {Text} from './lib/components/text.js';
 
-// Context
+// System
 export {
   useCss,
   useIcon,
@@ -12,7 +12,7 @@ export {
   useSystem,
   useTheme,
   useVariant,
-} from './lib/context/hooks.js';
+} from './lib/system/api.js';
 export {SystemProvider} from './lib/context/system-provider.js';
 
 // Utils
