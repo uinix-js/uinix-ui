@@ -13,9 +13,8 @@ A minimal UI system to build UI systems.
 
 ## TODOs
 
-- Use `nanostores` to manage system state and configuration.
-- Remove `react-*`-based fela packages.
-- Update tests after major refactor
+- [ ] add tests for `system/config/h.js`
+- [ ] update JSDoc-based types
 - [ ] update readme and APIs
 
 ## Contents
@@ -36,10 +35,10 @@ A minimal UI system to build UI systems.
 
 ## Install
 
-`uinix-ui` is an [ESM][] module requiring Node 12+. [React 17+][react] is also required as a peer dependency.
+`uinix-ui` is an [ESM][] module requiring Node 12+.
 
 ```sh
-npm install react github:uinix-js/uninix-ui
+npm install github:uinix-js/uninix-ui
 ```
 
 > `uinix-ui` is in active development.  A formal NPM package will be released in the near future.  Please install from the Github repo for now.
