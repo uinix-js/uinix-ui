@@ -6,6 +6,7 @@ export {Text} from './lib/components/text.js';
 
 // System
 export {
+  load,
   useCss,
   useIcon,
   useStyles,
@@ -20,7 +21,6 @@ export {
   createSystem,
   createTheme,
 } from './lib/system/create.js';
-export {SystemProvider} from './lib/context/system-provider.js';
 
 // Utils
 export {merge} from 'uinix-fp';

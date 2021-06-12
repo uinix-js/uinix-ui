@@ -6,5 +6,5 @@ describe('createRenderer', () => {
     expect(() => createRenderer(testSystem)).to.not.throw();
   });
 
-  it('is tested in components/, context/, system/', () => {});
+  it('is tested in components/, system/', () => {});
 });
