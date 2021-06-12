@@ -9,7 +9,11 @@
     "components",
     "theme",
     "design-system",
-    "ui-system"
+    "ui-system",
+    "react",
+    "preact",
+    "hyperscript",
+    "vue"
   ],
   "repository": "uinix-js/uinix-ui",
   "bugs": "https://github.com/uinix-js/uinix-ui/issues",
@@ -59,9 +63,6 @@
     "webpack": "^5.38.1",
     "webpack-dev-server": "^3.11.2",
     "xo": "^0.40.1"
-  },
-  "peerDependencies": {
-    "react": "^17.0.2"
   },
   "scripts": {
     "build": "npm run clean && tsc && type-coverage",

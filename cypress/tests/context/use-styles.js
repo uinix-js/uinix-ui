@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {useStyles} from '../../../index.js';
+import testSystem from '../../fixtures/test-system.js';
 import {mount} from '../../utils/index.js';
 
 const CustomElement = () => {
@@ -11,9 +12,7 @@ const CustomElement = () => {
 
 describe('useStyles', () => {
   it('should return styles from the system', () => {
-    cy.fixture('system').then((system) => {
-      mount(<CustomElement />, system);
-      cy.get('@styles').should('deep.equal', system.styles);
-    });
+    mount(<CustomElement />, testSystem);
+    cy.get('@styles').should('deep.equal', testSystem.styles);
   });
 });

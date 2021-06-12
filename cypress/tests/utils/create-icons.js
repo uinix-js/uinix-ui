@@ -1,15 +1,14 @@
 import {createIcons} from '../../../index.js';
 
+import defaultSystem from '../../fixtures/default-system.js';
+import testSystem from '../../fixtures/test-system.js';
+
 describe('createIcons', () => {
   it('should return empty object as default icons', () => {
-    cy.fixture('defaults').then((defaults) => {
-      expect(createIcons()).to.deep.equal(defaults.icons);
-    });
+    expect(createIcons()).to.deep.equal(defaultSystem.icons);
   });
 
   it('should simply passthrough provided icons', () => {
-    cy.fixture('system').then(({icons}) => {
-      expect(createIcons(icons)).to.equal(icons);
-    });
+    expect(createIcons(testSystem.icons)).to.equal(testSystem.icons);
   });
 });

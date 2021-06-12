@@ -1,7 +1,14 @@
-import {mount as cypressMount} from '@cypress/react';
+import {mount} from '@cypress/react';
 import React from 'react';
 
-import {SystemProvider, createSystem, useSystem} from '../../../index.js';
+import {
+  Element,
+  SystemProvider,
+  createSystem,
+  useSystem,
+} from '../../../index.js';
+import defaultSystem from '../../fixtures/default-system.js';
+import testSystem from '../../fixtures/test-system.js';
 
 const CustomElement = () => {
   const system = useSystem();
@@ -11,20 +18,34 @@ const CustomElement = () => {
 
 describe('SystemProvider', () => {
   it('should return the default system from useSystem if not wrapped in a SystemProvider', () => {
-    cypressMount(<CustomElement />);
-    cy.fixture('defaults').then((defaultSystem) => {
-      cy.get('@system').should('deep.equal', defaultSystem);
+    mount(<CustomElement />);
+    cy.get('@system').should('deep.equal', defaultSystem);
+  });
+
+  // Skipping: https://github.com/cypress-io/cypress/issues/16635
+  it.skip('should throw if system.config.h is not specified when using system components', () => {
+    const system = {
+      config: {},
+    };
+
+    cy.on('uncaught:exception', (error) => {
+      expect(error.message).to.include('h is not a function');
+      return false;
     });
+
+    mount(
+      <SystemProvider system={system}>
+        <Element>Element</Element>
+      </SystemProvider>,
+    );
   });
 
   it('should return the provided system from useSystem if wrapped in a SystemProvider', () => {
-    cy.fixture('system').then((system) => {
-      cypressMount(
-        <SystemProvider system={system}>
-          <CustomElement />
-        </SystemProvider>,
-      );
-      cy.get('@system').should('deep.equal', createSystem(system));
-    });
+    mount(
+      <SystemProvider system={testSystem}>
+        <CustomElement />
+      </SystemProvider>,
+    );
+    cy.get('@system').should('deep.equal', createSystem(testSystem));
   });
 });

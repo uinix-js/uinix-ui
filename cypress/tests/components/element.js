@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {Element} from '../../../index.js';
+import testSystem from '../../fixtures/test-system.js';
 import {mount} from '../../utils/index.js';
 
 describe('Element', () => {
@@ -189,19 +190,17 @@ describe('Element', () => {
 
     describe('variant', () => {
       it('should apply styles specified through the system.styles.variants API', () => {
-        cy.fixture('system').then((system) => {
-          mount(
-            <Element id="test" as="button" variant="Button.primary">
-              Element
-            </Element>,
-            system,
-          );
-          cy.get('#test')
-            .should('have.css', 'color', 'rgb(0, 0, 255)')
-            .focus()
-            .should('have.css', 'opacity', '0.7')
-            .should('have.css', 'color', 'rgb(0, 0, 125)');
-        });
+        mount(
+          <Element id="test" as="button" variant="Button.primary">
+            Element
+          </Element>,
+          testSystem,
+        );
+        cy.get('#test')
+          .should('have.css', 'color', 'rgb(0, 0, 255)')
+          .focus()
+          .should('have.css', 'opacity', '0.7')
+          .should('have.css', 'color', 'rgb(0, 0, 125)');
       });
     });
 

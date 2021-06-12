@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {useVariant} from '../../../index.js';
+import testSystem from '../../fixtures/test-system.js';
 import {mount} from '../../utils/index.js';
 
 const CustomElement = ({variant}) => {
@@ -11,19 +12,15 @@ const CustomElement = ({variant}) => {
 
 describe('useVariant', () => {
   it('should return undefined if variant style is not found in the system', () => {
-    cy.fixture('system').then((system) => {
-      mount(<CustomElement variant="invalid.variant" />, system);
-      cy.get('@variantStyle').should('equal', undefined);
-    });
+    mount(<CustomElement variant="invalid.variant" />, testSystem);
+    cy.get('@variantStyle').should('equal', undefined);
   });
 
   it('should return the variant style from the system', () => {
-    cy.fixture('system').then((system) => {
-      mount(<CustomElement variant="Button.primary" />, system);
-      cy.get('@variantStyle').should(
-        'deep.equal',
-        system.styles.variants.Button.primary,
-      );
-    });
+    mount(<CustomElement variant="Button.primary" />, testSystem);
+    cy.get('@variantStyle').should(
+      'deep.equal',
+      testSystem.styles.variants.Button.primary,
+    );
   });
 });

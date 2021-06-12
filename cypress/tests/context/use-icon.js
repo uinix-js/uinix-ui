@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {useIcon} from '../../../index.js';
+import testSystem from '../../fixtures/test-system.js';
 import {mount} from '../../utils/index.js';
 
 const CustomElement = ({icon}) => {
@@ -11,18 +12,14 @@ const CustomElement = ({icon}) => {
 
 describe('useIcon', () => {
   it('should return undefined if icon is not found in the system', () => {
-    cy.fixture('system').then((system) => {
-      mount(<CustomElement icon="invalid icon" />, system);
-      cy.get('@iconSvg').should('equal', undefined);
-    });
+    mount(<CustomElement icon="invalid icon" />, testSystem);
+    cy.get('@iconSvg').should('equal', undefined);
   });
 
   it('should return the SVG content for the specified icon from the system', () => {
     const icon = 'x';
 
-    cy.fixture('system').then((system) => {
-      mount(<CustomElement icon={icon} />, system);
-      cy.get('@iconSvg').should('equal', system.icons[icon]);
-    });
+    mount(<CustomElement icon={icon} />, testSystem);
+    cy.get('@iconSvg').should('equal', testSystem.icons[icon]);
   });
 });

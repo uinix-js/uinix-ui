@@ -1,11 +1,19 @@
 import {mount as cypressMount} from '@cypress/react';
 import React from 'react';
 
-import {createSystem, SystemProvider} from '../../index.js';
+import {SystemProvider, createSystem, merge} from '../../index.js';
 
 export {mount};
 
-const mount = (element, system) =>
+const defaultSystem = {
+  config: {
+    h: React.createElement,
+  },
+};
+
+const mount = (element, system = defaultSystem) =>
   cypressMount(
-    <SystemProvider system={createSystem(system)}>{element}</SystemProvider>,
+    <SystemProvider system={createSystem(merge(defaultSystem)(system))}>
+      {element}
+    </SystemProvider>,
   );

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {Icon} from '../../../index.js';
+import testSystem from '../../fixtures/test-system.js';
 import {mount} from '../../utils/index.js';
-import system from '../../fixtures/system.json';
 
 const icon = 'x';
 
@@ -14,7 +14,7 @@ describe('Icon', () => {
           <Icon id="test" icon={icon}>
             Children
           </Icon>,
-          system,
+          testSystem,
         );
         cy.get('#test').should('not.contain.text', 'Children');
       });
@@ -22,17 +22,17 @@ describe('Icon', () => {
 
     describe('icon', () => {
       it('should render the icon as an div element containing an svg element', () => {
-        mount(<Icon id="test" icon={icon} />, system);
-        cy.get('#test').should('contain.html', system.icons[icon]);
+        mount(<Icon id="test" icon={icon} />, testSystem);
+        cy.get('#test').should('contain.html', testSystem.icons[icon]);
       });
     });
 
     describe('onClick', () => {
       it('should render the icon as a button element containing an svg element if an onClick handler is provided', () => {
         const onClick = cy.spy(console, 'log').as('log');
-        mount(<Icon id="test" icon={icon} onClick={onClick} />, system);
+        mount(<Icon id="test" icon={icon} onClick={onClick} />, testSystem);
         cy.get('#test')
-          .should('contain.html', system.icons[icon])
+          .should('contain.html', testSystem.icons[icon])
           .click()
           .click();
         cy.get('@log').its('callCount').should('equal', 2);
@@ -41,28 +41,31 @@ describe('Icon', () => {
 
     describe('color', () => {
       it('should apply to the CSS "color" property', () => {
-        mount(<Icon id="test" icon={icon} color="rgb(255, 0, 0)" />, system);
+        mount(
+          <Icon id="test" icon={icon} color="rgb(255, 0, 0)" />,
+          testSystem,
+        );
         cy.get('#test').should('have.css', 'color', 'rgb(255, 0, 0)');
       });
     });
 
     describe('height', () => {
       it('should apply to the CSS "height" property', () => {
-        mount(<Icon id="test" icon={icon} height="16px" />, system);
+        mount(<Icon id="test" icon={icon} height="16px" />, testSystem);
         cy.get('#test').should('have.css', 'height', '16px');
       });
     });
 
     describe('width', () => {
       it('should apply to the CSS "width" property', () => {
-        mount(<Icon id="test" icon={icon} width="16px" />, system);
+        mount(<Icon id="test" icon={icon} width="16px" />, testSystem);
         cy.get('#test').should('have.css', 'width', '16px');
       });
     });
 
     describe('size', () => {
       it('should apply to the CSS "height" and "width" properties', () => {
-        mount(<Icon id="test" icon={icon} size="16px" />, system);
+        mount(<Icon id="test" icon={icon} size="16px" />, testSystem);
         cy.get('#test')
           .should('have.css', 'height', '16px')
           .should('have.css', 'width', '16px');
@@ -71,7 +74,7 @@ describe('Icon', () => {
 
     describe('Other', () => {
       it('should apply default fixed styles', () => {
-        mount(<Icon id="test" icon={icon} />, system);
+        mount(<Icon id="test" icon={icon} />, testSystem);
         cy.get('#test')
           .should('have.css', 'align-items', 'center')
           .should(
@@ -88,7 +91,7 @@ describe('Icon', () => {
       it('should support independent application of CSS "height" and "width" properties', () => {
         mount(
           <Icon id="test" icon={icon} height="16px" width="24px" />,
-          system,
+          testSystem,
         );
         cy.get('#test')
           .should('have.css', 'height', '16px')
@@ -115,7 +118,7 @@ describe('Icon', () => {
             styles={styles}
             variant="Icon.disabled"
           />,
-          system,
+          testSystem,
         );
         cy.get('#test')
           .should('have.class', 'a')

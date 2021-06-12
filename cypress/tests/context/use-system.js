@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {createSystem, useSystem} from '../../../index.js';
+import testSystem from '../../fixtures/test-system.js';
 import {mount} from '../../utils/index.js';
 
 const CustomElement = () => {
@@ -11,9 +12,7 @@ const CustomElement = () => {
 
 describe('useSystem', () => {
   it('should retrieve the entire system', () => {
-    cy.fixture('system').then((system) => {
-      mount(<CustomElement />, system);
-      cy.get('@system').should('deep.equal', createSystem(system));
-    });
+    mount(<CustomElement />, testSystem);
+    cy.get('@system').should('deep.equal', createSystem(testSystem));
   });
 });

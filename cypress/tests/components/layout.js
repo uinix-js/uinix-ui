@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {Layout} from '../../../index.js';
+import testSystem from '../../fixtures/test-system.js';
 import {mount} from '../../utils/index.js';
 
 const children = Array.from({length: 3}).map((_, i) => (
@@ -197,27 +198,25 @@ describe('Layout', () => {
         const styles = [style1, style2];
         const styleProps = {isActive: true};
 
-        cy.fixture('system').then((system) => {
-          mount(
-            <Layout
-              id="test"
-              as="p"
-              className="a b"
-              styleProps={styleProps}
-              styles={styles}
-              variant="Card.small"
-            >
-              {children}
-            </Layout>,
-            system,
-          );
-          cy.get('#test')
-            .should('have.class', 'a')
-            .should('have.class', 'b')
-            .should('have.css', 'cursor', 'pointer') // Via style1
-            .should('have.css', 'color', 'rgb(0, 0, 255)') // Via style2
-            .should('have.css', 'padding', '4px'); // Via variant
-        });
+        mount(
+          <Layout
+            id="test"
+            as="p"
+            className="a b"
+            styleProps={styleProps}
+            styles={styles}
+            variant="Card.small"
+          >
+            {children}
+          </Layout>,
+          testSystem,
+        );
+        cy.get('#test')
+          .should('have.class', 'a')
+          .should('have.class', 'b')
+          .should('have.css', 'cursor', 'pointer') // Via style1
+          .should('have.css', 'color', 'rgb(0, 0, 255)') // Via style2
+          .should('have.css', 'padding', '4px'); // Via variant
       });
     });
   });

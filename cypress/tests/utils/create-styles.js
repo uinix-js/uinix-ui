@@ -1,21 +1,17 @@
 import {merge} from 'uinix-fp';
 
 import {createStyles} from '../../../index.js';
+import defaultSystem from '../../fixtures/default-system.js';
+import testSystem from '../../fixtures/test-system.js';
 
 describe('createStyles', () => {
   it('should create default styles', () => {
-    cy.fixture('defaults').then((defaults) => {
-      expect(createStyles()).to.deep.equal(defaults.styles);
-    });
+    expect(createStyles()).to.deep.equal(defaultSystem.styles);
   });
 
   it('should deepmerge provided styles', () => {
-    cy.fixture('defaults').then((defaults) => {
-      cy.fixture('system').then(({styles}) => {
-        expect(createStyles(styles)).to.deep.equal(
-          merge(defaults.styles)(styles),
-        );
-      });
-    });
+    expect(createStyles(testSystem.styles)).to.deep.equal(
+      merge(defaultSystem.styles)(testSystem.styles),
+    );
   });
 });

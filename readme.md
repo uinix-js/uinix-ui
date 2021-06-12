@@ -13,7 +13,9 @@ A minimal UI system to build UI systems.
 
 ## TODOs
 
-- [ ] refactor `react` logic into `uinix-ui-react`, and so forth for `preact`, `vue`.  Do this by leveraging JSX pragma
+- Use `nanostores` to manage system state and configuration.
+- Remove `react-*`-based fela packages.
+- Update tests after major refactor
 - [ ] update readme and APIs
 
 ## Contents

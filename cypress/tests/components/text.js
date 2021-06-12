@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {Text} from '../../../index.js';
+import testSystem from '../../fixtures/test-system.js';
 import {decamelizeCssProperty, mount} from '../../utils/index.js';
 
 describe('Text', () => {
@@ -55,18 +56,16 @@ describe('Text', () => {
 
     describe('variant', () => {
       it('should use the variant style defined in system.styles.typography.variants', () => {
-        cy.fixture('system').then((system) => {
-          mount(
-            <Text id="test" variant="heading.1">
-              Text
-            </Text>,
-            system,
-          );
-          cy.get('#test')
-            .should('have.css', 'color', 'rgb(0, 0, 255)')
-            .should('have.css', 'font-size', '32px')
-            .should('have.css', 'font-weight', '700');
-        });
+        mount(
+          <Text id="test" variant="heading.1">
+            Text
+          </Text>,
+          testSystem,
+        );
+        cy.get('#test')
+          .should('have.css', 'color', 'rgb(0, 0, 255)')
+          .should('have.css', 'font-size', '32px')
+          .should('have.css', 'font-weight', '700');
       });
     });
 
@@ -82,25 +81,23 @@ describe('Text', () => {
         const styles = [style1, style2];
         const styleProps = {isActive: true};
 
-        cy.fixture('system').then((system) => {
-          mount(
-            <Text
-              id="test"
-              as="button"
-              className="a b"
-              styleProps={styleProps}
-              styles={styles}
-            >
-              Text
-            </Text>,
-            system,
-          );
-          cy.get('#test')
-            .should('have.class', 'a')
-            .should('have.class', 'b')
-            .should('have.css', 'cursor', 'pointer') // Via style1
-            .should('have.css', 'color', 'rgb(0, 0, 255)'); // Via style2
-        });
+        mount(
+          <Text
+            id="test"
+            as="button"
+            className="a b"
+            styleProps={styleProps}
+            styles={styles}
+          >
+            Text
+          </Text>,
+          testSystem,
+        );
+        cy.get('#test')
+          .should('have.class', 'a')
+          .should('have.class', 'b')
+          .should('have.css', 'cursor', 'pointer') // Via style1
+          .should('have.css', 'color', 'rgb(0, 0, 255)'); // Via style2
       });
     });
   });

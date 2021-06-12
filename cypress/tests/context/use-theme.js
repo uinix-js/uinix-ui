@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {createTheme, useTheme} from '../../../index.js';
+import testSystem from '../../fixtures/test-system.js';
 import {mount} from '../../utils/index.js';
 
 const CustomElement = () => {
@@ -11,9 +12,7 @@ const CustomElement = () => {
 
 describe('useTheme', () => {
   it('should retrieve the theme from the system', () => {
-    cy.fixture('system').then((system) => {
-      mount(<CustomElement />, system);
-      cy.get('@theme').should('deep.equal', createTheme(system.theme));
-    });
+    mount(<CustomElement />, testSystem);
+    cy.get('@theme').should('deep.equal', createTheme(testSystem.theme));
   });
 });
