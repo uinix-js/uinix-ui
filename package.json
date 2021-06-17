@@ -75,7 +75,7 @@
     "lint": "xo --fix",
     "test-coverage": "npm run test-esm && npm run cypress-run && nyc report",
     "test-esm": "node test/esm.js",
-    "test": "npm run build && npm run lint && npm run test-coverage"
+    "test": "echo todo"
   },
   "engines": {
     "node": ">=12"
