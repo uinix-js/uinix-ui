@@ -15,7 +15,7 @@ A minimal framework-agnostic UI system to build UI systems.
 
 **uinix-ui** is a UI system to build UI systems, and follows a few principles:
 
-- It is framework-agnostic but framework-friendly 🤗.  It plays well with [React], [Preact], [Vue], [htm], and, any [hyperscript]-based API.
+- It is framework-agnostic but framework-friendly 🤗.  It plays well with [React], [Preact], [Vue], [Mithril], [Solid], [htm], and, any [hyperscript]-based API.
 - It is a minimal UI system that ships with just four components (`Element`, `Icon`, `Layout`, `Text`) and interoperates well with system specs (`theme`, `icons`, `styles`).
 - It is unopinionated but configurable.
 - It intends to stay minimal and simple, and do just a few things well, adhering to the [Unix philosophy][unix-philosophy] 🐧.
@@ -55,8 +55,10 @@ These principles allow you to fully control and build UI systems without deep kn
   - [React](#react)
   - [Preact](#preact)
   - [Vue](#vue)
-  - [hyperscript](#hyperscript)
+  - [Mithril](#mithril)
+  - [Solid](#solid)
   - [htm](#htm)
+  - [hyperscript](#hyperscript)
 - [Guides](#guides)
 - [System Knowledge](#system-knowledge)
   - [Definition](#definition)
@@ -226,7 +228,7 @@ load(system);
 
 ### Using components
 
-To use **uinix-ui** components, you need to first ensure that `system.config.h` is configured for your appropriate UI framework (e.g. [React], [Preact], [Vue], [hyperscript], [htm]).
+To use **uinix-ui** components, you need to first ensure that `system.config.h` is configured for your appropriate UI framework (e.g. [React], [Preact], [Vue], [Mithril], [Solid], [htm], [hyperscript] etc).
 
 ```js
 import React from 'react';
@@ -369,24 +371,36 @@ const Button = ({text, onClick}) => {
 
 ## Frameworks
 
-**uinix-ui** is framework-agnostic but framework-friendly 🤗.  It plays well with [React], [Preact], [Vue], [htm], and, any [hyperscript]-based API.  This is simply configured by specifying the appropriate `h` value in `system.config.h`.
+**uinix-ui** is framework-agnostic but framework-friendly 🤗.  It plays well with [React], [Preact], [Vue], [Mithril], [Solid], [htm], and, any [hyperscript]-based API.  This is simply configured by specifying the appropriate `h` value in `system.config.h`.
 
 The following sections contain Codesandbox links to identical examples expressed differently in the corresponding UI framework.
 
 ### [React]
-[![react][codesandbox-badge]](https://codesandbox.io/s/)
+[![react][codesandbox-badge]](https://codesandbox.io/s/react-sfd37)
 
 ### [Preact]
-[![react][codesandbox-badge]](https://codesandbox.io/s/)
+[![react][codesandbox-badge]](https://codesandbox.io/s/preact-43ogy)
 
 ### [Vue]
 [![react][codesandbox-badge]](https://codesandbox.io/s/)
 
-### [hyperscript]
+### [Mithril]
+[![react][codesandbox-badge]](https://codesandbox.io/s/)
+
+### [Solid]
 [![react][codesandbox-badge]](https://codesandbox.io/s/)
 
 ### [htm]
+#### `htm/preact`
+[![react][codesandbox-badge]](https://codesandbox.io/s/htmpreact-owo3r)
+
+#### `htm/react`
+[![react][codesandbox-badge]](https://codesandbox.io/s/htmreact-j81qk)
+
+### [hyperscript]
 [![react][codesandbox-badge]](https://codesandbox.io/s/)
+
+> Note that [hyperscript] does not support SVG (see [#7](https://github.com/hyperhype/hyperscript/issues/7)).  The `Icon` component therefore unfortunately will not work.  You may wrap or use another hyperscript-like utility to do the job.  [Mithril]'s `m` method does this well!
 
 ## Guides
 
@@ -424,7 +438,7 @@ There are tons of UI and design systems and a few examples are listed below:
 
 **uinix-ui**'s main differences with most of these libraries are:
 - It is designed as a UI system  to build UI systems, and not as a library to enforce specific design/UI patterns.  This is clearly evident in how **uinix-ui** is unstyled (and ugly 😭) by default!
-- It is framework-agnostic so you can use it with any [hyperscript]-based API.  Popular frameworks such as [React], [Preact], and [Vue] all play nice with it 👍.
+- It is framework-agnostic so you can use it with any [hyperscript]-based API.  Popular frameworks such as [React], [Preact], [Vue], [Mithril], [Solid], [htm], and any [hyperscript]-based API all play nice with it 👍.
 - It is a minimal UI system, and therefore its API exposes only the neccessary primitives.  It is definitely *not a batteries-included* ❌ 🔋 library.
 - It is generally unopinionated about how you use it.  You can achieve the same outcome in many ways with **uinix-ui**.  There is a [Guides](#guides) section that provides best practices and recipes, but the library itself does not impose anything on you.  As mentioned earlier: *Your system, your rules 🤘.*
 
@@ -496,18 +510,20 @@ Thank you for reading this backstory!
 [fela]: https://github.com/robinweser/fela
 [htm]: https://github.com/developit/htm
 [hyperscript]: https://github.com/hyperhype/hyperscript
+[mithril]: https://github.com/MithrilJS/mithril.js
 [nanostores]: https://github.com/ai/nanostores
 [preact]: https://github.com/preactjs/preact
 [react]: https://github.com/facebook/react
-[rebass]: https://rebassjs.org/
+[rebass]: https://rebassjs.org
 [semver]: https://semver.org
+[solid]: https://github.com/solidjs/solid
 [styled-system]: https://github.com/styled-system/styled-system
 [theme-ui]: https://github.com/system-ui/theme-ui
 [typescript]: https://github.com/microsoft/TypeScript
-[ui-systems-and-complexity-whitepaper]: https://uinix.dev/learn/ui-systems-and-complexity-whitepaper/
+[ui-systems-and-complexity-whitepaper]: https://uinix.dev/learn/ui-systems-and-complexity-whitepaper
 [uinix-docs]: https://uinix.dev
-[uinix-docs-uinix-ui]: https://uinix.dev/packages/uinix-ui/
-[uinix-docs-ui-systems]: https://uinix.dev/demos/systems/
+[uinix-docs-uinix-ui]: https://uinix.dev/packages/uinix-ui
+[uinix-docs-ui-systems]: https://uinix.dev/demos/systems
 [uinix-js]: https://github.com/uinix-js
 [uinix-fp]: https://github.com/uinix-js/uinix-fp
 [uinix-theme]: https://github.com/uinix-js/uinix-theme
