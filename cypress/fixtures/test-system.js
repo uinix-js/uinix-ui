@@ -3,6 +3,7 @@ import React from 'react';
 const testSystem = {
   config: {
     elementShorthandPropsMapping: {
+      color: ['color'],
       height: ['h'],
       width: ['w'],
     },
