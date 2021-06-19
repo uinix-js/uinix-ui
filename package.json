@@ -18,14 +18,15 @@
   "repository": "uinix-js/uinix-ui",
   "bugs": "https://github.com/uinix-js/uinix-ui/issues",
   "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
+  "sideEffects": false,
   "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
   "files": [
     "lib/",
     "index.js",
     "index.d.ts"
   ],
-  "main": "index.js",
-  "types": "index.d.ts",
   "dependencies": {
     "fela": "^11.6.1",
     "fela-dom": "^11.6.1",
