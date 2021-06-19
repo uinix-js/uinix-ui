@@ -34,13 +34,12 @@ With **uinix-ui**, you have full control of your framework, specs, and design ph
   - [Using system hooks](#using-system-hooks)
 - [API](#api)
   - [System](#system)
-    - [`createConfig(config)`](#createconfigconfig)
-    - [`createIcons(icons)`](#createiconsicons)
-    - [`createTheme(theme)`](#createthemetheme)
-    - [`createStyles(styles)`](#createstylesstyles)
-    - [`createSystem(system)`](#createsystemsystem)
-    - [`load(system)`](#loadsystem)
-    - [`useCss()`](#usecss)
+    - [`createConfig([config])`](#createconfigconfig)
+    - [`createIcons([icons])`](#createiconsicons)
+    - [`createTheme([theme])`](#createthemetheme)
+    - [`createStyles([styles])`](#createstylesstyles)
+    - [`createSystem([system])`](#createsystemsystem)
+    - [`load(h[,system])`](#loadhsystem)
     - [`useIcon(icon)`](#useiconicon)
     - [`useStyles()`](#usestyles)
     - [`useSystem()`](#usesystem)
@@ -106,8 +105,6 @@ import {
 
 /**
  * System configuration
- *
- * A value for h (createElement) must be specified.
  **/
 const config = createConfig({
   // Supports custom props for components that affect their relating styles.
@@ -127,8 +124,6 @@ const config = createConfig({
       },
     }),
   ],
-  // This method must be provided.
-  h: createElement,
   // Renders atomic CSS styles.
   isAtomicCss:  false,
   // Whitelists the CSS properties that can be responsive
@@ -265,21 +260,24 @@ const system = createSystem({
 
 ### Loading the system
 
-Load your `system` in an appropriate place of your application.
+Load your `system` with the appropriate `h` (i.e. `createElement`) function at an entry point of your application.
 
 ```js
+import {createElement} from 'react';
 import {load} from 'uinix-ui';
 
 import system from './my-system.js'
 
-load(system);
+load(createElement, system);
 ```
 
-> **Note:** Your `system` should be remain static and immutable and should be `load`ed just once.  In frameworks like [React], you can `load` your system in the main application module or with a `useEffect` hook in the main `App` component.
+> **Note:** `h` is a common alias for the `createElement` method.  It is popularized by [hyperscript], and many UI frameworks support this API for creating elements.
+
+> **Note:** Your `system` should be defined once and remain static and immutable once `load`ed.
 
 ### Using components
 
-To use **uinix-ui** components, you need to first ensure that `system.config.h` is configured for your appropriate UI framework.  The following are valid `h` values from popular frameworks:
+To use **uinix-ui** components, you need to first ensure that your system is `load`ed and configured with an appropriate `h` function for your UI framework, as detailed in the earlier section.  The following are valid `h` functions provided by popular frameworks:
 - [React][]: `createElement`
 - [Preact][]: `h`
 - [Vue][]: `h`
@@ -287,29 +285,7 @@ To use **uinix-ui** components, you need to first ensure that `system.config.h` 
 - [Solid][]: `h`
 - [hyperscript][]: `h`
 
-> **Note**: `h` is a common alias `createElement` API.  It is popularized by [hyperscript], and many popular UI frameworks support this API for creating elements.
-
-
-```js
-import {createElement} from 'react';
-import {createSystem, load} from 'uinix-ui';
-
-// ensure config.h is specified
-const config = {
-  h: createElement,
-};
-
-// create your system
-const system = createSystem({
-  config,
-  // ...
-});
-
-// load your system at some entry point
-load(system);
-```
-
-Once your `system` is configured and `load`ed, you can start using components!  The following example provides a high level [React]-specific example building a typical `PageLayout` component using just the four component primitives ([`Element`](#elementprops), [`Icon`](#iconprops), [`Layout`](#layoutprops), [`Text`](#textprops)).  For framework-specific examples, please refer to the [Frameworks](#frameworks) section.
+The following example provides a high level [React]-specific example building a typical `PageLayout` component using just the four component primitives ([`Element`](#elementprops), [`Icon`](#iconprops), [`Layout`](#layoutprops), [`Text`](#textprops)).  For framework-specific examples, please refer to the [Frameworks](#frameworks) section.
 
 ```js
 import {Element, Icon, Layout, Text} from 'uinix-ui';
@@ -403,19 +379,17 @@ const Button = ({text, onClick}) => {
 
 ### System
 
-#### `createConfig(config)`
+#### `createConfig([config])`
 
-#### `createIcons(icons)`
+#### `createIcons([icons])`
 
-#### `createTheme(theme)`
+#### `createTheme([theme])`
 
-#### `createStyles(styles)`
+#### `createStyles([styles])`
 
-#### `createSystem(system)`
+#### `createSystem([system])`
 
-#### `load(system)`
-
-#### `useCss()`
+#### `load(h[,system])`
 
 #### `useIcon(icon)`
 
@@ -443,7 +417,7 @@ const Button = ({text, onClick}) => {
 
 ## Presets
 
-Presets are shareable systems that can be simply [`load`](#loadsystem)ed.
+Presets are shareable systems that can be simply [`load`](#loadhsystem)ed.
 
 - `uinix-ui-preset-uinix`
 
@@ -453,7 +427,7 @@ Presets are shareable systems that can be simply [`load`](#loadsystem)ed.
 
 **uinix-ui** is framework-agnostic but framework-friendly 🤗.
 
-As long as `system.config.h` is configured with an appropriate [hyperscript]-based `h` function (e.g. `React.createElement`, `Preact.h`, `Vue.h`, `Mithril.m`), you are good to go!
+As long as you have [`load`ed](#loadhsystem) your `system` with a [hyperscript]-based `h` function (e.g. `React.createElement`, `Preact.h`, `Vue.h`, `Mithril.m`), you are good to go!
 
 The following Codesandbox links showcase **uinix-ui** rendering the same demo, authored in their respective frameworks.
 
@@ -506,6 +480,7 @@ It is common practice to abstract and flatten shareable code for reuse, to decre
 In **uinix-ui**, the decisions and designs of the system can be captured and applied in different ways, as illustrated in the following example on how we can achieve the same styling goals for a custom component with different approaches.
 
 ```js
+import {createElement} from 'react';
 import {createSystem, load, useStyles} from 'uinix-ui';
 
 // system1/Component1
@@ -519,7 +494,7 @@ const system1 = createSystem({
   },
 });
 const Component1 = ({children}) => {
-  load(system1);
+  load(createElement, system1);
   const styles = useStyles();
   return <Element styles={styles.card}>{children}</Element>
 }
@@ -537,14 +512,14 @@ const system2 = createSystem({
   },
 });
 const Component2 = ({children}) => {
-  load(system2);
+  load(createElement, system2);
   return <Element variant="card">{children}</Element>
 }
 
 // system3/Component3
 const system3 = createSystem();
 const Component3 = ({children}) => {
-  load(system3);
+  load(createElement, system3);
   const cardStyle = {
     borderRadius: 'm',
     boxShadow: 'm',

@@ -7,7 +7,6 @@ export {Text} from './lib/components/text.js';
 // System
 export {
   load,
-  useCss,
   useIcon,
   useStyles,
   useSystem,

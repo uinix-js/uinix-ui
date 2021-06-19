@@ -1,23 +1,10 @@
-import {
-  Element,
-  Icon,
-  Layout,
-  Text,
-  load,
-  merge,
-} from '../../../../../index.js';
+import {Element, Icon, Layout, Text, load} from '../../../../../index.js';
 import system from '../../../../fixtures/test-system.js';
 
 export {assert, createCustomElement};
 
 const createCustomElement = (h) => {
-  load(
-    merge(system)({
-      config: {
-        h,
-      },
-    }),
-  );
+  load(h, system);
 
   return () =>
     h('main', {}, [
@@ -63,7 +50,7 @@ const createCustomElement = (h) => {
 
 const assert = (options = {}) => {
   const {
-    // some hyperscript functions do not support SVG!
+    // Some hyperscript functions do not support SVG!
     excludeIconAssertion = false,
   } = options;
 

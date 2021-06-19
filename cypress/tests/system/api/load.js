@@ -24,7 +24,7 @@ describe('load', () => {
   });
 
   it('should load the provided system', () => {
-    load(testSystem);
+    load(React.createElement, testSystem);
     mount(<CustomElement />);
     cy.get('@system').should('deep.equal', createSystem(testSystem));
   });

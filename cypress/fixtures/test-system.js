@@ -1,5 +1,3 @@
-import React from 'react';
-
 const testSystem = {
   config: {
     elementShorthandPropsMapping: {
@@ -8,7 +6,6 @@ const testSystem = {
       width: ['w'],
     },
     elementStyles: [null],
-    h: React.createElement,
     enableAtomicCss: false,
     responsiveCssProperties: ['color'],
   },
