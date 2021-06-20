@@ -1,19 +1,19 @@
 import React from 'react';
 
 import {Text} from '../../../index.js';
-import testSystem from '../../fixtures/test-system.js';
-import {decamelizeCssProperty, mount} from '../../utils/index.js';
+import system from '../../fixtures/test-system.js';
+import {decamelizeCssProperty, mountWithSystem} from '../../utils/index.js';
 
 describe('Text', () => {
   describe('Props', () => {
     describe('children', () => {
       it('should render as a span with text content', () => {
-        mount(<Text id="test">Text</Text>);
+        mountWithSystem(<Text id="test">Text</Text>);
         cy.get('#test').should('exist');
       });
 
       it('should render with React elements', () => {
-        mount(
+        mountWithSystem(
           <Text id="test">
             <strong>Strong</strong> Text
           </Text>,
@@ -44,7 +44,7 @@ describe('Text', () => {
       const cssPropertyName = decamelizeCssProperty(propName);
       describe(propName, () => {
         it(`should apply to the CSS "${cssPropertyName}" property`, () => {
-          mount(
+          mountWithSystem(
             <Text id="test" {...props}>
               Text
             </Text>,
@@ -56,11 +56,11 @@ describe('Text', () => {
 
     describe('variant', () => {
       it('should use the variant style defined in system.styles.typography.variants', () => {
-        mount(
+        mountWithSystem(
           <Text id="test" variant="heading.1">
             Text
           </Text>,
-          testSystem,
+          system,
         );
         cy.get('#test')
           .should('have.css', 'color', 'rgb(0, 0, 255)')
@@ -81,7 +81,7 @@ describe('Text', () => {
         const styles = [style1, style2];
         const styleProps = {isActive: true};
 
-        mount(
+        mountWithSystem(
           <Text
             id="test"
             as="button"
@@ -91,7 +91,7 @@ describe('Text', () => {
           >
             Text
           </Text>,
-          testSystem,
+          system,
         );
         cy.get('#test')
           .should('have.class', 'a')

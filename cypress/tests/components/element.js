@@ -1,19 +1,19 @@
 import React from 'react';
 
 import {Element} from '../../../index.js';
-import testSystem from '../../fixtures/test-system.js';
-import {mount} from '../../utils/index.js';
+import system from '../../fixtures/test-system.js';
+import {mountWithSystem} from '../../utils/index.js';
 
 describe('Element', () => {
   describe('Props', () => {
     describe('children', () => {
       it('should render with text content', () => {
-        mount(<Element id="test">Element</Element>);
+        mountWithSystem(<Element id="test">Element</Element>);
         cy.get('#test').should('exist');
       });
 
       it('should render with React elements', () => {
-        mount(
+        mountWithSystem(
           <Element id="test">
             <strong>Strong</strong> Element
           </Element>,
@@ -24,7 +24,7 @@ describe('Element', () => {
 
     describe('as', () => {
       it('should render as the specified element', () => {
-        mount(
+        mountWithSystem(
           <Element id="test" as="strong">
             Element
           </Element>,
@@ -35,7 +35,7 @@ describe('Element', () => {
 
     describe('className', () => {
       it('should apply the className prop', () => {
-        mount(
+        mountWithSystem(
           <Element id="test" className="a b">
             Element
           </Element>,
@@ -46,7 +46,7 @@ describe('Element', () => {
 
     describe('styles', () => {
       it('should apply CSS styles with common CSS-in-JS features when specified as a singleton object', () => {
-        mount(
+        mountWithSystem(
           <Element
             id="test"
             styles={{
@@ -99,7 +99,7 @@ describe('Element', () => {
         const style2 = null;
         const style3 = () => ({color: 'rgb(255, 0, 255)'});
 
-        mount(
+        mountWithSystem(
           <Element id="test" styles={[style1, style2, style3]}>
             <button type="button">Button</button>
             Element
@@ -131,7 +131,7 @@ describe('Element', () => {
         });
         const styles = [style1, style2];
 
-        mount(
+        mountWithSystem(
           <Element id="test" styles={styles}>
             Element
           </Element>,
@@ -140,7 +140,7 @@ describe('Element', () => {
           .should('have.css', 'color', 'rgb(0, 0, 0)')
           .should('have.css', 'fontWeight', '400');
 
-        mount(
+        mountWithSystem(
           <Element
             id="test"
             styleProps={{
@@ -155,7 +155,7 @@ describe('Element', () => {
           .should('have.css', 'color', 'rgb(0, 0, 255)')
           .should('have.css', 'fontWeight', '400');
 
-        mount(
+        mountWithSystem(
           <Element
             id="test"
             styleProps={{
@@ -170,7 +170,7 @@ describe('Element', () => {
           .should('have.css', 'color', 'rgb(0, 0, 0)')
           .should('have.css', 'fontWeight', '700');
 
-        mount(
+        mountWithSystem(
           <Element
             id="test"
             styleProps={{
@@ -190,11 +190,11 @@ describe('Element', () => {
 
     describe('variant', () => {
       it('should apply styles specified through the system.styles.variants API', () => {
-        mount(
+        mountWithSystem(
           <Element id="test" as="button" variant="Button.primary">
             Element
           </Element>,
-          testSystem,
+          system,
         );
         cy.get('#test')
           .should('have.css', 'color', 'rgb(0, 0, 255)')
@@ -206,7 +206,7 @@ describe('Element', () => {
 
     describe('Other', () => {
       it('should attach HTML attributes as a React element would', () => {
-        mount(
+        mountWithSystem(
           <Element
             id="test"
             aria-title="aria-title"

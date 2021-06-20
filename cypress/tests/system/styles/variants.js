@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Element, Icon, Layout} from '../../../../index.js';
-import {mount} from '../../../utils/index.js';
+import {mountWithSystem} from '../../../utils/index.js';
 
 const system = {
   styles: {
@@ -19,7 +19,7 @@ const system = {
 describe('styles.variants', () => {
   it('should apply variant style via Element, Icon, Layout element', () => {
     [Element, Icon, Layout].forEach((Component) => {
-      mount(
+      mountWithSystem(
         <Component id="test" variant="Container.primary">
           Component
         </Component>,

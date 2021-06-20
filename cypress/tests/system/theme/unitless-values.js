@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Element} from '../../../../index.js';
-import {mount} from '../../../utils/index.js';
+import {mountWithSystem} from '../../../utils/index.js';
 
 const system = {
   theme: {
@@ -33,7 +33,7 @@ const styles = {
 
 describe('Unitless values', () => {
   it('should resolve unitless theme styles appropriately to valid CSS property values', () => {
-    mount(
+    mountWithSystem(
       <Element id="test" styles={styles}>
         Element
       </Element>,

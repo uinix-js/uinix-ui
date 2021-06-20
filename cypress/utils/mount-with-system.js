@@ -3,9 +3,9 @@ import {createElement} from 'react';
 
 import {load} from '../../index.js';
 
-export {mount};
+export {mountWithSystem};
 
-const mount = (element, system = {}) => {
-  load(createElement, system);
+const mountWithSystem = (element, system, config) => {
+  load(createElement, system, config);
   cypressMount(element);
 };

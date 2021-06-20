@@ -1,33 +1,34 @@
 import React from 'react';
 
 import {Element, Icon, Layout, Text} from '../../../../../index.js';
-import {mount} from '../../../../utils/index.js';
+import system from '../../../../fixtures/test-system.js';
+import {mountWithSystem} from '../../../../utils/index.js';
 
 describe('config.elementShorthandPropsMapping', () => {
   it('should not apply shorthand props style if not configured', () => {
-    mount(
+    mountWithSystem(
       <Element id="test" p="24px">
         Element
       </Element>,
     );
+
     cy.get('#test').should('not.have.css', 'padding', '24px');
   });
 
   it('should apply shorthand props style if configured', () => {
-    const system = {
-      config: {
-        elementShorthandPropsMapping: {
-          color: ['color'],
-          margin: ['m'],
-          padding: ['p'],
-        },
+    const config = {
+      elementShorthandPropsMapping: {
+        color: ['color'],
+        margin: ['m'],
+        padding: ['p'],
       },
     };
-    mount(
+    mountWithSystem(
       <Element id="test" color="rgb(255, 0, 0)" m="12px" p="24px">
         Element
       </Element>,
       system,
+      config,
     );
     cy.get('#test')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
@@ -36,32 +37,33 @@ describe('config.elementShorthandPropsMapping', () => {
   });
 
   it('should apply shorthand props style with precedence', () => {
-    const system = {
-      config: {
-        elementShorthandPropsMapping: {
-          margin: ['m'],
-          marginLeft: ['ml', 'mx', 'm'],
-          marginBottom: ['mb', 'my', 'm'],
-          marginRight: ['mr', 'mx', 'm'],
-          marginTop: ['mt', 'my', 'm'],
-        },
+    const config = {
+      elementShorthandPropsMapping: {
+        margin: ['m'],
+        marginLeft: ['ml', 'mx', 'm'],
+        marginBottom: ['mb', 'my', 'm'],
+        marginRight: ['mr', 'mx', 'm'],
+        marginTop: ['mt', 'my', 'm'],
       },
     };
-    mount(
+    mountWithSystem(
       <Element id="test" mx="24px">
         Element
       </Element>,
       system,
+      config,
     );
+
     cy.get('#test')
       .should('have.css', 'margin-left', '24px')
       .should('have.css', 'margin-right', '24px');
 
-    mount(
+    mountWithSystem(
       <Element id="test" mx="4px" mt="12px" m="48px">
         Element
       </Element>,
       system,
+      config,
     );
     cy.get('#test')
       .should('have.css', 'margin-bottom', '48px')
@@ -71,22 +73,20 @@ describe('config.elementShorthandPropsMapping', () => {
   });
 
   it('should apply shorthand props style for all UI components', () => {
-    const system = {
-      config: {
-        elementShorthandPropsMapping: {
-          color: ['color'],
-          margin: ['m'],
-          padding: ['p'],
-        },
+    const config = {
+      elementShorthandPropsMapping: {
+        color: ['color'],
+        margin: ['m'],
+        padding: ['p'],
       },
     };
-
     [Element, Icon, Layout, Text].forEach((Component) => {
-      mount(
+      mountWithSystem(
         <Component id="test" color="rgb(255, 0, 0)" m="42px" p="24px">
           Component
         </Component>,
         system,
+        config,
       );
       cy.get('#test')
         .should('have.css', 'color', 'rgb(255, 0, 0)')

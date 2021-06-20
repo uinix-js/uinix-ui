@@ -1,8 +1,8 @@
 import React from 'react';
 
 import {Layout} from '../../../index.js';
-import testSystem from '../../fixtures/test-system.js';
-import {mount} from '../../utils/index.js';
+import system from '../../fixtures/test-system.js';
+import {mountWithSystem} from '../../utils/index.js';
 
 const children = Array.from({length: 3}).map((_, i) => (
   <button key={i} type="button">
@@ -14,12 +14,12 @@ describe('Layout', () => {
   describe('Props', () => {
     describe('children', () => {
       it('should render as a flex container with text content', () => {
-        mount(<Layout id="test">Layout</Layout>);
+        mountWithSystem(<Layout id="test">Layout</Layout>);
         cy.get('#test').should('have.css', 'display', 'flex');
       });
 
       it('should render with React elements', () => {
-        mount(<Layout id="test">{children}</Layout>);
+        mountWithSystem(<Layout id="test">{children}</Layout>);
         cy.contains('#test > button', 'Button 1').should('exist');
         cy.contains('#test > button', 'Button 2').should('exist');
         cy.contains('#test > button', 'Button 3').should('exist');
@@ -28,7 +28,7 @@ describe('Layout', () => {
 
     describe('align', () => {
       it('should apply to the CSS "align-items" property', () => {
-        mount(
+        mountWithSystem(
           <Layout id="test" align="flex-end">
             {children}
           </Layout>,
@@ -39,7 +39,7 @@ describe('Layout', () => {
 
     describe('alignSelf', () => {
       it('should apply to the CSS "align-self" property', () => {
-        mount(
+        mountWithSystem(
           <Layout id="test" alignSelf="flex-end">
             {children}
           </Layout>,
@@ -50,7 +50,7 @@ describe('Layout', () => {
 
     describe('direction', () => {
       it('should apply to the CSS "flex-direction" property', () => {
-        mount(
+        mountWithSystem(
           <Layout id="test" direction="column">
             {children}
           </Layout>,
@@ -61,7 +61,7 @@ describe('Layout', () => {
 
     describe('flex', () => {
       it('should apply to the CSS "flex" property', () => {
-        mount(
+        mountWithSystem(
           <Layout id="test" flex="1 1 auto">
             {children}
           </Layout>,
@@ -72,7 +72,7 @@ describe('Layout', () => {
 
     describe('inline', () => {
       it('should set the CSS "display" property to "inline-flex" if true', () => {
-        mount(
+        mountWithSystem(
           <Layout inline id="test">
             {children}
           </Layout>,
@@ -83,7 +83,7 @@ describe('Layout', () => {
 
     describe('justify', () => {
       it('should apply to the CSS "justify-content" property', () => {
-        mount(
+        mountWithSystem(
           <Layout id="test" justify="flex-end">
             {children}
           </Layout>,
@@ -94,7 +94,7 @@ describe('Layout', () => {
 
     describe('justifySelf', () => {
       it('should apply to the CSS "justify-self" property', () => {
-        mount(
+        mountWithSystem(
           <Layout id="test" justifySelf="flex-end">
             {children}
           </Layout>,
@@ -106,7 +106,7 @@ describe('Layout', () => {
     describe('spacing', () => {
       it('should space children evenly by applying "margin-right" on all children except the last', () => {
         const spacing = '20px';
-        mount(
+        mountWithSystem(
           <Layout id="test" spacing={spacing}>
             {children}
           </Layout>,
@@ -130,7 +130,7 @@ describe('Layout', () => {
 
       it('should space children evenly by applying "margin-bottom" on all children except the last if the "direction" prop is set to "column"', () => {
         const spacing = '20px';
-        mount(
+        mountWithSystem(
           <Layout id="test" direction="column" spacing={spacing}>
             {children}
           </Layout>,
@@ -155,7 +155,7 @@ describe('Layout', () => {
 
     describe('wrap', () => {
       it('should set the CSS "flex-wrap" property to "wrap" if true', () => {
-        mount(
+        mountWithSystem(
           <Layout wrap id="test">
             {children}
           </Layout>,
@@ -166,7 +166,7 @@ describe('Layout', () => {
 
     describe('wrapSpacing', () => {
       it('should apply "margin-top" on all children and an equal negative margin-top on the layout container when the "wrap" property is true', () => {
-        mount(
+        mountWithSystem(
           <Layout wrap id="test" wrapSpacing="10px" spacing="20px">
             {children}
           </Layout>,
@@ -198,7 +198,7 @@ describe('Layout', () => {
         const styles = [style1, style2];
         const styleProps = {isActive: true};
 
-        mount(
+        mountWithSystem(
           <Layout
             id="test"
             as="p"
@@ -209,7 +209,7 @@ describe('Layout', () => {
           >
             {children}
           </Layout>,
-          testSystem,
+          system,
         );
         cy.get('#test')
           .should('have.class', 'a')

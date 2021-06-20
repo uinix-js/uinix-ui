@@ -1,17 +1,15 @@
 import {merge} from 'uinix-fp';
 
 import {createConfig} from '../../../../index.js';
-import defaultSystem from '../../../fixtures/default-system.js';
-import testSystem from '../../../fixtures/test-system.js';
+import defaultConfig from '../../../fixtures/default-config.js';
+import config from '../../../fixtures/test-config.js';
 
 describe('createConfig', () => {
   it('should create default config', () => {
-    expect(createConfig()).to.deep.equal(defaultSystem.config);
+    expect(createConfig()).to.deep.equal(defaultConfig);
   });
 
   it('should deepmerge provided config', () => {
-    expect(createConfig(testSystem.config)).to.deep.equal(
-      merge(defaultSystem.config)(testSystem.config),
-    );
+    expect(createConfig(config)).to.deep.equal(merge(defaultConfig)(config));
   });
 });

@@ -1,8 +1,8 @@
+import {mount} from '@cypress/react';
 import React from 'react';
 
-import {useStyles} from '../../../../index.js';
-import testSystem from '../../../fixtures/test-system.js';
-import {mount} from '../../../utils/index.js';
+import {load, useStyles} from '../../../../index.js';
+import system from '../../../fixtures/test-system.js';
 
 const CustomElement = () => {
   const styles = useStyles();
@@ -11,8 +11,14 @@ const CustomElement = () => {
 };
 
 describe('useStyles', () => {
+  it('should throw if system is not loaded', () => {
+    expect(() => useStyles()).to.throw();
+  });
+
   it('should return styles from the system', () => {
-    mount(<CustomElement />, testSystem);
-    cy.get('@styles').should('deep.equal', testSystem.styles);
+    load(React.createElement, system);
+    mount(<CustomElement />);
+
+    cy.get('@styles').should('deep.equal', system.styles);
   });
 });

@@ -1,7 +1,7 @@
 import {createElement as h} from 'react';
 
+import {load} from '../../../../index.js';
 import {useH} from '../../../../lib/system/hooks.js';
-import {load} from '../../../../lib/system/load.js';
 
 describe('useH', () => {
   it('should throw if system is not loaded', () => {

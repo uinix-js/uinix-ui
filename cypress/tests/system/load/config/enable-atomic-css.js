@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Element} from '../../../../../index.js';
-import {mount} from '../../../../utils/index.js';
+import {mountWithSystem} from '../../../../utils/index.js';
 
 const styles = [
   {backgroundColor: 'rgb(225, 225, 225)', padding: '42px'},
@@ -11,12 +11,12 @@ const styles = [
 
 describe('config.enableAtomicCss', () => {
   it('should not render any className if no styles are provided', () => {
-    mount(<Element id="test">Element</Element>);
+    mountWithSystem(<Element id="test">Element</Element>);
     cy.get('#test').should('have.class', '');
   });
 
   it('should render a single className if enableAtomicCss is false (default value)', () => {
-    mount(
+    mountWithSystem(
       <Element id="test" styles={styles}>
         Element
       </Element>,
@@ -28,17 +28,16 @@ describe('config.enableAtomicCss', () => {
   });
 
   it('should render multiple classNames based on unique CSS property/values if enableAtomicCss is true', () => {
-    const system = {
-      config: {
-        enableAtomicCss: true,
-      },
+    const config = {
+      enableAtomicCss: true,
     };
 
-    mount(
+    mountWithSystem(
       <Element id="test" styles={styles}>
         Element
       </Element>,
-      system,
+      undefined,
+      config,
     );
     cy.get('#test').should(($element) => {
       const classNames = $element[0].className.split(' ');

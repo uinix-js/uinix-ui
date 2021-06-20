@@ -3,7 +3,7 @@ import React from 'react';
 
 import {createSystem, load, useSystem} from '../../../../index.js';
 import defaultSystem from '../../../fixtures/default-system.js';
-import testSystem from '../../../fixtures/test-system.js';
+import system from '../../../fixtures/test-system.js';
 
 const CustomElement = () => {
   const system = useSystem();
@@ -20,12 +20,14 @@ describe('load', () => {
   it('should load the default system if nothing is provided', () => {
     load();
     mount(<CustomElement />);
+
     cy.get('@system').should('deep.equal', createSystem(defaultSystem));
   });
 
   it('should load the provided system', () => {
-    load(React.createElement, testSystem);
+    load(React.createElement, system);
     mount(<CustomElement />);
-    cy.get('@system').should('deep.equal', createSystem(testSystem));
+
+    cy.get('@system').should('deep.equal', createSystem(system));
   });
 });

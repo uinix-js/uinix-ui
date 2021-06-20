@@ -1,8 +1,8 @@
+import {mount} from '@cypress/react';
 import React from 'react';
 
-import {createSystem, useSystem} from '../../../../index.js';
-import testSystem from '../../../fixtures/test-system.js';
-import {mount} from '../../../utils/index.js';
+import {createSystem, load, useSystem} from '../../../../index.js';
+import system from '../../../fixtures/test-system.js';
 
 const CustomElement = () => {
   const system = useSystem();
@@ -11,8 +11,14 @@ const CustomElement = () => {
 };
 
 describe('useSystem', () => {
+  it('should throw if system is not loaded', () => {
+    expect(() => useSystem()).to.throw();
+  });
+
   it('should retrieve the entire system', () => {
-    mount(<CustomElement />, testSystem);
-    cy.get('@system').should('deep.equal', createSystem(testSystem));
+    load(React.createElement, system);
+    mount(<CustomElement />);
+
+    cy.get('@system').should('deep.equal', createSystem(system));
   });
 });

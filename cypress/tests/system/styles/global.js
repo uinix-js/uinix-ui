@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Element, Text} from '../../../../index.js';
-import {mount} from '../../../utils/index.js';
+import {mountWithSystem} from '../../../utils/index.js';
 
 const system = {
   styles: {
@@ -17,12 +17,12 @@ const system = {
 
 describe('styles.global', () => {
   it('should not apply global styles on DOM element if not specified', () => {
-    mount(<h1>Heading</h1>);
+    mountWithSystem(<h1>Heading</h1>);
     cy.get('h1').should('have.class', '');
   });
 
   it('should apply global styles on DOM element if specified', () => {
-    mount(<h1>Heading</h1>, system);
+    mountWithSystem(<h1>Heading</h1>, system);
     cy.get('h1')
       .should('have.class', '')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
@@ -31,7 +31,7 @@ describe('styles.global', () => {
   });
 
   it('should apply global styles on Element if specified', () => {
-    mount(
+    mountWithSystem(
       <Element id="test" as="h1">
         Element
       </Element>,
@@ -45,7 +45,7 @@ describe('styles.global', () => {
   });
 
   it('should apply global styles on Text if specified', () => {
-    mount(
+    mountWithSystem(
       <Text id="test" as="h1">
         Text
       </Text>,

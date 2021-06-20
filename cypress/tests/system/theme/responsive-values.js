@@ -1,12 +1,13 @@
 import React from 'react';
 
 import {Element} from '../../../../index.js';
-import {hasKeyframesChainer, mount} from '../../../utils/index.js';
+import {hasKeyframesChainer, mountWithSystem} from '../../../utils/index.js';
+
+const config = {
+  responsiveCssProperties: ['animation', 'animationName', 'margin'],
+};
 
 const system = {
-  config: {
-    responsiveCssProperties: ['animation', 'animationName', 'margin'],
-  },
   styles: {
     breakpoints: ['480px', '768px'],
   },
@@ -52,11 +53,12 @@ describe('Responsive values', () => {
     };
     const {spacings} = system.theme;
 
-    mount(
+    mountWithSystem(
       <Element id="test" styles={styles}>
         Element
       </Element>,
       system,
+      config,
     );
     cy.viewport(viewportWidths[0], viewportHeight);
     cy.get('#test').should('have.css', 'margin', spacings.s);
@@ -74,11 +76,12 @@ describe('Responsive values', () => {
     };
     const {spacings} = system.theme;
 
-    mount(
+    mountWithSystem(
       <Element id="test" styles={styles}>
         Element
       </Element>,
       system,
+      config,
     );
     cy.viewport(viewportWidths[0], viewportHeight);
     cy.get('#test').should('have.css', 'margin', `-${spacings.unitless}px`);
@@ -104,11 +107,12 @@ describe('Responsive values', () => {
     };
     const {animations} = system.theme;
 
-    mount(
+    mountWithSystem(
       <Element id="test" styles={styles}>
         Element
       </Element>,
       system,
+      config,
     );
     cy.viewport(viewportWidths[0], viewportHeight);
     cy.get('#test').should('have.css', 'animation', animations.a);
@@ -125,11 +129,12 @@ describe('Responsive values', () => {
       animationName: ['a', 'nested.b', 'a'],
     };
 
-    mount(
+    mountWithSystem(
       <Element id="test" styles={styles}>
         Element
       </Element>,
       system,
+      config,
     );
     cy.viewport(viewportWidths[0], viewportHeight);
     cy.get('#test').should(hasKeyframesChainer);

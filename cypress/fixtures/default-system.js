@@ -1,10 +1,4 @@
-const defaultSystem = {
-  config: {
-    elementShorthandPropsMapping: {},
-    elementStyles: [],
-    enableAtomicCss: false,
-    responsiveCssProperties: [],
-  },
+const system = {
   icons: {},
   styles: {
     breakpoints: [],
@@ -39,4 +33,4 @@ const defaultSystem = {
   },
 };
 
-export default defaultSystem;
+export default system;

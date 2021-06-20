@@ -2,7 +2,7 @@ import {merge} from 'uinix-fp';
 
 import {createTheme} from '../../../../index.js';
 import defaultSystem from '../../../fixtures/default-system.js';
-import testSystem from '../../../fixtures/test-system.js';
+import system from '../../../fixtures/test-system.js';
 
 describe('createTheme', () => {
   it('should create default theme', () => {
@@ -10,8 +10,8 @@ describe('createTheme', () => {
   });
 
   it('should deepmerge provided theme', () => {
-    expect(createTheme(testSystem.theme)).to.deep.equal(
-      merge(defaultSystem.theme)(testSystem.theme),
+    expect(createTheme(system.theme)).to.deep.equal(
+      merge(defaultSystem.theme)(system.theme),
     );
   });
 });

@@ -2,7 +2,7 @@ import React from 'react';
 import {themeMapping} from 'uinix-theme';
 
 import {Element} from '../../../../index.js';
-import {decamelizeCssProperty, mount} from '../../../utils/index.js';
+import {decamelizeCssProperty, mountWithSystem} from '../../../utils/index.js';
 
 const system = {
   theme: {
@@ -165,7 +165,7 @@ describe('Nested values', () => {
             system.theme[themeProperty].nested.nested;
           const expectedValue = specificValue || defaultValue;
 
-          mount(
+          mountWithSystem(
             <Element id="test" styles={styles}>
               Element
             </Element>,

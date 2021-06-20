@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Element} from '../../../../index.js';
-import {mount} from '../../../utils/index.js';
+import {mountWithSystem} from '../../../utils/index.js';
 
 const system = {
   theme: {
@@ -23,7 +23,7 @@ const styles = {
 
 describe('Negative values', () => {
   it('should resolve negative theme values appropriately to valid negative CSS property values', () => {
-    mount(
+    mountWithSystem(
       <Element id="test" styles={styles}>
         Element
       </Element>,

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Element} from '../../../../index.js';
-import {hasKeyframesChainer, mount} from '../../../utils/index.js';
+import {hasKeyframesChainer, mountWithSystem} from '../../../utils/index.js';
 
 const system = {
   theme: {
@@ -20,7 +20,7 @@ const styles = {
 
 describe('Keyframes rule values', () => {
   it('should resolve keyframes rule values into valid CSS keyframes', () => {
-    mount(
+    mountWithSystem(
       <Element id="test" styles={styles}>
         Element
       </Element>,

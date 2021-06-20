@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Element, Icon, Layout, Text} from '../../../../index.js';
-import {mount} from '../../../utils/index.js';
+import {mountWithSystem} from '../../../utils/index.js';
 
 const responsiveStyles = {
   color: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)'],
@@ -10,10 +10,11 @@ const responsiveStyles = {
   padding: ['8px', '16px', '32px'],
 };
 
+const config = {
+  responsiveCssProperties: ['color', 'padding'],
+};
+
 const system = {
-  config: {
-    responsiveCssProperties: ['color', 'padding'],
-  },
   styles: {
     breakpoints: ['480px', '768px'],
   },
@@ -24,7 +25,7 @@ const viewportWidths = [300, 500, 800]; // Covering all situations specified in 
 
 describe('styles.breakpoints', () => {
   it('should apply the last responsive style value if breakpoints are not specified', () => {
-    mount(
+    mountWithSystem(
       <Element id="test" styles={responsiveStyles}>
         Element
       </Element>,
@@ -39,11 +40,12 @@ describe('styles.breakpoints', () => {
   it('should apply responsive style value on specified responsive CSS properties for all UI components', () => {
     [Element, Icon, Layout, Text].forEach((Component) => {
       viewportWidths.forEach((viewportWidth, i) => {
-        mount(
+        mountWithSystem(
           <Component id="test" styles={responsiveStyles}>
             Element
           </Component>,
           system,
+          config,
         );
         cy.viewport(viewportWidth, viewportHeight);
         cy.get('#test')

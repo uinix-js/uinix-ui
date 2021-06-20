@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Element, Icon, Layout, Text} from '../../../../../index.js';
-import {mount} from '../../../../utils/index.js';
+import {mountWithSystem} from '../../../../utils/index.js';
 
 const responsiveStyles = {
   color: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)'],
@@ -10,10 +10,11 @@ const responsiveStyles = {
   padding: ['8px', '16px', '32px'],
 };
 
+const config = {
+  responsiveCssProperties: ['color', 'padding'],
+};
+
 const system = {
-  config: {
-    responsiveCssProperties: ['color', 'padding'],
-  },
   styles: {
     breakpoints: ['480px', '768px'],
   },
@@ -29,7 +30,7 @@ describe('config.responsiveCssProperties', () => {
         breakpoints: ['480px', '768px'],
       },
     };
-    mount(
+    mountWithSystem(
       <Element id="test" styles={responsiveStyles}>
         Element
       </Element>,
@@ -44,11 +45,12 @@ describe('config.responsiveCssProperties', () => {
 
   it('should apply responsive style value on specified responsive CSS properties', () => {
     viewportWidths.forEach((viewportWidth, i) => {
-      mount(
+      mountWithSystem(
         <Element id="test" styles={responsiveStyles}>
           Element
         </Element>,
         system,
+        config,
       );
       cy.viewport(viewportWidth, viewportHeight);
       cy.get('#test')
@@ -64,11 +66,12 @@ describe('config.responsiveCssProperties', () => {
   it('should apply responsive style value on specified responsive CSS properties for all UI components', () => {
     [Element, Icon, Layout, Text].forEach((Component) => {
       viewportWidths.forEach((viewportWidth, i) => {
-        mount(
+        mountWithSystem(
           <Component id="test" styles={responsiveStyles}>
             Element
           </Component>,
           system,
+          config,
         );
         cy.viewport(viewportWidth, viewportHeight);
         cy.get('#test')

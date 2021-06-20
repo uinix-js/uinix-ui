@@ -1,18 +1,19 @@
 import {mount} from '@cypress/react';
 import React from 'react';
 
-import {load, useVariant} from '../../../../index.js';
+import {load} from '../../../../index.js';
+import {useTypographyVariant} from '../../../../lib/system/hooks.js';
 import system from '../../../fixtures/test-system.js';
 
 const CustomElement = ({variant}) => {
-  const variantStyle = useVariant(variant);
+  const variantStyle = useTypographyVariant(variant);
   cy.wrap(variantStyle).as('variantStyle');
   return <pre>{JSON.stringify(variantStyle, null, 2)}</pre>;
 };
 
-describe('useVariant', () => {
+describe('useTypographyVariant', () => {
   it('should throw if system is not loaded', () => {
-    expect(() => useVariant('variant')).to.throw();
+    expect(() => useTypographyVariant('variant')).to.throw();
   });
 
   it('should return undefined if variant style is not found in the system', () => {
@@ -24,11 +25,11 @@ describe('useVariant', () => {
 
   it('should return the variant style from the system', () => {
     load(React.createElement, system);
-    mount(<CustomElement variant="Button.primary" />);
+    mount(<CustomElement variant="heading.1" />);
 
     cy.get('@variantStyle').should(
       'deep.equal',
-      system.styles.variants.Button.primary,
+      system.styles.typography.variants.heading[1],
     );
   });
 });

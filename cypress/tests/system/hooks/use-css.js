@@ -1,7 +1,9 @@
+import {mount} from '@cypress/react';
 import React from 'react';
 
+import {load} from '../../../../index.js';
 import {useCss} from '../../../../lib/system/hooks.js';
-import {mount} from '../../../utils/index.js';
+import system from '../../../fixtures/test-system.js';
 
 const style1 = {
   backgroundColor: 'rgb(225, 225, 225)',
@@ -23,7 +25,12 @@ const CustomElement = ({id, styleProps, styles}) => {
 };
 
 describe('useCss', () => {
+  it('should throw if system is not loaded', () => {
+    expect(() => useCss()).to.throw();
+  });
+
   it('should retrieve a css function that can be used to apply and compose styles', () => {
+    load(React.createElement, system);
     mount(
       <CustomElement
         id="test"
@@ -33,6 +40,7 @@ describe('useCss', () => {
         styles={[style1, style2]}
       />,
     );
+
     cy.get('#test')
       .should('have.css', 'background-color', 'rgb(225, 225, 225)') // Via style1
       .should('have.css', 'color', 'rgb(0, 0, 255)') // Via style2
