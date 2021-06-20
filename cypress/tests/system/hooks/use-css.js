@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {useCss} from '../../../../lib/system/api.js';
+import {useCss} from '../../../../lib/system/hooks.js';
 import {mount} from '../../../utils/index.js';
 
 const style1 = {

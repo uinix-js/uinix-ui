@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {Element, Icon, Layout, Text} from '../../../../index.js';
-import {mount} from '../../../utils/index.js';
+import {Element, Icon, Layout, Text} from '../../../../../index.js';
+import {mount} from '../../../../utils/index.js';
 
 describe('config.elementShorthandPropsMapping', () => {
   it('should not apply shorthand props style if not configured', () => {

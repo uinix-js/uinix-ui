@@ -6,13 +6,13 @@ export {Text} from './lib/components/text.js';
 
 // System
 export {
-  load,
   useIcon,
   useStyles,
   useSystem,
   useTheme,
   useVariant,
-} from './lib/system/api.js';
+} from './lib/system/hooks.js';
+export {load} from './lib/system/load.js';
 export {
   createConfig,
   createIcons,
@@ -22,4 +22,4 @@ export {
 } from './lib/system/create.js';
 
 // Utils
-export {merge} from 'uinix-fp';
+export {merge, props} from 'uinix-fp';

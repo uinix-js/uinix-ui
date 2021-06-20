@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {Element, Icon, Layout, Text} from '../../../../index.js';
-import {mount} from '../../../utils/index.js';
+import {Element, Icon, Layout, Text} from '../../../../../index.js';
+import {mount} from '../../../../utils/index.js';
 
 const responsiveStyles = {
   color: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)'],
