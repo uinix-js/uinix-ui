@@ -5,24 +5,15 @@
 [![Downloads][downloads-badge]][downloads]
 [![Size][bundle-size-badge]][bundle-size]
 
-A minimal framework-agnostic UI system to build UI systems.
-
 ---
 
 ## Intro
 
-**uinix-ui** is a UI system to build UI systems, and follows a few principles:
+**uinix-ui** is a minimal UI system to build UI systems.
 
-- It is framework-agnostic but framework-friendly 🤗.  It plays well with [React], [Preact], [Vue], [Mithril], [Solid], [htm], and any [hyperscript]-based API.
-- It provides a convenient way to define and manage your [system knowledge](#system-knowledge) 📖 and specs (`theme`, `icons`, `styles`).
-- It is a minimal UI system shipping with just four primitive components ([`Element`](#elementprops), [`Icon`](#iconprops), [`Layout`](#layoutprops), [`Text`](#textprops)) that interoperate well with system specs.
-- It is unopinionated but configurable.
-- It intends to remain minimal and simple, and do just a few things well, adhering to the [Unix philosophy][unix-philosophy] 🐧.
+It is [framework-agnostic](#frameworks) and can be used with any [hyperscript]-based view library (e.g. [React], [Preact], [Vue], [Mithril], [Solid], [htm], [Svelte]).  Its minimal [§ API](#api) of just four component primitives interoperates well with your [system knowledge](#system-knowledge) and specs.  It is unopinionated but configurable, providing simple and flexible ways to build and manage UI systems and UIs (see [§ Demos](#demos)).
 
-With **uinix-ui**, you have full control of your framework, specs, and design philosophy.
-
-> Your system, your rules 🤘.
-
+> Your system your rules 🤘.
 
 ## Contents
 
@@ -32,6 +23,18 @@ With **uinix-ui**, you have full control of your framework, specs, and design ph
   - [Loading the system](#loading-the-system)
   - [Using components](#using-components)
   - [Using system hooks](#using-system-hooks)
+- [Frameworks](#frameworks)
+  - [React](#react)
+  - [Preact](#preact)
+  - [Vue](#vue)
+  - [Mithril](#mithril)
+  - [Solid](#solid)
+  - [htm](#htm)
+  - [hyperscript](#hyperscript)
+  - [Svelte](#svelte)
+- [Presets](#presets)
+- [Demos](#demos)
+- [Guides](#guides)
 - [API](#api)
   - [System](#system)
     - [`createConfig([config])`](#createconfigconfig)
@@ -39,7 +42,7 @@ With **uinix-ui**, you have full control of your framework, specs, and design ph
     - [`createTheme([theme])`](#createthemetheme)
     - [`createStyles([styles])`](#createstylesstyles)
     - [`createSystem([system])`](#createsystemsystem)
-    - [`load(h[,system])`](#loadhsystem)
+    - [`load(h[, system, config])`](#loadh-system-config)
     - [`useIcon(icon)`](#useiconicon)
     - [`useStyles()`](#usestyles)
     - [`useSystem()`](#usesystem)
@@ -52,22 +55,12 @@ With **uinix-ui**, you have full control of your framework, specs, and design ph
     - [`Text(props)`](#textprops)
   - [Utils](#utils)
     - [`merge(o1)(o2)`](#mergeo1o2)
-- [Presets](#presets)
-- [Frameworks](#frameworks)
-  - [React](#react)
-  - [Preact](#preact)
-  - [Vue](#vue)
-  - [Mithril](#mithril)
-  - [Solid](#solid)
-  - [htm](#htm)
-  - [hyperscript](#hyperscript)
-  - [Svelte](#svelte)
-- [Guides](#guides)
 - [System Knowledge](#system-knowledge)
 - [Related](#related)
 - [Project](#project)
   - [Comparison](#comparison)
   - [Types](#types)
+  - [Test](#test)
   - [Version](#version)
   - [Contribute](#contribute)
   - [Backstory](#backstory)
@@ -81,58 +74,23 @@ With **uinix-ui**, you have full control of your framework, specs, and design ph
 npm install uinix-ui
 ```
 
-> **Note**: **uinix-ui** is in beta development.  Proper semver will begin at version 1.0.0.
-
 ## Usage
 
-**unix-ui** is framework-agnostic and can be used with any [hyperscript]-based view library.  This section will provide examples written in [React].
+**unix-ui** is framework-agnostic and can be used with any [hyperscript]-based view library.  This documentation provides examples written in [React].  See [§ Frameworks](#frameworks) for implementations in relating frameworks.
 
 ### Creating the system
 
 A `system` represents the source of truth for your UI system.
 
-Use the respective `create*` utilities to create and configure a valid `system` of `icons`, `styles`, and `theme`.
+Use the respective `create*` system utilities to create and configure a valid `system` of `icons`, `styles`, and `theme`.
 
 ```js
-import {createElement } from 'react';
 import {
-  createConfig,
   createIcons,
   createStyles,
   createSystem,
   createTheme,
 } from 'uinix-ui';
-
-/**
- * System configuration
- **/
-const config = createConfig({
-  // Supports custom props for components that affect their relating styles.
-  // e.g. <Icon bg="red" color="blue" p="m" />
-  elementShorthandPropsMapping: [
-    backgroundColor: ['bg'],
-    color: ['color'],
-    margin: ['m'],
-    padding: ['p'],
-  ],
-  // Apply styles on Element component based on props.
-  // e.g. <Icon onClick={() => console.log('hi')} /> will have the applied hover opacity style
-  elementStyles: [
-    ({ onClick }) => ({
-      ':hover': {
-        opacity: onClick ? '0.7': 1,
-      },
-    }),
-  ],
-  // Renders atomic CSS styles.
-  isAtomicCss:  false,
-  // Whitelists the CSS properties that can be responsive
-  // (nothing is responsive by default).
-  responsiveCssProperties: [
-    'color',
-    'padding',
-  ],
-});
 
 /**
  * System icons
@@ -150,13 +108,13 @@ const icons = createIcons({
  * Creates a compliant uinix-theme theme object.
  * Allows for theme-driven styles to be defined and used.
  *
- * See https://github.com/uinix-js/uinix-theme.
+ * See https://github.com/uinix-js/uinix-theme for the uinix-theme spec.
  */
 const theme = createTheme({
   borders: {
     bordered: `1px solid #eee`,
   },
-  // theme values can be arbitrarily nested for organization
+  /** theme values can be arbitrarily nested for organization */
   colors: {
     background: {
       primary: '#fff',
@@ -201,14 +159,18 @@ const theme = createTheme({
  * System styles
  *
  * Specify breakpoints, global styles, style variants, and custom styles.
- * Styles should reference theme values for theme-driven UI development.
+ * Styles may/should reference theme values for theme-driven development.
  */
 const styles = createStyles({
-  // Defines responsive media query breakpoints (min-width based).
-  // Supports responsive styles when specified in array form.
+  /**
+   * Defines responsive media query breakpoints (min-width based).
+   * Supports responsive styles when specified in array form.
+   */
   breakpoints: ['480px', '768px'],
-  // Affects the global stylesheet.
-  // Useful for CSS reset, styling HTML elements, and overriding vendor classes.
+  /**
+   * Affects the global stylesheet.
+   * Useful for CSS resets, styling HTML elements, and overriding vendor classes.
+   */
   global: {
     '*': {
       boxSizing: 'border-box',
@@ -223,7 +185,10 @@ const styles = createStyles({
       width: '100%',
     },
   },
-  // Custom style rules can be defined as style functions or style objects.
+  /**
+   * Custom style rules can be defined as style functions or
+   * style objects for reuse.
+   **/
   interactive: ({onClick}) => ({
     cursor: onClick ? 'pointer' : undefined,
     transition: 'fade',
@@ -231,10 +196,14 @@ const styles = createStyles({
     ':hover': {
       opacity: onClick ? 'interactive' : undefined,
     },
-  });
-  // access variant styles through the `variant` prop in components.
+  }),
+  disabled: {
+    cursor: 'not-allowed',
+    opacity: 'disabled',
+  },
+  /** Access variant styles through the `variant` prop in uinix-ui components. */
   variants: {
-    // variants can be arbitrarily nested for organization.
+    /** Variants can be arbitrarily nested for organization. */
     card: {
       default: {
         border: 'bordered',
@@ -248,7 +217,7 @@ const styles = createStyles({
 /**
  * System
  *
- * Source of truth for all UI system specs.
+ * Creates the source of truth centralizing your system specs.
  */
 const system = createSystem({
   config,
@@ -260,50 +229,97 @@ const system = createSystem({
 
 ### Loading the system
 
-Load your `system` with the appropriate `h` (i.e. `createElement`) function at an entry point of your application.
+Load your `system` with the `load` method, providing the following arguments
+- [Required]: an appropriate `h` (i.e. `createElement`) function for your view library
+- [Optional]: your `system`
+- [Optional]: system `config`uration.
 
 ```js
 import {createElement} from 'react';
-import {load} from 'uinix-ui';
+import {createConfig, load} from 'uinix-ui';
 
 import system from './my-system.js'
 
-load(createElement, system);
+/**
+ * System configuration
+ **/
+const config = createConfig({
+  /**
+   * Supports custom props for components that affect their relating styles.
+   * e.g. <Icon bg="red" color="blue" p="m" />
+   */
+  elementShorthandPropsMapping: {
+    backgroundColor: ['bg'],
+    color: ['color'],
+    margin: ['m'],
+    padding: ['p'],
+  },
+  /**
+   * Apply styles on Element component based on props.
+   * e.g. <Icon onClick={() => console.log('hi')} /> will have the applied hover
+   * opacity style.
+   */
+  elementStyles: [
+    ({ onClick }) => ({
+      ':hover': {
+        opacity: onClick ? 'interactive': undefined,
+      },
+    }),
+  ],
+  /**
+   * Renders atomic CSS styles.
+   * This is useful to share atomic CSS styles and reduce the CSS bundle size.
+   * See https://fela.js.org/
+   */
+  isAtomicCss: false,
+  /**
+   * Whitelists the CSS properties that can be responsive.
+   * By default, nothing is responsive
+   **/
+  responsiveCssProperties: [
+    'color',
+    'padding',
+  ],
+});
+
+/**
+ * Load your system
+ */
+load(createElement, system, config);
 ```
 
-> **Note:** `h` is a common alias for the `createElement` method.  It is popularized by [hyperscript], and many UI frameworks support this API for creating elements.
+> **Note:** `h` is a common alias for the `createElement` method.  It is popularized by [hyperscript], and many UI frameworks support this API for creating elements.  See [§ Frameworks](#frameworks).
 
-> **Note:** Your `system` should be defined once and remain static and immutable once `load`ed.
+> **Note:** Your `system` should be defined and loaded just once.  It should remain immutable after.
 
 ### Using components
 
-To use **uinix-ui** components, you need to first ensure that your system is `load`ed and configured with an appropriate `h` function for your UI framework, as detailed in the earlier section.  The following are valid `h` functions provided by popular frameworks:
-- [React][]: `createElement`
-- [Preact][]: `h`
-- [Vue][]: `h`
-- [Mithril][]: `m`
-- [Solid][]: `h`
-- [hyperscript][]: `h`
-
-The following example provides a high level [React]-specific example building a typical `PageLayout` component using just the four component primitives ([`Element`](#elementprops), [`Icon`](#iconprops), [`Layout`](#layoutprops), [`Text`](#textprops)).  For framework-specific examples, please refer to the [Frameworks](#frameworks) section.
+To use **uinix-ui** components, make sure that your `system` is loaded as detailed in [§ Loading the system](#loading-the-system).  Once that is done, you are good to go!  The following [React] example outlines building a typical `PageLayout` component using the four component primitives ([`Element`](#elementprops), [`Icon`](#iconprops), [`Layout`](#layoutprops), [`Text`](#textprops)).  For framework-specific examples, please see [§ Frameworks](#frameworks).
 
 ```js
-import {Element, Icon, Layout, Text} from 'uinix-ui';
+import {
+  Element,
+  Icon,
+  Layout,
+  Text,
+} from 'uinix-ui';
 
-// theme-based style object
+/** Theme-based style object */
 const containerStyle = {
   maxWidth: 'width.container',
 };
 
 const PageLayout = ({children, title}) => {
-  // Layout component is simple but powerful for building layouts!
+  /** Layout provides a simple but powerful way to build layouts! */
   return (
     <Layout
       direction="column"
       spacing="m"
       styles={containerStyle}>
+      {/* The `as` prop allows easy ways to render semantic HTML element */}
       <Layout as="header" justify="space-between" spacing="m">
         <Text as="h1">{title}</Text>
+        {/* Shorthand props allows easy specification of theme-based styles */}
         <Icon color="brand.primary" icon="up" size="icon.m" />
       </Layout>
       <Layout as="main" flex="auto" direction="column">
@@ -323,37 +339,48 @@ const PageLayout = ({children, title}) => {
 };
 ```
 
-More details on using and configuring components are covered in the [API](#api) section.
+More details on using and configuring components are covered in the [§ API](#api).
 
 ### Using system hooks
 
-After `load`ing your `system`, **uinix-ui** components are *system-aware* and have access to your `system` specs.  This is useful if you wish to access system specs for composing your own components.  The following example outlines how system hooks can be used to retrieve something from the `system`.
+After `load`ing your `system`, **uinix-ui** components are *system-aware* and have access to your `system` specs.  The following example outlines how system hooks can be used to retrieve values from the `system`.
 
 ```js
-import {Element, Text, useStyles, useTheme} from 'uinix-ui';
+import {
+  Element,
+  Text,
+  useIcon,
+  useStyles,
+  useSystem,
+  useTheme,
+  useVariant,
+} from 'uinix-ui';
 
 const Button = ({text, onClick}) => {
-  // Retrieve system.icons[x]
+  /** Retrieve system.icons[x] */
   const icon = useIcon('x');
-  // Retrieve system
-  const system = useSystem();
-  // Retrieve system.styles
+  /** Retrieve system.styles */
   const styles = useStyles();
-  // Retrieve system.theme
+  /** Retrieve system */
+  const system = useSystem();
+  /** Retrieve system.theme */
   const theme = useTheme();
-  // Retrieve system.styles.variants[variant]
+  /** Retrieve system.styles.variants[variant] */
   const variantStyle = useVariant('button.primary');
 
-  // Easily compose styles in array-form
+  /** Easily compose styles in array-form */
   const buttonStyle = [
-    // Reuse and apply an existing style defined in system.styles
+    /** Reuse and apply an existing style defined in system.styles */
     styles.interactive,
-    // Define custom styles
+    variantStyle,
+    /** Define custom styles */
     {
       ':active': {
-        // Reference a value in system.theme
-        // An equivalent expression can also be specified by its theme key
-        // (e.g. "brand.primary")
+        /**
+         * Reference a value in system.theme
+         * An equivalent expression can also be specified by its theme key
+         * (e.g. "brand.primary")
+         */
         color: theme.colors.brand.primary,
       },
     },
@@ -364,72 +391,17 @@ const Button = ({text, onClick}) => {
       as="button"
       onClick={onClick}
       styles={buttonStyle}>
-      <Text variant="button">{text}</Text>
+      <Text variant="button.primary">{text}</Text>
     </Element>
   )
 }
 ```
 
-> **Note**: System hooks are framework-agnostic (and definitely not a [React]-based concept).  You can actually call these anywhere and they do not need to be called within the component!
-
-
-## API
-
-**uinix-ui** ships with [Typescript] declarations, compiled and emitted when installed.  The source code is Javascript and documented in [JSDoc].  These supplement the API documentation in this section.
-
-### System
-
-#### `createConfig([config])`
-
-#### `createIcons([icons])`
-
-#### `createTheme([theme])`
-
-#### `createStyles([styles])`
-
-#### `createSystem([system])`
-
-#### `load(h[,system])`
-
-#### `useIcon(icon)`
-
-#### `useStyles()`
-
-#### `useSystem()`
-
-#### `useTheme()`
-
-#### `useVariant(variant)`
-
-### Components
-
-#### `Element(props)`
-
-#### `Icon(props)`
-
-#### `Layout(props)`
-
-#### `Text(props)`
-
-### Utils
-
-#### `merge(o1)(o2)`
-
-## Presets
-
-Presets are shareable systems that can be simply [`load`](#loadhsystem)ed.
-
-- `uinix-ui-preset-uinix`
-
-> **Note**: This section will be updated as the uinix ecosystem grows.
+> **Note**: System hooks are framework-agnostic.  The [React] example above provides a usage pattern based on React hooks, but you can actually call system hooks anywhere in your code (outside of components) to access system values.  That's powerful!
 
 ## Frameworks
 
-**uinix-ui** is framework-agnostic but framework-friendly 🤗.
-
-As long as you have [`load`ed](#loadhsystem) your `system` with a [hyperscript]-based `h` function (e.g. `React.createElement`, `Preact.h`, `Vue.h`, `Mithril.m`), you are good to go!
-
-The following Codesandbox links showcase **uinix-ui** rendering the same demo, authored in their respective frameworks.
+**uinix-ui** is framework-agnostic and works well with any [hyperscript]-based view library.  The CodeSandbox links below provide framework-specific implementation of the same demo built with **uinix-ui**.
 
 ### [React]
 [![react][codesandbox-badge]](https://codesandbox.io/s/react-sfd37)
@@ -456,18 +428,77 @@ The following Codesandbox links showcase **uinix-ui** rendering the same demo, a
 ### [hyperscript]
 [![react][codesandbox-badge]](https://codesandbox.io/s/hyperscript-7dt93)
 
-> **Note**: [hyperscript] does not support SVG (see [#7](https://github.com/hyperhype/hyperscript/issues/7)) and the [`Icon`](#iconprops) component will therefore not work.  You may wrap or use another hyperscript-based `h` function to do the job.  [Mithril]'s `m` method does this well!
+> **Note**: [hyperscript] does not support SVG (see [#7](https://github.com/hyperhype/hyperscript/issues/7)) and the [`Icon`](#iconprops) component does not work in this demo.  You may wrap or use another hyperscript-based `h` function instead (e.g. [Mithril]'s `m` method is a good replacement).
 
 ### [Svelte]
 [![react][codesandbox-badge]](https://codesandbox.io/s/svelte-podxh)
 
-> This Svelte demo is not well-behaved. I am unfamiliar and unable to pass slots into **uinix-ui** components in the respective `.svelte` files. Currently, all slots are rendered as siblings instead of children 😭.  Please help improve on this example if you are aware of the relating Svelte best practices.
+> This demo is not fully functional. I am unfamiliar and unable to pass Svelte component `slots` into **uinix-ui** components. Currently, all slots are rendered as siblings instead of children 😭.  Please help improve on this example if you are more familiar with the relevant Svelte best practices.
+
+## Presets
+
+Presets are shareable system configurations that you can simply [`load`](#loadh-system-config).
+
+```js
+import {load} from 'uinix-ui';
+import themeUiPreset from 'uinix-ui-preset-theme-ui';
+
+load(...themeUiPreset);
+```
+
+- `uinix-ui-preset-theme-ui`
+- `uinix-ui-preset-uinix`
+
+> **Note**: The links above will be active once the presets are production-ready.
+
+## Demos
+View demos of UI systems that are reverse-engineered and built using **uinix-ui** with [this link][uinix-docs-ui-systems].
 
 ## Guides
 
-Interactive [guides][uinix-docs-uinix-ui] on **uinix-ui** recipes and best practices can be found at the progressive [uinix-docs] website!
+View interactive guides on **uinix-ui** recipes and best practices with [this link][uinix-docs-uinix-ui].
 
-You can also view demos of [UI systems][uinix-docs-ui-systems] that are reverse-engineered and built with **uinix-ui**.
+## API
+
+> **Note**: **uinix-ui** ships with [Typescript] declarations, compiled and emitted when installed.  The Javascript source code is documented in [JSDoc].  These supplement the documentation in this section with an exploratory API through code.
+
+### System
+
+#### `createConfig([config])`
+
+#### `createIcons([icons])`
+
+#### `createTheme([theme])`
+
+#### `createStyles([styles])`
+
+#### `createSystem([system])`
+
+#### `load(h[, system, config])`
+
+#### `useIcon(icon)`
+
+#### `useStyles()`
+
+#### `useSystem()`
+
+#### `useTheme()`
+
+#### `useVariant(variant)`
+
+### Components
+
+#### `Element(props)`
+
+#### `Icon(props)`
+
+#### `Layout(props)`
+
+#### `Text(props)`
+
+### Utils
+
+#### `merge(o1)(o2)`
 
 ## System Knowledge
 
@@ -483,43 +514,49 @@ In **uinix-ui**, the decisions and designs of the system can be captured and app
 import {createElement} from 'react';
 import {createSystem, load, useStyles} from 'uinix-ui';
 
-// system1/Component1
-const system1 = createSystem({
-  styles: {
-    card: {
-      borderRadius: 'm',
-      boxShadow: 'm',
-      padding: 'm',
-    },
-  },
-});
-const Component1 = ({children}) => {
-  load(createElement, system1);
-  const styles = useStyles();
-  return <Element styles={styles.card}>{children}</Element>
-}
-
-// system2/Component2
-const system2 = createSystem({
-  styles: {
-    variants: {
+// a.js
+load(
+  createElement,
+  createSystem({
+    styles: {
       card: {
         borderRadius: 'm',
         boxShadow: 'm',
         padding: 'm',
       },
     },
-  },
-});
-const Component2 = ({children}) => {
-  load(createElement, system2);
+  }),
+);
+
+const Component = ({children}) => {
+  const styles = useStyles();
+  return <Element styles={styles.card}>{children}</Element>
+}
+
+// b.js
+load(
+  createElement,
+  createSystem({
+    styles: {
+      variants: {
+        card: {
+          borderRadius: 'm',
+          boxShadow: 'm',
+          padding: 'm',
+        },
+      },
+    },
+  }),
+);
+
+const Component = ({children}) => {
   return <Element variant="card">{children}</Element>
 }
 
-// system3/Component3
-const system3 = createSystem();
-const Component3 = ({children}) => {
-  load(createElement, system3);
+// c.js
+load(createElement);
+
+const Component = ({children}) => {
   const cardStyle = {
     borderRadius: 'm',
     boxShadow: 'm',
@@ -530,19 +567,16 @@ const Component3 = ({children}) => {
 ```
 
 All three approaches above arrive to the same styling goals, but the system knowledge is managed differently in each approach:
-- In `system1/Component1`, it is a deliberate decision to track the card style formally in `system.styles`.  The style can then be retrieved with the `useStyles` API.  Although this is sourcing styles from the system, implementors may override with additional style properties in consuming code, leading to untracked complexity living outside of the `system`.
-- In `system2/Component2`, it is a deliberate decision to track the card style as a style variant in `system.styles.variants`.  When accessed through the `variant` prop in **uinix-ui** components, this indicates an explicit application of styles that is not overrideable because it is enforced as a private implementation by **uinix-ui** components.
-- In `system3/Component3`, it is a deliberate decision *not* to define the card style in the `system`, and to define it in the consuming component.  This decision may make sense if the goal is to keep the styling needs as a private implementation in `Component3`, instead of capturing it in the `system`.
+- In `a.js`, we made a decision to track the card style formally in `system.styles`.  The style can then be retrieved with the `useStyles` API.  Although this is sourcing styles from the system, implementors may override with additional style properties in consuming code, leading to untracked complexity living outside of the `system`.
+- In `b.js`, we made a decision to track the card style as a style variant in `system.styles.variants`.  When accessed through the `variant` prop in **uinix-ui** components, this indicates an explicit application of styles that cannot be overriden since this is a private implementation of styles by **uinix-ui** components.
+- In `c.js`, we made a decision *not* to define the card style in the `system`, and to define it in the consuming component.  This decision may make sense if the goal is to keep the styling details as a private implementation in `Component`, instead of capturing it in the `system`.
 
-It is important to note that there is no ideal recommendation for a "right" approach.  The "right" approach relates to both the goals of the system and its usage.
-
-**uinix-ui** is unopinionated on how you organize your `system`, but it provides a minimal API to help you easily define, manage, and access your `system`.  With easy access to the `system`, you can surface and visualize your system with [appropriate renderers][uinix-docs-ui-systems], thus improving system knowledge.
+It is important to note that none of the approaches above is better than the other.  The "best" approach depends on the goals of the system and how it will be used.  **uinix-ui** is unopinionated on how you organize your `system`, but it provides a minimal API to help you easily define, manage, and access your `system`.  With easy access to the `system`, you can surface and visualize your system with [meaningful renderers][uinix-docs-ui-systems], thus improving our system knowledge by making it easy to inspect the design decisions made in the system.
 
 For further reading on system knowledge, this [whitepaper][ui-systems-and-complexity-whitepaper] provides an interactive exploration of the subject matter.
 
-
 ## Related
-- [uinix-js]: The uinix ecosystem providing minimalist toolbelt for UI development.
+- [uinix-js]: The uinix ecosystem of minimalist tools for UI development.
 - [uinix-docs]: Progressive docs for the uinix ecosystem.
 - [uinix-fp]: FP utilities for authoring common JS utilities in functional form.
 - [uinix-theme]: uinix theme spec and utilties
@@ -551,24 +585,24 @@ For further reading on system knowledge, this [whitepaper][ui-systems-and-comple
 
 ### Comparison
 
-While the vibrant ecosystem of UI system libraries solve for different problems and needs, they usually involve a commitment to a larger ecosystem of tools, or to specific frameworks.  For example, [theme-ui] is an incredible UI system library, but unfortunately works only for [React]-based development.
+While the vibrant ecosystem of UI system libraries solve for different problems and needs, they usually involve a commitment to a larger ecosystem of tools and frameworks.  For example, [theme-ui] is an incredible UI system library, but unfortunately works only for [React]-based development.
 
-**uinix-ui** is fortunate to be built on the shoulders of giants (specifically [theme-ui], and [fela]), implementing the best ideas and features of these libraries (e.g. theme-driven development, CSS-in-JS, atomic CSS, responsive APIs), while exposing a minimal and framework-agnostic API.
+**uinix-ui** is fortunate to be built on the shoulders of giants 💪 (specifically [theme-ui], and [fela]), implementing the best ideas and features of these libraries (e.g. theme-driven development, CSS-in-JS, atomic CSS, responsive APIs), while exposing a minimal and framework-agnostic API.
 
-**uinix-ui** is different from other UI system libraries in the following principles:
-- It is designed as a UI system to build UI systems, and not as a library to manage specific design/UI patterns, as opposed to systems like Material UI, Semantic UI, Ant Design.  This is clearly visually evident that **uinix-ui** ships as an unstyled (and ugly 😭) package if unconfigured!
-- It is designed from the ground up to be framework-agnostic.  Popular frameworks such as [React], [Preact], [Vue], [Mithril], [Solid], [htm], and any [hyperscript]-based API all play nice with it 👍.
+**uinix-ui** differs primarily from other UI libraries in the following design principles:
+- It is designed as a UI system to build UI systems, and not as a system to manage opinionated design and UI patterns.  This is clearly evident in the fact that **uinix-ui** ships as an unstyled (and ugly 😭) package if left unconfigured!
+- It is designed from the ground up to be framework-agnostic.  Popular frameworks such as [React], [Preact], [Vue], [Mithril], [Solid], [htm], and any [hyperscript]-based view library all play nice with it 👍.
 - It is designed to be a minimal UI system, and its API will expose only the neccessary primitives.  It is definitely *not a batteries-included* ❌ 🔋 library.
-- It is designed to be unopinionated.  You can implement the same behaviors in different ways with **uinix-ui**.  There are [guides](#guides) that provide best practices and common recipes, but the library itself does not impose on how you should organize your system and components.  As stated earlier: *Your system, your rules 🤘.*
+- It is designed to be unopinionated.  You can implement the same behaviors in different ways with **uinix-ui**.  There are [guides](#guides) that provide best practices and common recipes, but the library itself does not impose how you should organize your system and components.  As stated earlier: *Your system, your rules 🤘.*
 
-If you are looking to build custom UI systems from scratch, without a dependency on UI frameworks, without wanting to wrap (often awkwardly) around opinionated design systems, and wanting to fully control your system specs and [system knowledge](#system-knowledge), then **uinix-ui** should do a good job meeting these needs!
+If you are looking to build custom UI systems from scratch, without a dependency on UI frameworks, without wanting to wrap (often awkwardly) around opinionated design systems, and wanting to fully control your system specs and [system knowledge](#system-knowledge), then **uinix-ui** should meet those needs well!
 
 ### Types
 This package ships with [Typescript] declarations, compiled and emitted when installed.  The source code is pure Javascript.
 
 ### Test
 
-Tests are authored in [Cypress].  Build, format, test, and check type/test coverage with `npm test`.  Use `npm run cypress-open` to run tests with the interactive Cypress test runner, or `npm run cypress-run` to run tests with the CLI.
+Tests are authored in [Cypress].  Build, format, test, and check test coverage with `npm test`.  Use `npm run cypress-open` to run tests with the interactive Cypress test runner, or `npm run cypress-run` to run tests with the CLI.
 
 ### Version
 **uinix-ui** will adhere to [semver] starting from 1.0.0.
@@ -577,20 +611,18 @@ Tests are authored in [Cypress].  Build, format, test, and check type/test cover
 There are currently no formal contribution guidelines.  [Issues] and [pull requests][pull-requests] are welcome!
 
 ### Backstory
-Development for **uinix-ui** started formally around April, 2021, shortly after publishing thoughts on a [whitepaper][ui-systems-and-complexity-whitepaper] exploring UI systems and complexity.
+Development for **uinix-ui** started formally around April 2021, shortly after publishing thoughts on a [whitepaper][ui-systems-and-complexity-whitepaper] exploring UI systems and complexity.  Informal development has always been a progressive iteration of ideas over the years following [@jxnblk]'s monumental works on [rebass], [styled-system] and [theme-ui].  Many great ideas in [theme-ui] form the foundation of **uinix-ui**.
 
-Informal development has always been a progressive iteration of ideas over the years following [@jxnblk]'s monumental works on [rebass], [styled-system] and [theme-ui].  Many great ideas in [theme-ui] form the foundation of **uinix-ui**.
+When I encountered [@robinweser]'s beautiful plugin-based style system library [fela], I became excited that one could implement many features in [theme-ui] with [fela] using minimal code.  At this point, over the years, I had already formed strong opinions that most UI development can be built efficiently using just a small collection of component primitives that interoperate well with system specs: [`Element`](#elementprops), [`Icon`](#iconprops), [`Layout`](#layoutprops), and [`Text`](#textprops) (with `Element` implementing the other primitives).  I set out to implement these ideas and the initial work in React.
 
-When I encountered [@robinweser]'s beautiful plugin-based style system library [fela], I became excited that one could implement many features in [theme-ui] with minimal code.  At this point, I had already formed strong opinions over the years that most UI development can be built efficiently with a small collection of component primitives: [`Element`](#elementprops), [`Icon`](#iconprops), [`Layout`](#layoutprops), and [`Text`](#textprops) (with the `Element` primitive, more commonly known as `Box`, implementing the other primitives).  I set out to implement these ideas and the initial work in [React], building the component primitives that interoperate well with system specs.
+Stumbling on [@ai]'s 152-byte [nanostores] package (what is this sorcery 🤯) led to a pivotal moment to decouple **uinix-ui** from React, accomplished in [`2434023`][2434023].  While [nanostores] will be eventually removed in [`6415cfa`][6415cfa], it played an important role in transforming **uinix-ui** into a framework-agnostic implementation.
 
-Stumbling on [@ai]'s 152byte [nanostores] (what is this sorcery 🤯) led to a eureka moment to decouple **uinix-ui** from React, accomplished in [`2434023`][2434023], transforming the project into the framework-agnostic UI system library that it currently is.
-
-[@wooorm]'s inspirational and profilic works in [unified] and open-source continue to inspire how this library was designed and authored.  Nothing is accidental, and everything is deliberate.  This includes:
+[@wooorm]'s inspirational and profilic works in [unified] and open-source continue to inspire how this library is authored.  Nothing is accidental, and everything is deliberate.  This includes:
 - focusing more on standards and less on frameworks (e.g. **uinix-ui** is [ESM]-only, framework-agnostic, and [hyperscript]-based).
-- understanding the *eventual* hidden costs of coupling source code with types, and taking on the needed work to decouple and use [JSDoc]-based [Typescript] types.
+- understanding the *eventual* costs of coupling source code with types, and taking on the extra work to decouple and use [JSDoc]-based [Typescript] types.
 - building a clear scope and goal for **uinix-ui**, and the uinix ecosystem.
 
-**uinix-ui** is intended to be minimal, and do just a few things, but hopefully well, adhering to the spirit of the [Unix philosophy][unix-philosophy].  I see this project as being succcessful if it is able to remain small and update-free in the future.  I hope **uinix-ui**'s minimal APIs make building and maintaing UI systems and UIs a simple and enjoyable experience.  We shall see how that goes.
+**uinix-ui** is intended to be minimal, and do just a few things, but hopefully well, adhering to the [Unix philosophy][unix-philosophy] 🐧.  I see this project as being succcessful if it is able to remain small and update-free in the future.  I hope **uinix-ui**'s minimal API makes building and maintaing UI systems and UIs a simple and enjoyable experience.  We shall see how that goes.
 
 Thank you for reading this backstory!
 
@@ -612,6 +644,7 @@ Thank you for reading this backstory!
 [license]: https://github.com/uinix-js/uinix-ui/blob/main/license
 [pull-requests]: https://github.com/uinix-js/uinix-ui/pulls
 [2434023]: https://github.com/uinix-js/uinix-ui/commit/2434023c199670b6b6014f77f17b214c11709832
+[6415cfa]: https://github.com/uinix-js/uinix-ui/commit/6415cfae2234a5e51a9966ac137181ebdf1ec856
 
 <!-- defs -->
 [@ai]: https://github.com/ai

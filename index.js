@@ -22,4 +22,4 @@ export {
 } from './lib/system/create.js';
 
 // Utils
-export {merge, props} from 'uinix-fp';
+export {merge} from 'uinix-fp';
