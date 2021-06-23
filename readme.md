@@ -13,7 +13,7 @@
 
 It is [framework-agnostic](#frameworks) and can be used with any [hyperscript]-based view library (e.g. [React], [Preact], [Vue], [Mithril], [Solid], [htm], [Svelte]).  Its minimal [§ API](#api) of just four component primitives interoperates well with your [system knowledge](#system-knowledge) and specs.  It is unopinionated but configurable, providing simple and flexible ways to build and manage UI systems and UIs (see [§ Demos](#demos)).
 
-> Your system your rules 🤘.
+Your system your rules 🤘.
 
 ## Contents
 
@@ -37,17 +37,17 @@ It is [framework-agnostic](#frameworks) and can be used with any [hyperscript]-b
 - [Guides](#guides)
 - [API](#api)
   - [System](#system)
-    - [`createConfig([config])`](#createconfigconfig)
     - [`createIcons([icons])`](#createiconsicons)
     - [`createTheme([theme])`](#createthemetheme)
     - [`createStyles([styles])`](#createstylesstyles)
     - [`createSystem([system])`](#createsystemsystem)
+    - [`createConfig([config])`](#createconfigconfig)
     - [`load(h[, system, config])`](#loadh-system-config)
     - [`useIcon(icon)`](#useiconicon)
-    - [`useStyles()`](#usestyles)
-    - [`useSystem()`](#usesystem)
     - [`useTheme()`](#usetheme)
+    - [`useStyles()`](#usestyles)
     - [`useVariant(variant)`](#usevariantvariant)
+    - [`useSystem()`](#usesystem)
   - [Components](#components)
     - [`Element(props)`](#elementprops)
     - [`Icon(props)`](#iconprops)
@@ -158,7 +158,9 @@ const theme = createTheme({
 /**
  * System styles
  *
- * Specify breakpoints, global styles, style variants, and custom styles.
+ * Specify breakpoints, global styles, style variants, and custom styles
+ * that can be reused across your UIs.
+ *
  * Styles may/should reference theme values for theme-driven development.
  */
 const styles = createStyles({
@@ -229,8 +231,8 @@ const system = createSystem({
 
 ### Loading the system
 
-Load your `system` with the `load` method, providing the following arguments
-- [Required]: an appropriate `h` (i.e. `createElement`) function for your view library
+Load your `system` with the `load` method, and provide the following arguments
+- [Required]: a `h` (i.e. `createElement`) function appropriate for your view library
 - [Optional]: your `system`
 - [Optional]: system `config`uration.
 
@@ -296,7 +298,7 @@ load(createElement, system, config);
 
 To use **uinix-ui** components, make sure that your `system` is loaded as detailed in [§ Loading the system](#loading-the-system).  Once that is done, you are good to go!  The following [React] example outlines building a typical `PageLayout` component using the four component primitives ([`Element`](#elementprops), [`Icon`](#iconprops), [`Layout`](#layoutprops), [`Text`](#textprops)).  For framework-specific examples, please see [§ Frameworks](#frameworks).
 
-```js
+```jsx
 import {
   Element,
   Icon,
@@ -304,10 +306,15 @@ import {
   Text,
 } from 'uinix-ui';
 
-/** Theme-based style object */
+/** Define custom theme-based styles */
 const containerStyle = {
   maxWidth: 'width.container',
 };
+
+const baseStyle = {
+  backgroundColor: 'background.primary',
+  fontSize: 'm',
+}
 
 const PageLayout = ({children, title}) => {
   /** Layout provides a simple but powerful way to build layouts! */
@@ -315,14 +322,23 @@ const PageLayout = ({children, title}) => {
     <Layout
       direction="column"
       spacing="m"
-      styles={containerStyle}>
+      styles={[baseStyle, containerStyle]}>
+      {/* Compose styles easily in array-form using the styles prop */}
       {/* The `as` prop allows easy ways to render semantic HTML element */}
-      <Layout as="header" justify="space-between" spacing="m">
-        <Text as="h1">{title}</Text>
+      <Layout
+        as="header"
+        justify="space-between"
+        spacing="m">
+        <Text as="h1">
+          {title}
+        </Text>
         {/* Shorthand props allows easy specification of theme-based styles */}
         <Icon color="brand.primary" icon="up" size="icon.m" />
       </Layout>
-      <Layout as="main" flex="auto" direction="column">
+      <Layout
+        as="main"
+        flex="auto"
+        direction="column">
         {children}
       </Layout>
       <Element as="footer">
@@ -343,7 +359,7 @@ More details on using and configuring components are covered in the [§ API](#ap
 
 ### Using system hooks
 
-After `load`ing your `system`, **uinix-ui** components are *system-aware* and have access to your `system` specs.  The following example outlines how system hooks can be used to retrieve values from the `system`.
+After `load`ing your `system`, **uinix-ui** components are *system-aware* and have access to your `system` specs.  The following example outlines how system hooks can be used to retrieve values from the `system` when building custom components.
 
 ```js
 import {
@@ -389,15 +405,15 @@ const Button = ({text, onClick}) => {
   return (
     <Element
       as="button"
-      onClick={onClick}
-      styles={buttonStyle}>
+      styles={buttonStyle}
+      onClick={onClick}>
       <Text variant="button.primary">{text}</Text>
     </Element>
   )
 }
 ```
 
-> **Note**: System hooks are framework-agnostic.  The [React] example above provides a usage pattern based on React hooks, but you can actually call system hooks anywhere in your code (outside of components) to access system values.  That's powerful!
+> **Note:** System hooks are framework-agnostic.  The [React] example above provides a usage pattern based on React hooks, but you can actually call system hooks anywhere in your code (outside of components) to access system values.  That's powerful!
 
 ## Frameworks
 
@@ -428,7 +444,7 @@ const Button = ({text, onClick}) => {
 ### [hyperscript]
 [![react][codesandbox-badge]](https://codesandbox.io/s/hyperscript-7dt93)
 
-> **Note**: [hyperscript] does not support SVG (see [#7](https://github.com/hyperhype/hyperscript/issues/7)) and the [`Icon`](#iconprops) component does not work in this demo.  You may wrap or use another hyperscript-based `h` function instead (e.g. [Mithril]'s `m` method is a good replacement).
+> **Note:** [hyperscript] does not support SVG (see [#7](https://github.com/hyperhype/hyperscript/issues/7)) and the [`Icon`](#iconprops) component does not work in this demo.  You may wrap or use another hyperscript-based `h` function instead (e.g. [Mithril]'s `m` method is a good replacement).
 
 ### [Svelte]
 [![react][codesandbox-badge]](https://codesandbox.io/s/svelte-podxh)
@@ -449,7 +465,7 @@ load(...themeUiPreset);
 - `uinix-ui-preset-theme-ui`
 - `uinix-ui-preset-uinix`
 
-> **Note**: The links above will be active once the presets are production-ready.
+> **Note:** The links above will be active once the presets are production-ready.
 
 ## Demos
 View demos of UI systems that are reverse-engineered and built using **uinix-ui** with [this link][uinix-docs-ui-systems].
@@ -460,31 +476,288 @@ View interactive guides on **uinix-ui** recipes and best practices with [this li
 
 ## API
 
-> **Note**: **uinix-ui** ships with [Typescript] declarations, compiled and emitted when installed.  The Javascript source code is documented in [JSDoc].  These supplement the documentation in this section with an exploratory API through code.
+> **Note:** **uinix-ui** ships with [Typescript] declarations, compiled and emitted when installed.  The Javascript source code is documented in [JSDoc].  These supplement the documentation in this section with an exploratory API through code.
 
 ### System
 
-#### `createConfig([config])`
-
 #### `createIcons([icons])`
 
+Creates and defines all SVG icons for the system.
+
+##### `icons`
+A map of icon names to its SVG string content.
+
+You can retrieve the SVG string content of an icon using the [`useIcon`](#useiconicon) system hook.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createIcons} from 'uinix-ui';
+
+const icons = createIcons({
+  github:
+    '<svg viewBox="0 0 16 16" width="24" height="24"><path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" fill="currentcolor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>',
+  spinner:
+    '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.1" fill-rule="evenodd" clip-rule="evenodd" d="M12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="black"/><path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" fill="currentColor"><animateTransform xmlns="http://www.w3.org/2000/svg" attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></path></svg>',
+});
+```
+</details>
+
+<details>
+<summary>Tips</summary>
+
+- Setting the `fill` and `stroke` color to `'currentColor'` allows SVG icons to be color-customizable using the [`Icon`](#iconprops) component.
+- You should make sure SVG icons have similar `viewBox`, `width`, `height` values, so they can be rendered consistently using the [`Icon`](#iconprops) component.
+</details>
+
 #### `createTheme([theme])`
+
+Creates a `theme` object, supporting [creating theme-based styles](#createstylesstyles).
+
+You can retrieve the `theme` object using the [`useTheme`](#usetheme) system hook.
+
+##### `theme`
+
+A partial `theme` object can be provided to `createTheme`, which will then create a [uinix-theme]-compliant `theme` object.  A brief overview of the `theme` object is provided below, but we strongly recommend reading the [uinix-theme] documentation for details on the comprehensive `theme` spec and behaviors.
+
+- *Theme values* are organized under *theme properties* (e.g. `borders`, `colors`, `opacities`, `radii`, `spacings`, `animations`, `transforms`, `transitions`, `zIndices`).
+- You can organize theme values under a theme property by arbitrarily nesting it.
+- A theme value is resolved in **uinix-ui** components when specified by its *theme property key* for a relating CSS property name.  For example, if the `theme` organizes the theme property `colors` as follows,
+  ```js
+  const theme = createTheme({
+    colors: {
+      brand: {
+        primary: '#0366d6',
+      },
+    },
+  });
+  ```
+  then we can specify for the theme property key, an example value of `'brand.primary'`, and assign it to the relating color-aware CSS property to resolve the theme value to its underlying CSS style value.
+  ```js
+  const brandStyle = {
+    color: 'brand.primary', // will resolve to '#0366d6',
+  };
+  ```
+- The above works consistently for all theme properties and resolving theme values.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createTheme} from 'uinix-ui';
+
+const theme = createTheme({
+  borders: {
+    bordered: `1px solid #eee`,
+  },
+  /** theme values can be arbitrarily nested for organization */
+  colors: {
+    background: {
+      primary: '#fff',
+    },
+    brand: {
+      primary: '#0366d6',
+    },
+  },
+  opacities: {
+    invisible: '0',
+    disabled: '0.3',
+    interactive: '0.7',
+    visible: '1',
+  },
+  radii: {
+    m: '4px',
+    round: '50%',
+  },
+  sizes: {
+    icon: {
+      s: '16px',
+      m: '24px',
+      l: '32px',
+    },
+    widths: {
+      container: '768px',
+    },
+  },
+  spacings: {
+    xs: '0.25rem',
+    s: '0.5rem',
+    m: '1rem',
+    l: '2rem',
+    xl: '4rem',
+  },
+  transitions: {
+    fade: 'opacity 0.2s ease-in-out',
+  },
+});
+```
+</details>
+
+<details>
+<summary>Tips</sumamry>
+
+- The `theme ` is only responsible for defining the vocabulary of theme values.  It is *not* responsible for styling needs, which is the responsibility of [`styles`](#createstylesstyles).
+- You have complete control on how you want to organize theme values.  Some prefer organization by nesting, while others prefer keeping the `theme` definitions flat with increased emphasis of naming theme keys appropriately.  The choice is left up to you.
+- More examples and best practices are covered in the [Guides](#guides) section.
+</details>
 
 #### `createStyles([styles])`
 
 #### `createSystem([system])`
 
+Creates a valid `system` object that collates the `icons`, `styles`, `theme` specs.
+
+You can retrieve the `system` object using the [`useSystem`](#usesystem) system hook.
+
+##### `system`
+
+A partial `system` can be provided to `createSystem`, which will create a valid `system` object by internally calling the [`createIcons`](#createiconsicons), [`createStyles`](#createstylesstyles), and [`createTheme`](#createthemetheme) utilities.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createStyles, createSystem, createTheme} from 'uinix-ui';
+
+const theme = createTheme({...});
+const styles = createStyles({...});
+
+const system = createSystem({
+  theme,
+  styles,
+});
+```
+</details>
+
+<details>
+<summary>Tips</summary>
+
+- You can organize all creation of system specs in a `/system` folder/module, where you can better organize and create `icons`, `theme`, `styles`, and finally import and include them in a `createSystem` call.
+</details>
+
+#### `createConfig([config])`
+
 #### `load(h[, system, config])`
 
 #### `useIcon(icon)`
 
-#### `useStyles()`
+Retrieves the SVG content of the specified icon.
 
-#### `useSystem()`
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+
+##### `icon`
+The name of an icon assigned in `system.icons`.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {useIcon} from 'uinix-ui';
+
+const githubSvg = useIcon('github');
+
+customSvgRenderer(githubSvg);
+```
+</details>
 
 #### `useTheme()`
 
+Retrieves the `theme`.
+
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+
+<details>
+<summary>Example</summary>
+
+```js
+import {useTheme} from 'uinix-ui';
+
+const theme = useTheme();
+
+console.log(theme.colors.background.primary);
+```
+</details>
+
+#### `useStyles()`
+
+Retrieves the `styles`.
+
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+
+<details>
+<summary>Example</summary>
+
+```js
+import {useStyles} from 'uinix-ui';
+
+const styles = useStyles();
+
+console.log(styles.interactive);
+console.log(styles.variants.card.default);
+```
+</details>
+
 #### `useVariant(variant)`
+
+Retrieves the style definition for the specified variant.
+
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+
+##### `variant`
+
+A `variant` is a string property path relative to `system.styles.variant`.  For example, the variant `card.primary` accesses the variant style defined in `system.styles.variant.card.primary`.
+
+If an invalid `variant` is provided, `undefined` is returned by `useVariant`.
+
+```js
+const styles = {
+  variants: {
+    card: {
+      primary: {
+        borderRadius: 'm',
+        boxShadow: 'm',
+        padding: 'm',
+      },
+      }
+    }
+  }
+}
+```
+
+<details>
+<summary>Example</summary>
+
+```js
+import {useVariant} from 'uinix-ui';
+
+const variantStyle = useVariant('card.default');
+
+console.log(variantStyle);
+```
+</details>
+
+#### `useSystem()`
+
+Retrieves the entire `system`.
+
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+
+> **Note:** This hook is not particularly useful, but it is provided as a convenience to access the entire `system` if needed.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {useSystem} from 'uinix-ui';
+
+const system = useSystem();
+
+console.log(system.icons);
+console.log(system.styles);
+console.log(system.theme);
+```
+</details>
 
 ### Components
 
@@ -499,6 +772,22 @@ View interactive guides on **uinix-ui** recipes and best practices with [this li
 ### Utils
 
 #### `merge(o1)(o2)`
+
+[uinix-fp]'s deepmerge utility that merges two objects `o1` and `o2` without mutating the arguments.
+
+This is provided as a convenient way to manage creating and merging `system` specs.
+
+<details>
+  <summary>Example</summary>
+
+  ```js
+  const o1 = {a: b: {c: 42}};
+  const o2 = {a: b: {c: null, d: 42}};
+  const merged = merge(o1)(o2);
+
+  console.log(merged);
+  ```
+</details>
 
 ## System Knowledge
 
