@@ -290,9 +290,7 @@ const config = createConfig({
 load(createElement, system, config);
 ```
 
-> **Note:** `h` is a common alias for the `createElement` method.  It is popularized by [hyperscript], and many UI frameworks support this API for creating elements.  See [§ Frameworks](#frameworks).
-
-> **Note:** Your `system` should be defined and loaded just once.  It should remain immutable after.
+Your `system` should be defined and loaded just once.  It should remain immutable after.
 
 ### Using components
 
@@ -449,7 +447,7 @@ const Button = ({text, onClick}) => {
 ### [Svelte]
 [![react][codesandbox-badge]](https://codesandbox.io/s/svelte-podxh)
 
-> This demo is not fully functional. I am unfamiliar and unable to pass Svelte component `slots` into **uinix-ui** components. Currently, all slots are rendered as siblings instead of children 😭.  Please help improve on this example if you are more familiar with the relevant Svelte best practices.
+> **Note:** This demo is not fully functional. I am unfamiliar and unable to pass Svelte component `slots` into **uinix-ui** components. Currently, all slots are rendered as siblings instead of children 😭.  Please help improve on this example if you are more familiar with the relevant Svelte best practices.
 
 ## Presets
 
@@ -595,14 +593,69 @@ const theme = createTheme({
 </details>
 
 <details>
-<summary>Tips</sumamry>
+<summary>Tips</summary>
 
-- The `theme ` is only responsible for defining the vocabulary of theme values.  It is *not* responsible for styling needs, which is the responsibility of [`styles`](#createstylesstyles).
-- You have complete control on how you want to organize theme values.  Some prefer organization by nesting, while others prefer keeping the `theme` definitions flat with increased emphasis of naming theme keys appropriately.  The choice is left up to you.
+- The `theme` shares many features and ideas with [theme-ui].  It supports a few additional powerful theme properties, allowing you to implement `animations`, `keyframes`, `transforms`, `transitions`.
+- The `theme` is only responsible for defining the vocabulary of theme values.  It is *not* responsible for styling needs, which is the responsibility of [`styles`](#createstylesstyles).
+- You have complete control on how you want to organize theme values.  Some prefer organization by nesting, while others prefer keeping the `theme` definitions flat with increased emphasis of naming theme keys appropriately.  The decision is left to you.
 - More examples and best practices are covered in the [Guides](#guides) section.
+
 </details>
 
 #### `createStyles([styles])`
+
+##### `styles`
+
+A partial `styles` can be provided to `createStyles`, which will then create a valid `styles` object.
+
+<details>
+<summary>Example</summary>
+
+```js
+```
+</details>
+
+##### `styles.breakpoints`
+
+<details>
+<summary>Example</summary>
+
+```js
+```
+</details>
+
+##### `styles.global`
+
+<details>
+<summary>Example</summary>
+
+```js
+```
+</details>
+
+##### `styles.variants`
+
+<details>
+<summary>Example</summary>
+
+```js
+```
+</details>
+
+##### `styles.typography`
+
+<details>
+<summary>Example</summary>
+
+```js
+```
+</details>
+
+<details>
+<summary>Tips</summary>
+
+- adf
+</details>
 
 #### `createSystem([system])`
 
@@ -633,12 +686,300 @@ const system = createSystem({
 <details>
 <summary>Tips</summary>
 
-- You can organize all creation of system specs in a `/system` folder/module, where you can better organize and create `icons`, `theme`, `styles`, and finally import and include them in a `createSystem` call.
+- You can organize all creation of system specs in a `system/` folder/module, where you can better organize and create `icons`, `theme`, `styles`, and finally import and include them in a `createSystem` call.
+
 </details>
 
 #### `createConfig([config])`
 
+Creates a valid `config` object to configure the `system` and components.  Configurations are only applied when a `system` is [`load`ed](#loadh-system-config).
+
+**uinix-ui** ships without configuration, but allows you to fully configure your system and rules based on your needs.
+
+##### `config`
+
+A partial `config` can be provided to `createConfig`, which will then create a valid `config` object.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createConfig} from 'uinix-ui';
+
+createConfig({
+  elementShorthandPropsMapping: {
+    margin: ['m']
+  },
+  responsiveCssProperties: [
+    'margin-bottom',
+    'margin-left',
+    'margin-right',
+    'margin-top',
+  ],
+});
+```
+</details>
+
+##### `config.elementShorthandPropsMapping`
+
+Configures the [`Element`](#elementprops) component with shorthand props that support theme-based styling.  This is convenient to support shorthand props that are theme-aware e.g. `color`, `bg`, `m`, `ml`, `mr`, `mb`, `mt`, `mx`, `my`.  The shorthand props is a feature popularized by [theme-ui], and is made fully customizable in **uinix-ui**.
+
+`config.elementShorthandPropsMapping` is a mapping of CSS property names as keys, and an array of shorthand props for values.  Ordering of shorthand props in the array have decreasing precedence on how they are applied to the associated CSS property name.
+
+<details>
+<summary>Example</summary>
+
+Configuring `config.elementShorthandPropsMapping` as follows,
+
+```js
+import {createConfig} from 'uinix-ui';
+
+const config = createConfig({
+  elementShorthandPropsMapping: {
+    color: ['color'],
+    backgroundColor: ['bg'],
+    margin: ['m'],
+    marginLeft: ['ml', 'mx', 'm'],
+    marginBottom: ['mb', 'my', 'm'],
+    marginRight: ['mr', 'mx', 'm'],
+    marginTop: ['mt', 'my', 'm'],
+  },
+});
+```
+
+enables the [`Element`](#elementprops) component, and subsequently all **uinix-ui** components to be configured with the appropriate shorthand props.
+
+```js
+import {Layout} from 'uinix-ui';
+
+const Example = () => {
+  return (
+    <Layout
+      bg="background.primary"
+      color="brand.primary"
+      mx="auto"
+      mb="l"
+      my="s">
+      Shorthand props are theme-aware.
+      This renders with the following styles:
+      - background-color (via bg prop): theme.colors.background.primary
+      - color (via color prop): theme.colors.brand.primary
+      - marginLeft (via mx prop): 'auto'
+      - marginRight (via mx prop): 'auto'
+      - marginTop (via my prop): theme.spacings.s
+      - marginBottom (via mb prop which is higher precedence than my prop): theme.spacings.l
+    </Layout>
+  );
+}
+```
+
+</details>
+
+##### `config.elementStyles`
+
+Configures the [`Element`](#elementprops) component with with specific props-based styles.  This is useful to apply shared consistent styles on all components composed with **uinix-ui**.
+
+`config.elementStyles` is an array of style functions taking component props as arguments and returning style objects.
+
+<details>
+<summary>Example</summary>
+
+Configuring `config.elementStyles` as follows,
+
+```js
+import {createConfig} from 'uinix-ui';
+
+const config = createConfig({
+  elementStyles: [
+    ({ onClick }) => {
+      return {
+        cursor: onClick ? 'pointer': undefined,
+        ':hover': {
+          opacity: onClick ? 'interactive': undefined,
+        },
+      };
+    },
+    ({ disabled }) => {
+      return {
+        opacity: disabled ? 'disabled': undefined,
+        pointerEvents: disabled ? 'none' : undefined,
+      };
+    },
+  ],
+});
+```
+
+enables the [`Element`](#elementprops) component, and subsequently all **uinix-ui** components to be configured with the appropriate props-based styles.
+
+```js
+import {Element, Layout} from 'uinix-ui';
+
+const Example = () => {
+  return (
+    <Layout
+      onClick={() => {
+        console.log('will render with a cursor and hover opacity effect');
+      }}>
+      <Element
+        disabled
+        as="button"
+        onClick={() => {
+          console.log('will render with disabled opacity effect and be unclickable');
+        }}>
+        Click
+      </Element>
+    </Layout>
+  );
+}
+```
+
+</details>
+
+##### `config.enableAtomicCss`
+
+By default, `system` styles are rendered directly to CSS classnames.  If `config.enableAtomicCss` is set to `true`, styles will be rendered as atomic CSS.  This has benefits in reusing rendered CSS and may significantly improve performance on larger apps sharing many styles.  For more details on atomic CSS, please refer to the [fela] documentation.
+
+<details>
+<summary>Example</summary>
+
+If we are rendering the following styles to CSS,
+
+```js
+const style1 = {
+  backgroundColor: 'background.primary',
+  color: 'brand.primary',
+  padding: 'm',
+};
+
+const style2 = {
+  color: 'brand.primary',
+};
+```
+
+With `config.enableAtomicCss` set to `false`, the rendered CSS matches up with the defined styles and are applied as individual CSS classes on components e.g. `<Element className="a" />` and `<Element className="b" />`
+
+```css
+.a {
+  background-color: #fff;
+  color: #0366d6;
+  padding: 1rem;
+}
+
+.b {
+  color: #0366d6;
+}
+```
+
+With `config.enableAtomicCss` set to `true`, the rendered CSS matches up with unique atomic units, and are applied as atomic CSS classes on components e.g. `<Element className="a b c" />` and `<Element className="b" />`
+
+```css
+.a {
+  background-color: #fff;
+}
+
+.b {
+  color: #0366d6;
+}
+
+.c {
+  padding: 1rem;
+}
+```
+
+</details>
+
+##### `config.responsiveCssProperties`
+
+By default, the `system` is not configured to be responsive.  With the appropriate responsive breakpoints and styles defined in [`createStyles`](#createstylesstyles), the `system` will be responsive on the CSS property names specified in `config.responsiveCssProperties`.
+
+<details>
+<summary>Example</summary>
+
+Configuring `config.responsiveCssProperties` as follows,
+
+```js
+import {createConfig} from 'uinix-ui';
+
+const config = createConfig({
+  responsiveCssProperties: [
+    'color',
+    'margin',
+    'margin-bottom',
+    'margin-left',
+    'margin-right',
+    'margin-top',
+  ],
+});
+```
+
+Allows the following styles to be responsive,
+
+```js
+const styles = {
+  breakpoints: ['480px', '768px'],
+  style1: {
+    color: ['red', 'green', 'blue'], // responsive (whitelisted)
+    margin: ['s', 's', 'l'], // responsive (whitelisted)
+  },
+  style2: {
+    color: ['red', 'green', 'blue'], // responsive (whitelisted)
+    padding: ['s', 's', 'l'], // not responsive (you should explicitly whitelist in config.responsiveCssProperties)
+  },
+};
+
+```
+</details>
+
+<details>
+<summary>Tips</summary>
+
+- While it may be inconvenient that the `system` requires explicit whitelisting of responsive CSS properties, this should be a simple configuration that is specified once and remains unchanged.  **uinix-ui** ships without configuration and is unopinionated on this, letting you control the behaviors explicitly.
+</details>
+
 #### `load(h[, system, config])`
+
+To use **uinix-components**, a valid `system` needs to be loaded with an appropriate `h` function, with optional an`config`.
+
+You should load your `system` once in an appropriate entry point in your app, and it should remain immutable after.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createElement as h} from 'react';
+import {createConfig, createSystem, load} from 'uinix-ui';
+
+const system = createSystem({...});
+const config = createConfig({...});
+
+// load the system once in an entry point in your app.
+load(h, system, config);
+
+const App = () => {
+  return (...);
+};
+```
+</details>
+
+##### `h`
+
+`h` is a common alias for the `createElement` method.  It is popularized by [hyperscript], and many UI frameworks support this API for creating elements.  See [§ Frameworks](#frameworks) for examples on using `h` with `load`.
+
+A list of `h`-equivalent methods in popular frameworks are provided below for convenience:
+- [React][]: `React.createElement`
+- [Preact][]: `Preact.h`
+- [Vue][]: `Vue.h`
+- [Mithril][]: `Mithril.m`
+- [hyperscript][]: `h`
+
+##### `system`
+
+A valid `system` created by [`createSystem`](#createsystemsystem).
+
+##### `config`
+
+A valid `system` created by [`createConfig`](#createconfigconfig).
+
 
 #### `useIcon(icon)`
 
@@ -706,7 +1047,7 @@ Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-sys
 
 ##### `variant`
 
-A `variant` is a string property path relative to `system.styles.variant`.  For example, the variant `card.primary` accesses the variant style defined in `system.styles.variant.card.primary`.
+A `variant` is a string property path relative to `system.styles.variant`.  For example, the variant `'card.primary'` accesses the variant style defined in `system.styles.variant.card.primary`.
 
 If an invalid `variant` is provided, `undefined` is returned by `useVariant`.
 
@@ -732,8 +1073,10 @@ const styles = {
 import {useVariant} from 'uinix-ui';
 
 const variantStyle = useVariant('card.default');
+const undefinedVariantStyle = useVariant('does.not.exist');
 
 console.log(variantStyle);
+console.log(undefinedVariantStyle);
 ```
 </details>
 
@@ -773,9 +1116,7 @@ console.log(system.theme);
 
 #### `merge(o1)(o2)`
 
-[uinix-fp]'s deepmerge utility that merges two objects `o1` and `o2` without mutating the arguments.
-
-This is provided as a convenient way to manage creating and merging `system` specs.
+[uinix-fp]'s deepmerge utility that merges two objects `o1` and `o2` without mutating the arguments.  Re-exported as a convenient way to manage creating and merging `system` specs.
 
 <details>
   <summary>Example</summary>
