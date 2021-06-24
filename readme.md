@@ -237,7 +237,7 @@ Load your `system` with the `load` method, and provide the following arguments
 - [Optional]: system `config`uration.
 
 ```js
-import {createElement} from 'react';
+import {createElement as h} from 'react';
 import {createConfig, load} from 'uinix-ui';
 
 import system from './my-system.js'
@@ -287,7 +287,7 @@ const config = createConfig({
 /**
  * Load your system
  */
-load(createElement, system, config);
+load(h, system, config);
 ```
 
 Your `system` should be defined and loaded just once.  It should remain immutable after.
@@ -1108,9 +1108,274 @@ console.log(system.theme);
 
 #### `Icon(props)`
 
+The `Icon` component interoperates with the `system.icons` spec.
+
+It provides an easy way to render icons in the system.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createElement as h} from 'react';
+import {
+  Icon,
+  createIcons,
+  createSystem,
+  createTheme,
+  load
+} from 'uinix-ui';
+
+load(
+  h,
+  createSystem({
+    icons: createIcons({
+      close: '<svg>...<svg/>',
+    }),
+    theme: createTheme({
+      colors: {
+        tones: {
+          danger: 'red',
+        },
+      },
+      sizes: {
+        icon: {
+          m: '16px',
+        },
+      },
+    }),
+  },
+));
+
+const customStyles = [
+  {
+    ':hover': {
+      transform: 'scale(1.05)',
+    },
+  },
+];
+
+const Example = () => {
+  return (
+    <Icon
+      color="tones.danger" {/* theme.color-aware */}
+      icon="close" {/* icon from the system */}
+      size="icon.m" {/* theme.size-aware */}
+      styles={customStyles} {/* supports Element.styles prop */}
+      onClick={() => console.log('clicked')}
+    />
+  );
+};
+```
+</details>
+
+##### `props.icon`
+When specified, will retrieve and render the specified icon in the system as a `HTMLSVGElement`.  If the icon does not exist in the system, `null` is rendered.
+
+##### `props.size`
+Sets the icon SVG's `height` and `width`. You can use a theme-based value.
+
+Use this to conveniently set equal height and width for the icon.  Use `props.height` or `props.width` to set non-equal dimensions for the SVG.
+
+##### `props.color`
+Sets the icon SVG container's `color`.  You can use a theme-based value.
+
+An icon will apply the specified color if its source SVG content uses `'currentColor'` for appropriate color attributes (e.g. `stroke`, `fill`).
+
+##### `props.height`
+Sets the icon SVG's `height`.  You can use a theme-based value.
+
+##### `props.width`
+Sets the icon SVG's `width`.  You can use a theme-based value.
+
+##### `...props`
+`Icon` is composed from [`Element`](#elementprops), and therefore supports the `as`, `styles`, `styleProps`, `variant`, and shorthand props.
+
+`Icon` renders `as` a `HTMLDivElement` by default, and will render `as` a semantic `HTMLButtonElement` if `props.onClick` is provided.
+
+`Icon` passes through all other properties onto the eventual `HTMLElement`.
+
+`Icon` always ignores `props.children` and `props.as`.
+
 #### `Layout(props)`
 
+The `Layout` component interoperates with the `system.theme.spacings` spec.
+
+It provides an easy way to rapidly build flexbox-based layouts to consistently space child elements based on theme values defined in `system.theme.spacings`.  It also provides convenient flexbox props to configure layouts.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createElement as h} from 'react';
+import {
+  Layout,
+  createSystem,
+  createTheme,
+  load
+} from 'uinix-ui';
+
+const Example = () => {
+  return (
+  );
+}
+```
+
+</details>
+
+##### `props.align`
+
+##### `props.alignSelf`
+
+##### `props.direction`
+
+##### `props.flex`
+
+##### `props.inline`
+
+##### `props.justify`
+
+##### `props.justifySelf`
+
+##### `props.spacing`
+
+##### `props.wrap`
+
+##### `props.wrapSpacing`
+
+##### `...props`
+`Layout` is composed from [`Element`](#elementprops), and therefore supports the `as`, `styles`, `styleProps`, `variant`, and shorthand props.
+
+`Layout` passes through all other properties onto the eventual `HTMLElement`.
+
 #### `Text(props)`
+
+The `Text` component interoperates with the `system.styles.typography` spec.
+
+It provides an easy way to render and apply text styles defined by the system's typography rules, and convenient typography props to further configure text styles.  Whenever possible, we recommend organizing text styles in `system.styles.typography`.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createElement as h} from 'react';
+import {
+  Text,
+  createSystem,
+  createStyles,
+  createTheme,
+  load
+} from 'uinix-ui';
+
+load(
+  h,
+  createSystem({
+    theme: createTheme({
+      fontFamilies: {
+        body: 'arial',
+        heading: 'impact',
+      },
+      fontSizes: {
+        's': '0.7rem',
+        'm': '1rem',
+        'l': '2rem',
+      },
+      lineHeights: {
+        body: '20px',
+        heading: '40px',
+      },
+    }),
+    styles: createStyles({
+      typography: {
+        variants: {
+          title: {
+            fontFamily: 'heading',
+            fontSize: 'l',
+            fontWeight: 'bold',
+            lineHeight: 'heading',
+          },
+        }
+      },
+    }),
+  },
+));
+
+const customStyles = [
+  {
+    ':hover': {
+      transform: 'scale(1.05)',
+    },
+  },
+];
+
+const Example = () => {
+  return (
+    <Text
+      as="h1" {/* convenient way to render semantic HTML elements */}
+      fontFamily="courier" {/* specify fontFamily CSS property */}
+      styles={customStyles} {/* supports Element.styles prop */}
+      textAlign="center" {/* specify textAlign CSS property */}
+      variant="title" {/* reference a defined typography variant style */}
+      whiteSpace="pre"> {/* specify whiteSpace CSS property */}
+      Text Element
+    </Text>
+  );
+};
+```
+</details>
+
+##### `props.fontFamily`
+Sets the `fontFamily` CSS property.  You can use a theme-based value.
+
+##### `props.fontSize`
+Sets the `fontSize` CSS property.  You can use a theme-based value.
+
+##### `props.fontStyle`
+Sets the `fontStyle` CSS property.
+
+##### `props.fontVariant`
+Sets the `fontVariant` CSS property.
+
+##### `props.fontWeight`
+Sets the `fontWeight` CSS property.  You can use a theme-based value.
+
+##### `props.letterSpacing`
+Sets the `letterSpacing` CSS property.  You can use a theme-based value.
+
+##### `props.lineHeight`
+Sets the `lineHeight` CSS property.  You can use a theme-based value.
+
+##### `props.textAlign`
+Sets the `textAlign` CSS property.
+
+##### `props.textDecoration`
+Sets the `textDecoration` CSS property.
+
+##### `props.textOverflow`
+Sets the `textOverflow` CSS property.
+
+##### `props.textShadow`
+Sets the `textShadow` CSS property.  You can use a theme-based value.
+
+##### `props.textTransform`
+Sets the `textTransform` CSS property.
+
+##### `props.whiteSpace`
+Sets the `whiteSpace` CSS property.
+
+##### `props.wordBreak`
+Sets the `wordBreak` CSS property.
+
+##### `props.wordSpacing`
+Sets the `wordSpacing` CSS property.  You can use a theme-based value.
+
+##### `...props`
+`Text` is composed from [`Element`](#elementprops), and therefore supports the `as`, `styles`, `styleProps`, `variant`, and shorthand props.
+
+`Text` renders `as` a `HTMLSpanElement` by default.
+
+`Text` passes through all other properties onto the eventual `HTMLElement`.
+
+`Text` renders variant styles by accessing from `system.styles.typography.variants` as opposed to `system.styles.variants` in other **uinix-ui** components.
 
 ### Utils
 
@@ -1141,12 +1406,12 @@ It is common practice to abstract and flatten shareable code for reuse, to decre
 In **uinix-ui**, the decisions and designs of the system can be captured and applied in different ways, as illustrated in the following example on how we can achieve the same styling goals for a custom component with different approaches.
 
 ```js
-import {createElement} from 'react';
+import {createElement as h} from 'react';
 import {createSystem, load, useStyles} from 'uinix-ui';
 
 // a.js
 load(
-  createElement,
+  h,
   createSystem({
     styles: {
       card: {
@@ -1165,7 +1430,7 @@ const Component = ({children}) => {
 
 // b.js
 load(
-  createElement,
+  h,
   createSystem({
     styles: {
       variants: {
@@ -1184,7 +1449,7 @@ const Component = ({children}) => {
 }
 
 // c.js
-load(createElement);
+load(h);
 
 const Component = ({children}) => {
   const cardStyle = {
