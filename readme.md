@@ -18,6 +18,7 @@ Your system your rules 🤘.
 ## Contents
 
 - [Install](#install)
+- [Quick Start](#quick-start)
 - [Usage](#usage)
   - [Creating the system](#creating-the-system)
   - [Loading the system](#loading-the-system)
@@ -72,6 +73,104 @@ Your system your rules 🤘.
 
 ```sh
 npm install uinix-ui
+```
+
+## Quick Start
+
+**uinix-ui** allows you to define and access system specs, and build system-constrained UI components with a minimal API.
+
+```js
+import {createElement as h} from 'react';
+import {
+  Element,
+  Icon,
+  Layout,
+  Text,
+  createSystem,
+  load,
+  useStyles,
+} from 'uinix-ui';
+
+const system = createSystem({
+  icons: {
+    github: '<svg>...</svg>',
+  },
+  styles: {
+    container: {
+      marginLeft: 'auto',
+      marginRight: 'auto',
+      maxWidth: 'width.container',
+      padding: 'm',
+    },
+    typography: {
+      global: {
+        body: {
+          fontSize: 'm'
+        },
+      },
+      variants: {
+        brand: {
+          fontSize: 'l',
+          fontWeight: 'bold',
+        },
+        nav: {
+          link: {
+            fontSize: 's',
+            ':hover': {
+              textDecoration: 'none',
+            },
+          },
+        }
+      },
+    }
+  },
+  theme: {
+    fontSizes: {
+      s: '0.8rem',
+      m: '1rem',
+      l: '2rem',
+    },
+    sizes: {
+      width: {
+        container: '768px',
+      },
+    },
+    spacings: {
+      s: '1rem',
+      m: '2rem',
+      l: '4rem',
+    },
+  }
+});
+
+load(h, system);
+
+const Header = () => {
+  const styles = useStyles();
+
+  return (
+    <Layout
+      as="header"
+      align="center"
+      justify="space-between"
+      spacing="m"
+      styles={styles.container}>
+      <Layout align="center"spacing="m">
+        <Text as="h1" variant="brand">
+          MyBrand
+        </Text>
+      </Layout>
+      <Element as="nav">
+        <Layout wrap as="ul" spacing="m">
+          <Text as="a" href="/about" variant="nav.link">
+            About
+          </Text>
+          <Icon icon="github" size="icon.m" />
+        </Layout>
+      </Element>
+    </Layout>
+  );
+}
 ```
 
 ## Usage
@@ -978,7 +1077,7 @@ A valid `system` created by [`createSystem`](#createsystemsystem).
 
 ##### `config`
 
-A valid `system` created by [`createConfig`](#createconfigconfig).
+A valid `config` created by [`createConfig`](#createconfigconfig).
 
 
 #### `useIcon(icon)`
@@ -1192,7 +1291,7 @@ Sets the icon SVG's `width`.  You can use a theme-based value.
 
 `Icon` renders `as` a `HTMLDivElement` by default, and will render `as` a semantic `HTMLButtonElement` if `props.onClick` is provided.
 
-`Icon` passes through all other properties onto the eventual `HTMLElement`.
+`Icon` passes through all other props onto the eventual `HTMLElement`.
 
 `Icon` always ignores `props.children` and `props.as`.
 
@@ -1245,7 +1344,7 @@ const Example = () => {
 ##### `...props`
 `Layout` is composed from [`Element`](#elementprops), and therefore supports the `as`, `styles`, `styleProps`, `variant`, and shorthand props.
 
-`Layout` passes through all other properties onto the eventual `HTMLElement`.
+`Layout` passes through all other props onto the eventual `HTMLElement`.
 
 #### `Text(props)`
 
@@ -1260,8 +1359,8 @@ It provides an easy way to render and apply text styles defined by the system's 
 import {createElement as h} from 'react';
 import {
   Text,
-  createSystem,
   createStyles,
+  createSystem,
   createTheme,
   load
 } from 'uinix-ui';
@@ -1373,7 +1472,7 @@ Sets the `wordSpacing` CSS property.  You can use a theme-based value.
 
 `Text` renders `as` a `HTMLSpanElement` by default.
 
-`Text` passes through all other properties onto the eventual `HTMLElement`.
+`Text` passes through all other props onto the eventual `HTMLElement`.
 
 `Text` renders variant styles by accessing from `system.styles.typography.variants` as opposed to `system.styles.variants` in other **uinix-ui** components.
 
@@ -1387,6 +1486,8 @@ Sets the `wordSpacing` CSS property.  You can use a theme-based value.
   <summary>Example</summary>
 
   ```js
+  import {merge} from 'uinix-ui';
+
   const o1 = {a: b: {c: 42}};
   const o2 = {a: b: {c: null, d: 42}};
   const merged = merge(o1)(o2);
