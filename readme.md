@@ -705,55 +705,323 @@ const theme = createTheme({
 
 ##### `styles`
 
-A partial `styles` can be provided to `createStyles`, which will then create a valid `styles` object.
+A partial `styles` can be provided to `createStyles`, which will then create a valid `styles` object.  A `styles` object has a typed interface that is explored in detail below.
+
+There is a common way to define styles, which is detailed below:
+- You can arbitrarily nest style definitions for organization.  For example:
+  ```js
+  const styles = {
+    variants: {
+      card: {
+        primary: {
+          large: {
+            borderRadius: 'l',
+            padding: 'l',
+          },
+        },
+      },
+    },
+  };
+  ```
+- Styles must eventually resolve into an object that contains CSS properties and either CSS values or theme values.  Pseudo-selectors/classes are supported.  For example:
+  ```js
+  const styles = {
+    pill: {
+      backgroundColor: 'brand.primary',
+      '::after': {
+        content: '"x"',
+        marginLeft: 'm',
+      },
+      ':hover': {
+        opacity: 'hover',
+      },
+    },
+  },
+  ```
+- Style values can be specified in array-form, containing either CSS values or theme values.  These values will be responsively applied against the specified `styles.breakpoints`.  For example:
+  ```js
+  const styles = {
+    breakpoints: ['468px', '768px'],
+    responsiveContainer: {
+      padding: ['s', 's', 'm'],
+      maxWidth: ['100%', '100%', 'width.container']
+    },
+  };
+  ```
+- Unitless CSS values can be specified and they will be resolved accordingly.  For example, specifying `fontSize: 20` will resolve to `fontSize: '20px'`.
+- Negative values, including negative theme values can be specified and they will be resolved accordingly.  For example, specifying `padding: '-m'` will resolve to `padding: '-24px'` if `m` is assigned a value of `'24px'` in `system.theme.spacings`.
 
 <details>
 <summary>Example</summary>
 
 ```js
+import {createStyles} from 'uinix-ui';
+
+const styles = createStyles({
+  // Define global styles for HTML elements and CSS classes
+  global: {
+    '*': {
+      boxSizing: 'border-box',
+    },
+    body: {
+      fontFamily: 'body',
+      fontSize: 'm',
+    },
+    // Convenient way to overwrite vendor classes with theme-based styles!
+    '.tippy-content': {
+      backgroundColor: 'background.inverse',
+      color: 'text.inverse',
+      margin: '-m', // Negative theme values work
+      padding: ['xs', 'xs', 's'], // Responsive styles work
+      fontSize: 'xs',
+    },
+  },
+  // Organize typography styles, mirrors the parent styles interface
+  typography: {
+    // Define global styles for typographic HTML elements
+    global: {
+      h1: {
+        fontSize: 'xl',
+      },
+    },
+    // Typography variants are accessible by the Text component
+    variants: {
+      title: {
+        color: 'text.primary',
+        fontSize: 'l',
+      },
+    },
+  },
+  // Define and organize style variants, accessiblie by the `variant` prop in components
+  variants: {
+    card: {
+      // can be arbitrarily nested for organization
+      primary: {
+        border: 'bordered',
+        borderRadius: 'm',
+        padding: ['s', 's', 'm'], // responsive-value supported
+      },
+    },
+  },
+  // Define any style objects or style functions on the styles object.
+  pill: {
+    backgroundColor: 'brand.primary',
+    '::after': { // pseudo-selector
+      content: '"x"',
+      marginLeft: 'm',
+    },
+    ':hover': { // pseudo-class
+      opacity: 'hover',
+    },
+  },
+  disabled: ({ disabled }) => ({
+    opacity: disabled ? 'disabled' : undefined,
+    pointerEvents: disabled ? 'none' : undefined,
+  }),
+});
 ```
 </details>
 
 ##### `styles.breakpoints`
 
+When specified, supports responsive styling.  `styles.breakpoints` should be specified as an array of strings, with its value being a valid CSS `width` value.  Responsive breakpoints will be evaluated as `min-width`-based media queries.
+
+> **Note:** You still need to whitelist the responsive CSS properties in [`config.responsiveCssProperties`](#configresponsivecssproperties) to apply the specified responsive styles.
+
 <details>
 <summary>Example</summary>
 
+Assuming the following `styles.breakpoints` and an example `responsiveCardStyle`,
+
 ```js
+import {createStyles} from 'uinix-ui';
+
+const styles = createStyles({
+  breakpoints: ['468px', '768px'],
+  responsiveCardStyle: {
+    color: ['red', 'red', 'blue'],
+    padding: ['s', 's', 'm'],
+  },
+});
 ```
+
+The rendered style will look like:
+
+```js
+const resolvedResponsiveCardStyle = {
+  color: 'red',
+  padding: 's',
+  "@media (min-width: 468px)": {
+    color: 'red',
+    padding: 's',
+  },
+  "@media (min-width: 768px)": {
+    color: 'blue',
+    padding: 'm',
+  },
+};
+```
+
+> **Note:** Remember to ensure that the corresponding responsive CSS property is whitelisted in `config.responsiveCssProperties` (e.g. `color`, `padding` for this example).
+
 </details>
 
 ##### `styles.global`
 
+Styles specified in `styles.global` will be applied to the global stylesheet.  This is useful for:
+- CSS resets.
+- Global styling for HTML elements with theme-based styles.
+- Overriding vendor classnames with theme-based styles.
+
+The keys for `styles.global` should be a CSS selector (e.g. HTML element names or CSS classnames), as how you would normally define them in a CSS stylesheet.  The values should be valid style objects.
+
 <details>
 <summary>Example</summary>
 
 ```js
+import {createStyles} from 'uinix-ui';
+
+const styles = createStyles({
+  global: {
+    // Common CSS reset to set boxSizing to border-box
+    '*': {
+      boxSizing: 'border-box',
+    },
+    // Set theme-based styles for HTML elements
+    body: {
+      color: 'text.primary',
+      fontSize: 'm',
+    },
+    a: {
+      color: 'text.link',
+      textDecoration: 'none',
+      // Pseudo-classes and common CSS-in-JS features are supported
+      ':hover': {
+        textDecoration: 'underline',
+      }
+    },
+    // Override vendor classes with theme-based styles
+    '.tippy-content': {
+      backgroundColor: 'background.inverse',
+      color: 'text.inverse',
+      margin: '-m', // Negative theme values are supported
+      padding: ['xs', 'xs', 's'], // Responsive styles are supported
+      fontSize: 'xs',
+    },
+  },
+});
 ```
 </details>
 
 ##### `styles.variants`
 
+Styles specified in `styles.variants` can be accessed with the [`useVariant`](#usevariantvariant) hook or with the [`variant` prop](#propsvariant) on **uinix-ui** components.  You can organize styles in `styles.variants` with appropriate nesting.
+
 <details>
 <summary>Example</summary>
 
 ```js
+import {createStyles} from 'uinix-ui';
+
+const styles = createStyles({
+  variants: {
+    button: {
+      primary: {...},
+      secondary: {...},
+    },
+    card: {
+      primary: { // can be arbitrarily nested for organization
+        border: 'bordered',
+        borderRadius: 'm',
+        padding: ['s', 's', 'm'], // responsive-value supported
+      },
+      secondary: {...},
+    },
+  },
+});
 ```
 </details>
 
 ##### `styles.typography`
 
+`styles.typography` mirrors the structure of `styles` and provides a more explicit way to organize typography styles.  There are a number of differences in the structure, and the full structure is covered below:
+- `styles.typography.fontFaces`: Specifies the font-faces as a structured object. The font-face name can be assignable in `theme.fontFamilies`.  The `src` file for a font-face can be either an absolute URL or a relative path.  If your JS build supports resolving font asset imports into relative paths, this can be used with `styles.typography.fontFaces`.
+- `styles.typography.global`: Similar to `styles.global`, allows configuring typography styles for the global stylesheet.  Note that **uinix-ui** does not restrict how styles are specified in this object, but you should reserve them purely for typography styles (e.g. `fontSize`, `lineHeight`, `letterSpacing`, `color` etc).
+- `styles.typography.variants`: Similar to `styles.variants`, allows organizing typography styles as variants.  The [`Text`](#textprops) component has direct access to these styles via the `variant` prop.  Note that these variant styles are not accessible by other **uinix-ui** components, so their specification is a purely explicit and semantic one to be used with the [`Text`](#textprops) component.
+- `...styles.typography`:  You should not specify anything else on the `styles.typography` object.  Note that **uinix-ui** does not restrict you from doing this, but it's not particularly useful as there is no inteoperable way to retrieve them.
+
 <details>
 <summary>Example</summary>
 
 ```js
+import {createStyles} from 'uinix-ui';
+
+import robotoTtf from './fonts/roboto.ttf';
+
+const styles = createStyles({
+  typography: {
+    // Define font faces and their source files
+    fontFaces: {
+      Roboto: {
+        src: [robotoTtf],
+      },
+      Raleway: {
+        src: 'https://absolute/url/to/font/asset.ttf',
+      },
+    },
+    // Define global styles for HTML elements
+    global: {
+      h1: {
+        fontSize: 'xl',
+      },
+    },
+    // Typography variants are accessible by the Text component
+    variants: {
+      title: {
+        color: 'text.primary',
+        fontSize: 'l',
+      },
+    },
+  },
+});
 ```
 </details>
 
-<details>
-<summary>Tips</summary>
+##### `...styles`
 
-- adf
+Any other style defined directly on `styles` should be either a style object or style function.  These can be retrieved with the [`useStyles`](#usestyles) system hook and used in components.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createStyles} from 'uinix-ui';
+
+const styles = createStyles({
+  /** Reserved style keys and features */
+  breakpoints: [...],
+  typography: {...},
+  variants: {...},
+  /** Define all custom styles directly on other non-reserved keys */
+  // Style object
+  pill: {
+    backgroundColor: 'brand.primary',
+    '::after': { // pseudo-selector
+      content: '"x"',
+      marginLeft: 'm',
+    },
+    ':hover': { // pseudo-class
+      opacity: 'hover',
+    },
+  },
+  // Style function
+  disabled: ({ disabled }) => ({
+    opacity: disabled ? 'disabled' : undefined,
+    pointerEvents: disabled ? 'none' : undefined,
+  }),
+});
+```
+
 </details>
 
 #### `createSystem([system])`
@@ -1207,7 +1475,7 @@ console.log(system.theme);
 
 The `Element` component is the elementary building block in **uinix-ui**.  It benefits from `system` [configuration](#createconfigconfig).  Composing components with `Element` passes on all shared configuration and behaviors.
 
-> **Note**: `Element` implements the other **uinix-ui** components ([`Layout`](#layoutprops), [`Icon`](#iconprops), [`Text`](#textprops)).  The `Element` component is also more commonly known as the `Box` component in many other UI system libraries.  We name it as `Element` to emphasize its primitive and non-unique nature, just as the `HTMLElement`, which can be extended to create more complex UI elements.
+> **Note:** `Element` implements the other **uinix-ui** components ([`Layout`](#layoutprops), [`Icon`](#iconprops), [`Text`](#textprops)).  The `Element` component is also more commonly known as the `Box` component in many other UI system libraries.  We name it as `Element` to emphasize its primitive and non-unique nature, just as the `HTMLElement`, which can be extended to create more complex UI elements.
 
 ##### `props`
 
@@ -1236,7 +1504,7 @@ const Example = () => {
 ##### `props.styles`
 You can style an `Element` as you would for an `HTMLElement` using the `className` and `style` props.  The `styles` prop provides a way to apply theme-based styles.  It also provides a convenient way to compose and merge multiple styles by simply specifying them in array-form.  `styles` supports popular CSS-in-JS features such as pseudo-selectors/classes, nested expressions, responsive values.
 
-`styles` can be specified as either style objects or style functions (see [`props.styleProps`](#propsstyleprops))).
+`styles` can be specified as either style objects or style functions (see [`props.styleProps`](#propsstyleprops)).
 
 <details>
 <summary>Example</summary>
@@ -1276,7 +1544,7 @@ const system = createSystem({
       border: 'bordered',
       borderRadius: 'm',
       padding: 'm',
-    }
+    },
   }),
 });
 
@@ -1348,9 +1616,9 @@ const system = createSystem({
     disabled: ({ disabled }) => ({
       opacity: disabled ? 'disabled' : undefined,
       pointerEvents: disabled ? 'none' : undefined,
-    })
-  })
-})
+    }),
+  }),
+});
 
 load(h, system);
 
