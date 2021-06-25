@@ -34,8 +34,8 @@ Your system your rules 🤘.
   - [hyperscript](#hyperscript)
   - [Svelte](#svelte)
 - [Presets](#presets)
-- [Demos](#demos)
 - [Guides](#guides)
+- [Demos](#demos)
 - [API](#api)
   - [System](#system)
     - [`createIcons([icons])`](#createiconsicons)
@@ -564,16 +564,16 @@ load(...themeUiPreset);
 
 > **Note:** The links above will be active once the presets are production-ready.
 
-## Demos
-View demos of UI systems that are reverse-engineered and built using **uinix-ui** with [this link][uinix-docs-ui-systems].
-
 ## Guides
 
-View interactive guides on **uinix-ui** recipes and best practices with [this link][uinix-docs-uinix-ui].
+This document is intended to be complete.  If you find it dense, and prefer another way to learn **uinix-ui**, visit the [official documentation][uinix-docs-uinix-ui] which provides interactive guides on recipes and best practices when building UIs with **uinix-ui**.
+
+## Demos
+Explore demos of UI systems that are reverse-engineered and built using **uinix-ui** with [this link][uinix-docs-ui-systems].
 
 ## API
 
-> **Note:** **uinix-ui** ships with [Typescript] declarations, compiled and emitted when installed.  The Javascript source code is documented in [JSDoc].  These supplement the documentation in this section with an exploratory API through code.
+**uinix-ui** ships with [Typescript] declarations, compiled and emitted when installed.  The Javascript source code is documented in [JSDoc].  These supplement the documentation in this section with an exploratory API through code.
 
 ### System
 
@@ -1205,6 +1205,266 @@ console.log(system.theme);
 
 #### `Element(props)`
 
+The `Element` component is the elementary building block in **uinix-ui**.  It benefits from `system` [configuration](#createconfigconfig).  Composing components with `Element` passes on all shared configuration and behaviors.
+
+> **Note**: `Element` implements the other **uinix-ui** components ([`Layout`](#layoutprops), [`Icon`](#iconprops), [`Text`](#textprops)).  The `Element` component is also more commonly known as the `Box` component in many other UI system libraries.  We name it as `Element` to emphasize its primitive and non-unique nature, just as the `HTMLElement`, which can be extended to create more complex UI elements.
+
+##### `props`
+
+`Element` has an extremely small API.  It functions essentially as an `HTMLElement` with an additional small set of convenient props as detailed below.
+
+##### `props.as`
+Sets `Element` to render as the specified HTML element.
+
+<details>
+<summary>Example</summary>
+
+Render `Element` as an `a` element with appropriate props:
+```js
+import {Element} from 'uinix-ui';
+
+const Example = () => {
+  return (
+    <Element as="a" href="https://github.com/uinix-js/uinix-ui">
+      uinix-ui
+    </Element>
+  );
+};
+```
+</details>
+
+##### `props.styles`
+You can style an `Element` as you would for an `HTMLElement` using the `className` and `style` props.  The `styles` prop provides a way to apply theme-based styles.  It also provides a convenient way to compose and merge multiple styles by simply specifying them in array-form.  `styles` supports popular CSS-in-JS features such as pseudo-selectors/classes, nested expressions, responsive values.
+
+`styles` can be specified as either style objects or style functions (see [`props.styleProps`](#propsstyleprops))).
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createElement as h} from 'react';
+import {
+  Element,
+  createTheme,
+  createStyles,
+  createSystem,
+  useStyles,
+} from 'uinix-ui';
+
+const system = createSystem({
+  theme: createTheme({
+    borders: {
+      bordered: '1px solid #eee',
+    },
+    colors: {
+      brand: {
+        primary: 'blue',
+      },
+    },
+    radii: {
+      m: '4px',
+    },
+    spacings: {
+      s: '0.5rem',
+      m: '1rem',
+      l: '2rem',
+    },
+  }),
+  styles: createStyles({
+    breakpoints: ['468px', '768px'],
+    card: {
+      border: 'bordered',
+      borderRadius: 'm',
+      padding: 'm',
+    }
+  }),
+});
+
+load(h, system);
+
+const Example = () => {
+  const styles = useStyles();
+
+  const style = {
+    color: '#ff0000', // non-theme value
+    padding: ['s', 's', 'l'], // responsive theme values
+    ':hover': { // hover pseudo class
+      color: 'brand.primary', // theme value
+    },
+  };
+
+  return (
+    <>
+      <Element styles={style}>
+        Styling with a single style object
+      </Element>
+      <Element styles={[style, styles.card]}>
+        Styling with multiple merged styles (system styles can be merged too!)
+      </Element>
+    </>
+  );
+};
+```
+
+</details>
+
+##### `props.styleProps`
+
+Specifying data in `styleProps` allows use of style functions when using with [`props.styles`](#propsstyles).  A style function is a function that takes `styleProps` and returns a style object.
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createElement as h} from 'react';
+import {
+  Element,
+  createStyles,
+  createTheme,
+  createSystem,
+  load,
+  useStyles,
+} from 'uinix-ui';
+
+const system = createSystem({
+  theme: createTheme({
+    colors: {
+      tones: {
+        danger: '#ee0000',
+        success: '#00ee00',
+      },
+    },
+    opacities: {
+      invisible: '0',
+      disabled: '0.3',
+      visible: '1',
+    },
+    spacings: {
+      m: '1rem',
+      l: '2rem',
+    },
+  }),
+  styles: createStyles({
+    disabled: ({ disabled }) => ({
+      opacity: disabled ? 'disabled' : undefined,
+      pointerEvents: disabled ? 'none' : undefined,
+    })
+  })
+})
+
+load(h, system);
+
+const Example = () => {
+  const styles = useStyles();
+
+  const style = ({status, size }) => {
+    return {
+      color: `tones.${status}`,
+      padding: size === 'l' ? 'l' : 'm',
+    };
+  };
+
+  return (
+    <>
+      <Element
+        styles={style}
+        styleProps={{
+          status: 'danger',
+          size: 'l',
+        }}>
+        Will render with: color=#ee0000, padding=2rem
+      </Element>
+      <Element
+        styles={style}
+        styleProps={{
+          status: 'sucecss',
+          size: 'm',
+        }}>
+        Will render with: color=#00ee00, padding=1rem
+      </Element>
+      <Element
+        styles={[style, styles.disabled]}
+        styleProps={{
+          disabled: true,
+          status: 'danger',
+        }}>
+        Styling with multiple merged styles (system styles can be merged too!)
+        Will render with: color=#ee0000, padding=m, opacity=0.3, pointerEvents=none
+      </Element>
+    </>
+  );
+};
+```
+</details>
+
+##### `props.variant`
+
+When specified, accesses a variant style specified in `system.styles.variants`.
+
+A `variant` is a string property path relative to `system.styles.variant`.  For example, the variant `'card.primary'` accesses the variant style defined in `system.styles.variant.card.primary`.  If a `variant` is invalid, the style is not applied.
+
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createElement as h} from 'react';
+import {
+  Element,
+  createStyles,
+  createTheme,
+  createSystem,
+  load,
+} from 'uinix-ui';
+
+const system = createSystem({
+  theme: createTheme({
+    borders: {
+      bordered: '1px solid #eee',
+    },
+    radii: {
+      m: '4px',
+    },
+    spacings: {
+      s: '0.5rem',
+      m: '1rem',
+      l: '2rem',
+    },
+  }),
+  styles: createStyles({
+    variants: {
+      card: {
+        primary: {
+          border: 'bordered',
+          borderRadius: 'm',
+          padding: 'm',
+        },
+      },
+    },
+  });
+});
+
+load(h, system);
+
+const Example = () => {
+  return (
+    <Element variant="card.primary">
+      Will render the card.primary variant style with:
+      border=1px solid #eee, borderRadius=4px, padding=1rem
+    </Element>
+  );
+};
+```
+</details>
+
+##### `...props`
+
+`Element` passes through all other props onto the eventual `HTMLElement`.
+
+If shorthand props are configured in [`config.elementShorthandPropsMapping`](#configelementshorthandpropsmapping), the prop values are applied as styles.
+
+If custom element styles are configured in [`config.elementStyles`](#configelementstyles), the prop values are used by the element style functions to evaluate conditional styles.
+
 #### `Icon(props)`
 
 The `Icon` component interoperates with the `system.icons` spec.
@@ -1299,7 +1559,7 @@ Sets the icon SVG's `width`.  You can use a theme-based value.
 
 The `Layout` component interoperates with the `system.theme.spacings` spec.
 
-It provides an easy way to rapidly build flexbox-based layouts to consistently space child elements based on theme values defined in `system.theme.spacings`.  It also provides convenient flexbox props to configure layouts.
+It provides an easy way to rapidly build flexbox-based layouts to consistently space child elements based on theme values defined in `system.theme.spacings`.  It also provides convenient flexbox props to configure common UI layouts.
 
 <details>
 <summary>Example</summary>
@@ -1308,13 +1568,76 @@ It provides an easy way to rapidly build flexbox-based layouts to consistently s
 import {createElement as h} from 'react';
 import {
   Layout,
+  createStyles,
   createSystem,
   createTheme,
   load
 } from 'uinix-ui';
 
+const system = createSystem({
+  theme: createTheme({
+    sizes: {
+      width: {
+        container: '768px',
+      }
+    },
+    spacings: {
+      s: '0.8rem',
+      m: '1rem',
+      l: '2rem',
+      xl: '3rem',
+    },
+  }),
+  styles: createStyles({
+    layout: {
+      height: '100vh',
+      margin: '0 auto',
+      paddingLeft: 'l',
+      paddingRight: 'l',
+      width: 'width.container',
+    }
+  }),
+});
+
+load(h, system);
+
 const Example = () => {
+  const styles = useStyles(); {/* Can use system hooks */}
+
   return (
+    <Layout
+      direction="column" {/* CSS flexDirection property */}
+      spacing="xl" {/* Spaces child nodes (i.e. header, main, footer) evenly */}
+      styles={styles.layout}> {/* Can use the Element stylels prop */}
+      <Layout
+        as="header" {/* Render as a semantic HTML element */}
+        align="center" {/* CSS alignItems property */}
+        justify="space-between" {/* CSS justifyContent property */}
+        spacing="m">
+        <h1>Logo (left)</h1>
+        <a href="/login">
+          Login (right)
+        </a>
+      </Layout>
+      <Layout
+        as="main"
+        flex="auto"
+        direction="column"
+        spacing="l">
+        Easily build UI layouts with Layout!
+      </Layout>
+      <Layout
+        as="footer"
+        align="center"
+        justify="space-between">
+        <div>
+          Copyright (left)
+        </div>
+        <a href="https://github.com/uinix-js">
+          Github (right)
+        </a>
+      </Layout>
+    </Layout>
   );
 }
 ```
@@ -1322,24 +1645,36 @@ const Example = () => {
 </details>
 
 ##### `props.align`
+Sets the `alignItems` CSS property.
 
 ##### `props.alignSelf`
+Sets the `alignSelf` CSS property.
 
 ##### `props.direction`
+Sets the `flexDirection` CSS property.
 
 ##### `props.flex`
+Sets the `flex` CSS property.
 
 ##### `props.inline`
+If `true`, sets the `display` CSS property to `'inline-flex'`, otherwise sets to `'flex'` by default.
 
 ##### `props.justify`
+Sets the `justifyContent` CSS property.
 
 ##### `props.justifySelf`
+Sets the `justifySelf` CSS property.
 
 ##### `props.spacing`
+Spaces all children (except the last child) evenly by the specified margin value.  You can use a theme-based value.
+
+Spacing is applied as `margin-right` by default and `margin-bottom` if the `props.direction` property is set to `'column'`.
 
 ##### `props.wrap`
+If `true`, sets the `flexWrap` CSS property to `'wrap'`, otherwise it is undefined by default.
 
 ##### `props.wrapSpacing`
+If `props.wrap` is set to `true`, you may space all wrapped children with the specified vertical margin value.  A negative margin is applied on the `Layout` element.  You can use a theme-based value.
 
 ##### `...props`
 `Layout` is composed from [`Element`](#elementprops), and therefore supports the `as`, `styles`, `styleProps`, `variant`, and shorthand props.
