@@ -54,7 +54,7 @@ Your system your rules 🤘.
     - [`Icon(props)`](#iconprops)
     - [`Layout(props)`](#layoutprops)
     - [`Text(props)`](#textprops)
-  - [Utils](#utils)
+  - [Utilities](#utilities)
     - [`merge(o1)(o2)`](#mergeo1o2)
 - [System Knowledge](#system-knowledge)
 - [Related](#related)
@@ -372,7 +372,7 @@ const config = createConfig({
    * This is useful to share atomic CSS styles and reduce the CSS bundle size.
    * See https://fela.js.org/
    */
-  isAtomicCss: false,
+  enableAtomicCss: false,
   /**
    * Whitelists the CSS properties that can be responsive.
    * By default, nothing is responsive
@@ -411,7 +411,7 @@ const containerStyle = {
 const baseStyle = {
   backgroundColor: 'background.primary',
   fontSize: 'm',
-}
+};
 
 const PageLayout = ({children, title}) => {
   /** Layout provides a simple but powerful way to build layouts! */
@@ -420,7 +420,7 @@ const PageLayout = ({children, title}) => {
       direction="column"
       spacing="m"
       styles={[baseStyle, containerStyle]}>
-      {/* Compose styles easily in array-form using the styles prop */}
+      {/* Organize and compose styles easily in array-form using the styles prop */}
       {/* The `as` prop allows easy ways to render semantic HTML element */}
       <Layout
         as="header"
@@ -470,15 +470,15 @@ import {
 } from 'uinix-ui';
 
 const Button = ({text, onClick}) => {
-  /** Retrieve system.icons[x] */
+  /** Retrieves system.icons[x] */
   const icon = useIcon('x');
-  /** Retrieve system.styles */
+  /** Retrieves system.styles */
   const styles = useStyles();
-  /** Retrieve system */
+  /** Retrieves system */
   const system = useSystem();
-  /** Retrieve system.theme */
+  /** Retrieves system.theme */
   const theme = useTheme();
-  /** Retrieve system.styles.variants[variant] */
+  /** Retrieves system.styles.variants[variant] */
   const variantStyle = useVariant('button.primary');
 
   /** Easily compose styles in array-form */
@@ -599,6 +599,7 @@ const icons = createIcons({
     '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.1" fill-rule="evenodd" clip-rule="evenodd" d="M12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="black"/><path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" fill="currentColor"><animateTransform xmlns="http://www.w3.org/2000/svg" attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></path></svg>',
 });
 ```
+
 </details>
 
 <details>
@@ -606,6 +607,7 @@ const icons = createIcons({
 
 - Setting the `fill` and `stroke` color to `'currentColor'` allows SVG icons to be color-customizable using the [`Icon`](#iconprops) component.
 - You should make sure SVG icons have similar `viewBox`, `width`, `height` values, so they can be rendered consistently using the [`Icon`](#iconprops) component.
+
 </details>
 
 #### `createTheme([theme])`
@@ -689,6 +691,7 @@ const theme = createTheme({
   },
 });
 ```
+
 </details>
 
 <details>
@@ -702,6 +705,10 @@ const theme = createTheme({
 </details>
 
 #### `createStyles([styles])`
+
+Creates a `styles` object that can reference theme values when defining styles.
+
+You can retrieve the `styles` object using the [`useStyles`](#usestyles) system hook.
 
 ##### `styles`
 
@@ -723,7 +730,7 @@ There is a common way to define styles, which is detailed below:
     },
   };
   ```
-- Styles must eventually resolve into an object that contains CSS properties and either CSS values or theme values.  Pseudo-selectors/classes are supported.  For example:
+- Styles must eventually resolve into a style object that contains CSS properties and either CSS values or theme values.  Pseudo-selectors/classes are supported.  For example:
   ```js
   const styles = {
     pill: {
@@ -749,7 +756,7 @@ There is a common way to define styles, which is detailed below:
   };
   ```
 - Unitless CSS values can be specified and they will be resolved accordingly.  For example, specifying `fontSize: 20` will resolve to `fontSize: '20px'`.
-- Negative values, including negative theme values can be specified and they will be resolved accordingly.  For example, specifying `padding: '-m'` will resolve to `padding: '-24px'` if `m` is assigned a value of `'24px'` in `system.theme.spacings`.
+- Negative values, including negative theme values, can be specified and they will be resolved accordingly.  For example, specifying `padding: '-m'` will resolve to `padding: '-24px'` if `m` is assigned a value of `'24px'` in `system.theme.spacings`.
 
 <details>
 <summary>Example</summary>
@@ -820,6 +827,7 @@ const styles = createStyles({
   }),
 });
 ```
+
 </details>
 
 ##### `styles.breakpoints`
@@ -911,6 +919,7 @@ const styles = createStyles({
   },
 });
 ```
+
 </details>
 
 ##### `styles.variants`
@@ -940,6 +949,7 @@ const styles = createStyles({
   },
 });
 ```
+
 </details>
 
 ##### `styles.typography`
@@ -985,6 +995,7 @@ const styles = createStyles({
   },
 });
 ```
+
 </details>
 
 ##### `...styles`
@@ -1048,12 +1059,13 @@ const system = createSystem({
   styles,
 });
 ```
+
 </details>
 
 <details>
 <summary>Tips</summary>
 
-- You can organize all creation of system specs in a `system/` folder/module, where you can better organize and create `icons`, `theme`, `styles`, and finally import and include them in a `createSystem` call.
+- You can organize system specs in a `system/` module, where you can create the relevant `icons`, `theme`, `styles` in separate submodules, and finally them in a `createSystem` call.
 
 </details>
 
@@ -1075,7 +1087,7 @@ import {createConfig} from 'uinix-ui';
 
 createConfig({
   elementShorthandPropsMapping: {
-    margin: ['m']
+    margin: ['m'],
   },
   responsiveCssProperties: [
     'margin-bottom',
@@ -1085,6 +1097,7 @@ createConfig({
   ],
 });
 ```
+
 </details>
 
 ##### `config.elementShorthandPropsMapping`
@@ -1295,19 +1308,21 @@ const styles = {
 };
 
 ```
+
 </details>
 
 <details>
 <summary>Tips</summary>
 
 - While it may be inconvenient that the `system` requires explicit whitelisting of responsive CSS properties, this should be a simple configuration that is specified once and remains unchanged.  **uinix-ui** ships without configuration and is unopinionated on this, letting you control the behaviors explicitly.
+
 </details>
 
 #### `load(h[, system, config])`
 
-To use **uinix-components**, a valid `system` needs to be loaded with an appropriate `h` function, with optional an`config`.
+To use **uinix-components**, a valid `system` needs to be loaded with an appropriate `h` function, and with an optional `config`.
 
-You should load your `system` once in an appropriate entry point in your app, and it should remain immutable after.
+> **Note:** You should `load` your `system` once in an appropriate entry point in your app, and it should remain immutable after.
 
 <details>
 <summary>Example</summary>
@@ -1323,9 +1338,10 @@ const config = createConfig({...});
 load(h, system, config);
 
 const App = () => {
-  return (...);
+  return ...
 };
 ```
+
 </details>
 
 ##### `h`
@@ -1350,7 +1366,7 @@ A valid `config` created by [`createConfig`](#createconfigconfig).
 
 #### `useIcon(icon)`
 
-Retrieves the SVG content of the specified icon.
+Retrieves the SVG content of the specified icon from the system.
 
 Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
 
@@ -1367,11 +1383,12 @@ const githubSvg = useIcon('github');
 
 customSvgRenderer(githubSvg);
 ```
+
 </details>
 
 #### `useTheme()`
 
-Retrieves the `theme`.
+Retrieves the system `theme`.
 
 Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
 
@@ -1385,11 +1402,12 @@ const theme = useTheme();
 
 console.log(theme.colors.background.primary);
 ```
+
 </details>
 
 #### `useStyles()`
 
-Retrieves the `styles`.
+Retrieves the system `styles`.
 
 Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
 
@@ -1404,19 +1422,18 @@ const styles = useStyles();
 console.log(styles.interactive);
 console.log(styles.variants.card.default);
 ```
+
 </details>
 
 #### `useVariant(variant)`
 
-Retrieves the style definition for the specified variant.
+Retrieves the variant style for the specified variant from the system.
 
 Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
 
 ##### `variant`
 
 A `variant` is a string property path relative to `system.styles.variant`.  For example, the variant `'card.primary'` accesses the variant style defined in `system.styles.variant.card.primary`.
-
-If an invalid `variant` is provided, `undefined` is returned by `useVariant`.
 
 ```js
 const styles = {
@@ -1433,6 +1450,8 @@ const styles = {
 }
 ```
 
+If an invalid `variant` is provided, `undefined` is returned by `useVariant`.
+
 <details>
 <summary>Example</summary>
 
@@ -1445,6 +1464,7 @@ const undefinedVariantStyle = useVariant('does.not.exist');
 console.log(variantStyle);
 console.log(undefinedVariantStyle);
 ```
+
 </details>
 
 #### `useSystem()`
@@ -1453,7 +1473,7 @@ Retrieves the entire `system`.
 
 Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
 
-> **Note:** This hook is not particularly useful, but it is provided as a convenience to access the entire `system` if needed.
+> **Note:** This hook is not particularly useful, but it is provided as a convenience to access the entire `system` if required.
 
 <details>
 <summary>Example</summary>
@@ -1467,6 +1487,7 @@ console.log(system.icons);
 console.log(system.styles);
 console.log(system.theme);
 ```
+
 </details>
 
 ### Components
@@ -1479,10 +1500,10 @@ The `Element` component is the elementary building block in **uinix-ui**.  It be
 
 ##### `props`
 
-`Element` has an extremely small API.  It functions essentially as an `HTMLElement` with an additional small set of convenient props as detailed below.
+`Element` has an extremely small API.  It functions essentially as a passthrough for the `HTMLElement`, with just a small set of additional props detailed below.
 
 ##### `props.as`
-Sets `Element` to render as the specified HTML element.
+Sets `Element` to render as the specified HTML element.  Renders as a `HTMDivElement` by default.
 
 <details>
 <summary>Example</summary>
@@ -1499,10 +1520,11 @@ const Example = () => {
   );
 };
 ```
+
 </details>
 
 ##### `props.styles`
-You can style an `Element` as you would for an `HTMLElement` using the `className` and `style` props.  The `styles` prop provides a way to apply theme-based styles.  It also provides a convenient way to compose and merge multiple styles by simply specifying them in array-form.  `styles` supports popular CSS-in-JS features such as pseudo-selectors/classes, nested expressions, responsive values.
+You can style an `Element` as you would for a `HTMLElement` using the `className` and `style` props.  The `styles` prop provides a way to apply theme-based styles.  It also provides a convenient way to compose and merge multiple styles by simply specifying them in array-form.  `styles` supports popular CSS-in-JS features such as pseudo-selectors/classes, nested expressions, responsive values.
 
 `styles` can be specified as either style objects or style functions (see [`props.styleProps`](#propsstyleprops)).
 
@@ -1513,14 +1535,13 @@ You can style an `Element` as you would for an `HTMLElement` using the `classNam
 import {createElement as h} from 'react';
 import {
   Element,
-  createTheme,
-  createStyles,
   createSystem,
+  load,
   useStyles,
 } from 'uinix-ui';
 
 const system = createSystem({
-  theme: createTheme({
+  theme: {
     borders: {
       bordered: '1px solid #eee',
     },
@@ -1537,15 +1558,15 @@ const system = createSystem({
       m: '1rem',
       l: '2rem',
     },
-  }),
-  styles: createStyles({
+  },
+  styles: {
     breakpoints: ['468px', '768px'],
     card: {
       border: 'bordered',
       borderRadius: 'm',
       padding: 'm',
     },
-  }),
+  },
 });
 
 load(h, system);
@@ -1578,7 +1599,7 @@ const Example = () => {
 
 ##### `props.styleProps`
 
-Specifying data in `styleProps` allows use of style functions when using with [`props.styles`](#propsstyles).  A style function is a function that takes `styleProps` and returns a style object.
+`styleProps` provides the data used by style functions defined in [`props.styles`](#propsstyles).  A style function is a function that takes `styleProps` and returns a style object.
 
 <details>
 <summary>Example</summary>
@@ -1587,15 +1608,13 @@ Specifying data in `styleProps` allows use of style functions when using with [`
 import {createElement as h} from 'react';
 import {
   Element,
-  createStyles,
-  createTheme,
   createSystem,
   load,
   useStyles,
 } from 'uinix-ui';
 
 const system = createSystem({
-  theme: createTheme({
+  theme: {
     colors: {
       tones: {
         danger: '#ee0000',
@@ -1611,13 +1630,13 @@ const system = createSystem({
       m: '1rem',
       l: '2rem',
     },
-  }),
-  styles: createStyles({
+  },
+  styles: {
     disabled: ({ disabled }) => ({
       opacity: disabled ? 'disabled' : undefined,
       pointerEvents: disabled ? 'none' : undefined,
     }),
-  }),
+  },
 });
 
 load(h, system);
@@ -1625,7 +1644,7 @@ load(h, system);
 const Example = () => {
   const styles = useStyles();
 
-  const style = ({status, size }) => {
+  const privateStyle = ({status, size }) => {
     return {
       color: `tones.${status}`,
       padding: size === 'l' ? 'l' : 'm',
@@ -1635,7 +1654,7 @@ const Example = () => {
   return (
     <>
       <Element
-        styles={style}
+        styles={privateStyle}
         styleProps={{
           status: 'danger',
           size: 'l',
@@ -1643,7 +1662,7 @@ const Example = () => {
         Will render with: color=#ee0000, padding=2rem
       </Element>
       <Element
-        styles={style}
+        styles={privateStyle}
         styleProps={{
           status: 'sucecss',
           size: 'm',
@@ -1651,7 +1670,7 @@ const Example = () => {
         Will render with: color=#00ee00, padding=1rem
       </Element>
       <Element
-        styles={[style, styles.disabled]}
+        styles={[privateStyle, styles.disabled]}
         styleProps={{
           disabled: true,
           status: 'danger',
@@ -1663,6 +1682,7 @@ const Example = () => {
   );
 };
 ```
+
 </details>
 
 ##### `props.variant`
@@ -1679,14 +1699,12 @@ A `variant` is a string property path relative to `system.styles.variant`.  For 
 import {createElement as h} from 'react';
 import {
   Element,
-  createStyles,
-  createTheme,
   createSystem,
   load,
 } from 'uinix-ui';
 
 const system = createSystem({
-  theme: createTheme({
+  theme: {
     borders: {
       bordered: '1px solid #eee',
     },
@@ -1698,8 +1716,8 @@ const system = createSystem({
       m: '1rem',
       l: '2rem',
     },
-  }),
-  styles: createStyles({
+  },
+  styles: {
     variants: {
       card: {
         primary: {
@@ -1709,7 +1727,7 @@ const system = createSystem({
         },
       },
     },
-  });
+  };
 });
 
 load(h, system);
@@ -1723,6 +1741,7 @@ const Example = () => {
   );
 };
 ```
+
 </details>
 
 ##### `...props`
@@ -1731,7 +1750,7 @@ const Example = () => {
 
 If shorthand props are configured in [`config.elementShorthandPropsMapping`](#configelementshorthandpropsmapping), the prop values are applied as styles.
 
-If custom element styles are configured in [`config.elementStyles`](#configelementstyles), the prop values are used by the element style functions to evaluate conditional styles.
+If custom element styles are configured in [`config.elementStyles`](#configelementstyles), the relating prop values are used by the element style functions to evaluate conditional styles.
 
 #### `Icon(props)`
 
@@ -1746,19 +1765,17 @@ It provides an easy way to render icons in the system.
 import {createElement as h} from 'react';
 import {
   Icon,
-  createIcons,
   createSystem,
-  createTheme,
-  load
+  load,
 } from 'uinix-ui';
 
 load(
   h,
   createSystem({
-    icons: createIcons({
+    icons: {
       close: '<svg>...<svg/>',
-    }),
-    theme: createTheme({
+    },
+    theme: {
       colors: {
         tones: {
           danger: 'red',
@@ -1769,7 +1786,7 @@ load(
           m: '16px',
         },
       },
-    }),
+    },
   },
 ));
 
@@ -1784,15 +1801,16 @@ const customStyles = [
 const Example = () => {
   return (
     <Icon
-      color="tones.danger" {/* theme.color-aware */}
+      color="tones.danger" {/* theme.colors-aware */}
       icon="close" {/* icon from the system */}
-      size="icon.m" {/* theme.size-aware */}
+      size="icon.m" {/* theme.sizes-aware */}
       styles={customStyles} {/* supports Element.styles prop */}
       onClick={() => console.log('clicked')}
     />
   );
 };
 ```
+
 </details>
 
 ##### `props.icon`
@@ -1836,18 +1854,16 @@ It provides an easy way to rapidly build flexbox-based layouts to consistently s
 import {createElement as h} from 'react';
 import {
   Layout,
-  createStyles,
   createSystem,
-  createTheme,
-  load
+  load,
 } from 'uinix-ui';
 
 const system = createSystem({
-  theme: createTheme({
+  theme: {
     sizes: {
       width: {
         container: '768px',
-      }
+      },
     },
     spacings: {
       s: '0.8rem',
@@ -1855,16 +1871,16 @@ const system = createSystem({
       l: '2rem',
       xl: '3rem',
     },
-  }),
-  styles: createStyles({
+  },
+  styles: {
     layout: {
       height: '100vh',
       margin: '0 auto',
       paddingLeft: 'l',
       paddingRight: 'l',
       width: 'width.container',
-    }
-  }),
+    },
+  },
 });
 
 load(h, system);
@@ -1962,16 +1978,14 @@ It provides an easy way to render and apply text styles defined by the system's 
 import {createElement as h} from 'react';
 import {
   Text,
-  createStyles,
   createSystem,
-  createTheme,
-  load
+  load,
 } from 'uinix-ui';
 
 load(
   h,
   createSystem({
-    theme: createTheme({
+    theme: {
       fontFamilies: {
         body: 'arial',
         heading: 'impact',
@@ -1985,8 +1999,8 @@ load(
         body: '20px',
         heading: '40px',
       },
-    }),
-    styles: createStyles({
+    },
+    styles: {
       typography: {
         variants: {
           title: {
@@ -1997,7 +2011,7 @@ load(
           },
         }
       },
-    }),
+    },
   },
 ));
 
@@ -2023,6 +2037,7 @@ const Example = () => {
   );
 };
 ```
+
 </details>
 
 ##### `props.fontFamily`
@@ -2079,7 +2094,7 @@ Sets the `wordSpacing` CSS property.  You can use a theme-based value.
 
 `Text` renders variant styles by accessing from `system.styles.typography.variants` as opposed to `system.styles.variants` in other **uinix-ui** components.
 
-### Utils
+### Utilities
 
 #### `merge(o1)(o2)`
 
@@ -2097,11 +2112,12 @@ Sets the `wordSpacing` CSS property.  You can use a theme-based value.
 
   console.log(merged);
   ```
+
 </details>
 
 ## System Knowledge
 
-System knowledge refers to our understanding of systems. As software systems grow, complexity inevitably grows with the independent ways components in a system can interact with each other.  Our understanding of systems is directly related to our knowledge of these interactions.
+System knowledge refers to our knowledge and understanding of systems. As software systems grow, complexity inevitably grows with the independent ways components in a system can interact with each other.  Our understanding of systems is directly related to our knowledge of these interactions.
 
 It is common practice to abstract and flatten shareable code for reuse, to decrease system complexity.  However, this is not always true because wrong abstractions and indirections may actually increase complexity in a system.
 
@@ -2165,12 +2181,12 @@ const Component = ({children}) => {
 }
 ```
 
-All three approaches above arrive to the same styling goals, but the system knowledge is managed differently in each approach:
+All three approaches arrive to the same styling goals, but the system knowledge is managed differently in each approach:
 - In `a.js`, we made a decision to track the card style formally in `system.styles`.  The style can then be retrieved with the `useStyles` API.  Although this is sourcing styles from the system, implementors may override with additional style properties in consuming code, leading to untracked complexity living outside of the `system`.
 - In `b.js`, we made a decision to track the card style as a style variant in `system.styles.variants`.  When accessed through the `variant` prop in **uinix-ui** components, this indicates an explicit application of styles that cannot be overriden since this is a private implementation of styles by **uinix-ui** components.
 - In `c.js`, we made a decision *not* to define the card style in the `system`, and to define it in the consuming component.  This decision may make sense if the goal is to keep the styling details as a private implementation in `Component`, instead of capturing it in the `system`.
 
-It is important to note that none of the approaches above is better than the other.  The "best" approach depends on the goals of the system and how it will be used.  **uinix-ui** is unopinionated on how you organize your `system`, but it provides a minimal API to help you easily define, manage, and access your `system`.  With easy access to the `system`, you can surface and visualize your system with [meaningful renderers][uinix-docs-ui-systems], thus improving our system knowledge by making it easy to inspect the design decisions made in the system.
+It is important to note that we cannot state which is the best approach.  That "best" approach depends on the goals of the system and how it will be used.  **uinix-ui** is unopinionated on how you organize your `system`, but it provides a minimal API to help you easily define, manage, and access your `system`.  With easy access to the `system`, you can surface and visualize your system with [meaningful renderers][uinix-docs-ui-systems], thus improving system knowledge by making it easy to inspect the design decisions made in the system.
 
 For further reading on system knowledge, this [whitepaper][ui-systems-and-complexity-whitepaper] provides an interactive exploration of the subject matter.
 
@@ -2217,7 +2233,7 @@ When I encountered [@robinweser]'s beautiful plugin-based style system library [
 Stumbling on [@ai]'s 152-byte [nanostores] package (what is this sorcery 🤯) led to a pivotal moment to decouple **uinix-ui** from React, accomplished in [`2434023`][2434023].  While [nanostores] will be eventually removed in [`6415cfa`][6415cfa], it played an important role in transforming **uinix-ui** into a framework-agnostic implementation.
 
 [@wooorm]'s inspirational and profilic works in [unified] and open-source continue to inspire how this library is authored.  Nothing is accidental, and everything is deliberate.  This includes:
-- focusing more on standards and less on frameworks (e.g. **uinix-ui** is [ESM]-only, framework-agnostic, and [hyperscript]-based).
+- focusing more on standards and less on frameworks (e.g. **uinix-ui** is JS-only, [ESM]-only, and framework-agnostic).
 - understanding the *eventual* costs of coupling source code with types, and taking on the extra work to decouple and use [JSDoc]-based [Typescript] types.
 - building a clear scope and goal for **uinix-ui**, and the uinix ecosystem.
 
