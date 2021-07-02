@@ -43,7 +43,7 @@ Your system your rules 🤘.
     - [`createStyles([styles])`](#createstylesstyles)
     - [`createSystem([system])`](#createsystemsystem)
     - [`createConfig([config])`](#createconfigconfig)
-    - [`load(options)`](#loadoptions)
+    - [`load(preset)`](#loadpreset)
     - [`useIcon(icon)`](#useiconicon)
     - [`useTheme()`](#usetheme)
     - [`useStyles()`](#usestyles)
@@ -550,7 +550,7 @@ const Button = ({text, onClick}) => {
 
 ## Presets
 
-Presets are shareable system configurations that you can simply [`load`](#loadoptions).
+Presets are shareable system configurations that you can simply [`load`](#loadpreset).
 
 ```js
 import {load} from 'uinix-ui';
@@ -1071,7 +1071,7 @@ const system = createSystem({
 
 #### `createConfig([config])`
 
-Creates a valid `config` object to configure the `system` and components.  Configurations are only applied when a `system` is [`load`ed](#loadoptions).
+Creates a valid `config` object to configure the `system` and components.  Configurations are only applied when a `system` is [`load`ed](#loadpreset).
 
 **uinix-ui** ships without configuration, but allows you to fully configure your system and rules based on your needs.
 
@@ -1318,7 +1318,7 @@ const styles = {
 
 </details>
 
-#### `load(options)`
+#### `load(preset)`
 
 To use **uinix-components**, a valid `system` needs to be loaded with an appropriate `h` function, and with an optional `config`.
 
@@ -1344,7 +1344,7 @@ const App = () => {
 
 </details>
 
-##### `h`
+##### `preset.h`
 
 `h` is a common alias for the `createElement` method.  It is popularized by [hyperscript], and many UI frameworks support this API for creating elements.  See [§ Frameworks](#frameworks) for examples on using `h` with `load`.
 
@@ -1355,11 +1355,11 @@ A list of `h`-equivalent methods in popular frameworks are provided below for co
 - [Mithril][]: `Mithril.m`
 - [hyperscript][]: `h`
 
-##### `system`
+##### `preset.system`
 
 A valid `system` created by [`createSystem`](#createsystemsystem).
 
-##### `config`
+##### `preset.config`
 
 A valid `config` created by [`createConfig`](#createconfigconfig).
 
@@ -1368,7 +1368,7 @@ A valid `config` created by [`createConfig`](#createconfigconfig).
 
 Retrieves the SVG content of the specified icon from the system.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
 
 ##### `icon`
 The name of an icon assigned in `system.icons`.
@@ -1390,7 +1390,7 @@ customSvgRenderer(githubSvg);
 
 Retrieves the system `theme`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
 
 <details>
 <summary>Example</summary>
@@ -1409,7 +1409,7 @@ console.log(theme.colors.background.primary);
 
 Retrieves the system `styles`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
 
 <details>
 <summary>Example</summary>
@@ -1429,7 +1429,7 @@ console.log(styles.variants.card.default);
 
 Retrieves the variant style for the specified variant from the system.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
 
 ##### `variant`
 
@@ -1471,7 +1471,7 @@ console.log(undefinedVariantStyle);
 
 Retrieves the entire `system`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
 
 > **Note:** This hook is not particularly useful, but it is provided as a convenience to access the entire `system` if required.
 
