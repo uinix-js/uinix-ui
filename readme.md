@@ -43,7 +43,7 @@ Your system your rules 🤘.
     - [`createStyles([styles])`](#createstylesstyles)
     - [`createSystem([system])`](#createsystemsystem)
     - [`createConfig([config])`](#createconfigconfig)
-    - [`load(h[, system, config])`](#loadh-system-config)
+    - [`load(options)`](#loadoptions)
     - [`useIcon(icon)`](#useiconicon)
     - [`useTheme()`](#usetheme)
     - [`useStyles()`](#usestyles)
@@ -143,7 +143,7 @@ const system = createSystem({
   }
 });
 
-load(h, system);
+load({h, system});
 
 const Header = () => {
   const styles = useStyles();
@@ -386,7 +386,7 @@ const config = createConfig({
 /**
  * Load your system
  */
-load(h, system, config);
+load({h, config, system});
 ```
 
 Your `system` should be defined and loaded just once.  It should remain immutable after.
@@ -550,13 +550,13 @@ const Button = ({text, onClick}) => {
 
 ## Presets
 
-Presets are shareable system configurations that you can simply [`load`](#loadh-system-config).
+Presets are shareable system configurations that you can simply [`load`](#loadoptions).
 
 ```js
 import {load} from 'uinix-ui';
 import themeUiPreset from 'uinix-ui-preset-theme-ui';
 
-load(...themeUiPreset);
+load(themeUiPreset);
 ```
 
 - `uinix-ui-preset-theme-ui`
@@ -1071,7 +1071,7 @@ const system = createSystem({
 
 #### `createConfig([config])`
 
-Creates a valid `config` object to configure the `system` and components.  Configurations are only applied when a `system` is [`load`ed](#loadh-system-config).
+Creates a valid `config` object to configure the `system` and components.  Configurations are only applied when a `system` is [`load`ed](#loadoptions).
 
 **uinix-ui** ships without configuration, but allows you to fully configure your system and rules based on your needs.
 
@@ -1318,7 +1318,7 @@ const styles = {
 
 </details>
 
-#### `load(h[, system, config])`
+#### `load(options)`
 
 To use **uinix-components**, a valid `system` needs to be loaded with an appropriate `h` function, and with an optional `config`.
 
@@ -1335,7 +1335,7 @@ const system = createSystem({...});
 const config = createConfig({...});
 
 // load the system once in an entry point in your app.
-load(h, system, config);
+load({h, config, system});
 
 const App = () => {
   return ...
@@ -1368,7 +1368,7 @@ A valid `config` created by [`createConfig`](#createconfigconfig).
 
 Retrieves the SVG content of the specified icon from the system.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
 
 ##### `icon`
 The name of an icon assigned in `system.icons`.
@@ -1390,7 +1390,7 @@ customSvgRenderer(githubSvg);
 
 Retrieves the system `theme`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
 
 <details>
 <summary>Example</summary>
@@ -1409,7 +1409,7 @@ console.log(theme.colors.background.primary);
 
 Retrieves the system `styles`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
 
 <details>
 <summary>Example</summary>
@@ -1429,7 +1429,7 @@ console.log(styles.variants.card.default);
 
 Retrieves the variant style for the specified variant from the system.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
 
 ##### `variant`
 
@@ -1471,7 +1471,7 @@ console.log(undefinedVariantStyle);
 
 Retrieves the entire `system`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadh-system-config).
+Can be called anywhere and requires a valid `system` to be [`load`ed](#loadoptions).
 
 > **Note:** This hook is not particularly useful, but it is provided as a convenience to access the entire `system` if required.
 
@@ -1569,7 +1569,7 @@ const system = createSystem({
   },
 });
 
-load(h, system);
+load({h, system});
 
 const Example = () => {
   const styles = useStyles();
@@ -1639,7 +1639,7 @@ const system = createSystem({
   },
 });
 
-load(h, system);
+load({h, system});
 
 const Example = () => {
   const styles = useStyles();
@@ -1730,7 +1730,7 @@ const system = createSystem({
   };
 });
 
-load(h, system);
+load({h, system});
 
 const Example = () => {
   return (
@@ -1769,9 +1769,9 @@ import {
   load,
 } from 'uinix-ui';
 
-load(
+load({
   h,
-  createSystem({
+  system: createSystem({
     icons: {
       close: '<svg>...<svg/>',
     },
@@ -1787,8 +1787,8 @@ load(
         },
       },
     },
-  },
-));
+  }),
+});
 
 const customStyles = [
   {
@@ -1883,7 +1883,7 @@ const system = createSystem({
   },
 });
 
-load(h, system);
+load({h, system});
 
 const Example = () => {
   const styles = useStyles(); {/* Can use system hooks */}
@@ -1982,9 +1982,9 @@ import {
   load,
 } from 'uinix-ui';
 
-load(
+load({
   h,
-  createSystem({
+  system: createSystem({
     theme: {
       fontFamilies: {
         body: 'arial',
@@ -2012,8 +2012,8 @@ load(
         }
       },
     },
-  },
-));
+  }),
+});
 
 const customStyles = [
   {
@@ -2130,9 +2130,9 @@ import {createElement as h} from 'react';
 import {createSystem, load, useStyles} from 'uinix-ui';
 
 // a.js
-load(
+load({
   h,
-  createSystem({
+  system: createSystem({
     styles: {
       card: {
         borderRadius: 'm',
@@ -2141,7 +2141,7 @@ load(
       },
     },
   }),
-);
+});
 
 const Component = ({children}) => {
   const styles = useStyles();
@@ -2149,9 +2149,9 @@ const Component = ({children}) => {
 }
 
 // b.js
-load(
+load({
   h,
-  createSystem({
+  system: createSystem({
     styles: {
       variants: {
         card: {
@@ -2162,14 +2162,14 @@ load(
       },
     },
   }),
-);
+});
 
 const Component = ({children}) => {
   return <Element variant="card">{children}</Element>
 }
 
 // c.js
-load(h);
+load({h});
 
 const Component = ({children}) => {
   const cardStyle = {

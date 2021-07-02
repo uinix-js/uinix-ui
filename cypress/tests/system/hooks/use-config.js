@@ -11,12 +11,12 @@ describe('useConfig', () => {
   });
 
   it('should return the default config for a default system', () => {
-    load(h);
+    load({h});
     expect(useConfig()).deep.equal(defaultConfig);
   });
 
   it('should return the provided config', () => {
-    load(h, undefined, config);
+    load({h, config});
     expect(useConfig()).deep.equal(config);
   });
 });

@@ -4,7 +4,7 @@ import system from '../../../../fixtures/test-system.js';
 export {assert, createCustomElement};
 
 const createCustomElement = (h) => {
-  load(h, system);
+  load({h, system});
 
   return () =>
     h('main', {}, [

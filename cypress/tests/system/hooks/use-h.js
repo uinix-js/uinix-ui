@@ -9,7 +9,7 @@ describe('useH', () => {
   });
 
   it('should retrieve the provided h (React.createElement) function', () => {
-    load(h);
+    load({h});
     expect(useH()).equal(h);
   });
 });

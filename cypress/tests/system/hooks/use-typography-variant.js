@@ -1,5 +1,5 @@
 import {mount} from '@cypress/react';
-import React from 'react';
+import React, {createElement as h} from 'react';
 
 import {load} from '../../../../index.js';
 import {useTypographyVariant} from '../../../../lib/system/hooks.js';
@@ -17,14 +17,14 @@ describe('useTypographyVariant', () => {
   });
 
   it('should return undefined if variant style is not found in the system', () => {
-    load(React.createElement, system);
+    load({h, system});
     mount(<CustomElement variant="invalid.variant" />);
 
     cy.get('@variantStyle').should('equal', undefined);
   });
 
   it('should return the variant style from the system', () => {
-    load(React.createElement, system);
+    load({h, system});
     mount(<CustomElement variant="heading.1" />);
 
     cy.get('@variantStyle').should(

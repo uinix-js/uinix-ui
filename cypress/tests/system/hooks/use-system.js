@@ -1,5 +1,5 @@
 import {mount} from '@cypress/react';
-import React from 'react';
+import React, {createElement as h} from 'react';
 
 import {createSystem, load, useSystem} from '../../../../index.js';
 import system from '../../../fixtures/test-system.js';
@@ -16,7 +16,7 @@ describe('useSystem', () => {
   });
 
   it('should retrieve the entire system', () => {
-    load(React.createElement, system);
+    load({h, system});
     mount(<CustomElement />);
 
     cy.get('@system').should('deep.equal', createSystem(system));

@@ -1,5 +1,5 @@
 import {mount} from '@cypress/react';
-import React from 'react';
+import React, {createElement as h} from 'react';
 
 import {createSystem, load, useSystem} from '../../../../index.js';
 import defaultSystem from '../../../fixtures/default-system.js';
@@ -17,15 +17,15 @@ describe('load', () => {
     expect(() => mount(<CustomElement />)).to.throw();
   });
 
-  it('should load the default system if nothing is provided', () => {
-    load();
+  it('should load the default system if no system is provided', () => {
+    load({h});
     mount(<CustomElement />);
 
     cy.get('@system').should('deep.equal', createSystem(defaultSystem));
   });
 
   it('should load the provided system', () => {
-    load(React.createElement, system);
+    load({h, system});
     mount(<CustomElement />);
 
     cy.get('@system').should('deep.equal', createSystem(system));
