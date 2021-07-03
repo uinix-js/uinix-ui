@@ -11,7 +11,9 @@
 
 **uinix-ui** is a minimal UI system to build UI systems.
 
-It is [framework-agnostic](#frameworks) and can be used with any [hyperscript]-based view library (e.g. [React], [Preact], [Vue], [Mithril], [Solid], [htm], [Svelte]).  Its minimal [§ API](#api) of just four component primitives interoperates well with your [system knowledge](#system-knowledge) and specs.  It is unopinionated but configurable, providing simple and flexible ways to build and manage UI systems and UIs (see [§ Demos](#demos)).
+It is [framework-agnostic](#frameworks) and plays nice with any [hyperscript]-based view library such as [React], [Preact], [Vue], [Mithril], [Solid], [htm], [Svelte].  It is setup-free: no transpiling, no Babel, no JSX pragma, and no peer dependencies are required.  Just plain old Javascript.
+
+Its minimal [§ API](#api) of just four component primitives interoperates well with your [system knowledge](#system-knowledge) and system specs of `icons`, `theme`, and `styles`.  It is unopinionated but configurable, providing simple and flexible ways to build and manage UI systems and UIs (see [§ Demos](#demos)).
 
 Your system your rules 🤘.
 
