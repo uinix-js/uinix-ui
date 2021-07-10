@@ -472,7 +472,7 @@ import {
 } from 'uinix-ui';
 
 const Button = ({text, onClick}) => {
-  /** Retrieves system.icons[x] */
+  /** Retrieves and renders the specified icon as an svg element */
   const icon = useIcon('x');
   /** Retrieves system.styles */
   const styles = useStyles();
@@ -586,7 +586,8 @@ Creates and defines all SVG icons for the system.
 ##### `icons`
 A map of icon names to its SVG string content.
 
-You can retrieve the SVG string content of an icon using the [`useIcon`](#useiconicon) system hook.
+
+You can retrieve and render the specified icon as an SVG element using the [`useIcon`](#useiconicon) system hook.
 
 <details>
 <summary>Example</summary>
@@ -1368,7 +1369,7 @@ A valid `config` created by [`createConfig`](#createconfigconfig).
 
 #### `useIcon(icon)`
 
-Retrieves the SVG content of the specified icon from the system.
+Retrieves and renders an SVG element based on the specified `icon` from `system.icons`.
 
 Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
 
@@ -1381,9 +1382,10 @@ The name of an icon assigned in `system.icons`.
 ```js
 import {useIcon} from 'uinix-ui';
 
-const githubSvg = useIcon('github');
-
-customSvgRenderer(githubSvg);
+const Example = () => {
+  const GithubSvg = useIcon('github');
+  return <GithubSvg />;
+}
 ```
 
 </details>
