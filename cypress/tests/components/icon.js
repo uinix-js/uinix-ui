@@ -25,6 +25,11 @@ describe('Icon', () => {
         mountWithSystem(<Icon id="test" icon={icon} />, system);
         cy.get('#test').should('contain.html', system.icons[icon]);
       });
+
+      it('should render nested icons', () => {
+        mountWithSystem(<Icon id="test" icon="nested.x" />, system);
+        cy.get('#test').should('contain.html', system.icons.nested.x);
+      });
     });
 
     describe('onClick', () => {
