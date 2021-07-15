@@ -23,7 +23,9 @@ describe('Icon', () => {
     describe('icon', () => {
       it('should render the icon as an div element containing an svg element', () => {
         mountWithSystem(<Icon id="test" icon={icon} />, system);
-        cy.get('#test').should('contain.html', system.icons[icon]);
+        cy.get('#test')
+          .should('have.prop', 'nodeName', 'DIV')
+          .should('contain.html', system.icons[icon]);
       });
 
       it('should render nested icons', () => {
@@ -40,6 +42,7 @@ describe('Icon', () => {
           system,
         );
         cy.get('#test')
+          .should('have.prop', 'nodeName', 'BUTTON')
           .should('contain.html', system.icons[icon])
           .click()
           .click();
@@ -134,6 +137,13 @@ describe('Icon', () => {
           .should('have.css', 'cursor', 'pointer') // Via style1
           .should('have.css', 'color', 'rgb(0, 0, 255)') // Via style2
           .should('have.css', 'opacity', '0.3'); // Via variant
+      });
+
+      it('should not support the `as` prop', () => {
+        mountWithSystem(<Icon as="p" id="test" icon={icon} />, system);
+        cy.get('#test')
+          .should('have.prop', 'nodeName', 'DIV')
+          .should('not.have.prop', 'nodeName', 'P');
       });
     });
   });

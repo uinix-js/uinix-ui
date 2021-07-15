@@ -1507,7 +1507,7 @@ The `Element` component is the elementary building block in **uinix-ui**.  It be
 `Element` has an extremely small API.  It functions essentially as a passthrough for the `HTMLElement`, with just a small set of additional props detailed below.
 
 ##### `props.as`
-Sets `Element` to render as the specified HTML element.  Renders as a `HTMDivElement` by default.
+Sets `Element` to render as the specified HTML element or custom element.  Renders as a `HTMDivElement` by default.
 
 <details>
 <summary>Example</summary>
@@ -1519,6 +1519,32 @@ import {Element} from 'uinix-ui';
 const Example = () => {
   return (
     <Element as="a" href="https://github.com/uinix-js/uinix-ui">
+      uinix-ui
+    </Element>
+  );
+};
+```
+
+You can also render `Element` using a custom element and pass through props.
+
+> **Note:** that if you would like to benefit from themed styles, the custom element should be at least wrapped with an appropriate **uinix-ui** component accepting `styles` and `styleProps`.
+
+```js
+import {Link} from 'react-router';
+
+const CustomLink = ({children, to, ...rest}) => {
+  return (
+    <Element {...rest}>
+      <Link to={to}>
+        {children}
+      </Link>
+    </Element>
+  );
+};
+
+const Example = () => {
+  return (
+    <Element as={Link} styles={...} to="/">
       uinix-ui
     </Element>
   );

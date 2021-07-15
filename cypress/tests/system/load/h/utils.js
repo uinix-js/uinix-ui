@@ -6,6 +6,9 @@ export {assert, createCustomElement};
 const createCustomElement = (h) => {
   load({h, system});
 
+  const CustomElement = ({x, ...rest}) =>
+    h('blockquote', rest, `Custom Element: ${x}`);
+
   return () =>
     h('main', {}, [
       h(
@@ -18,6 +21,7 @@ const createCustomElement = (h) => {
       ),
       Layout({
         id: 'layout',
+        as: 'section',
         align: 'center',
         spacing: 'm',
         styles: [
@@ -28,11 +32,20 @@ const createCustomElement = (h) => {
         children: [
           Element({
             id: 'element',
+            as: 'a',
+            href: 'https://uinix.dev/',
             children: 'Element',
             color: 'brand.primary',
           }),
+          Element({
+            id: 'custom',
+            as: CustomElement,
+            children: 'Custom',
+            x: 'x',
+          }),
           Text({
             id: 'text',
+            as: 'p',
             children: 'Text',
             fontSize: 'xl',
           }),
@@ -54,23 +67,35 @@ const assert = (options = {}) => {
     excludeIconAssertion = false,
   } = options;
 
-  cy.get('#heading').should('contain', 'Heading').should('have.class', 'a b c');
+  cy.get('#heading')
+    .should('have.prop', 'nodeName', 'H1')
+    .should('have.html', 'Heading')
+    .should('have.class', 'a b c');
 
-  cy.get('#layout').should('have.css', 'padding', '16px');
+  cy.get('#layout')
+    .should('have.prop', 'nodeName', 'SECTION')
+    .should('have.css', 'padding', '16px');
 
   cy.get('#element')
-    .should('contain', 'Element')
+    .should('have.prop', 'nodeName', 'A')
+    .should('have.prop', 'href', 'https://uinix.dev/')
+    .should('have.html', 'Element')
     .should('have.css', 'margin-right', '16px');
 
+  cy.get('#custom')
+    .should('have.prop', 'nodeName', 'BLOCKQUOTE')
+    .should('have.html', 'Custom Element: x');
+
   cy.get('#text')
+    .should('have.prop', 'nodeName', 'P')
+    .should('have.html', 'Text')
     .should('have.css', 'font-size', '40px')
-    .should('contain', 'Text')
     .should('have.css', 'margin-right', '16px');
 
   if (!excludeIconAssertion) {
     cy.get('#icon')
-      .should('have.css', 'color', 'rgb(0, 0, 255)')
       .should('contain.html', system.icons.x)
+      .should('have.css', 'color', 'rgb(0, 0, 255)')
       .should('not.have.css', 'margin-right', '16px');
   }
 };

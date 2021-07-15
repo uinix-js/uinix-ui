@@ -7,29 +7,64 @@ import {mountWithSystem} from '../../utils/index.js';
 describe('Element', () => {
   describe('Props', () => {
     describe('children', () => {
-      it('should render with text content', () => {
+      it('should render as a div element with text content', () => {
         mountWithSystem(<Element id="test">Element</Element>);
-        cy.get('#test').should('exist');
+        cy.get('#test')
+          .should('have.prop', 'nodeName', 'DIV')
+          .should('have.html', 'Element');
       });
 
-      it('should render with React elements', () => {
+      it('should render with child elements', () => {
         mountWithSystem(
           <Element id="test">
             <strong>Strong</strong> Element
           </Element>,
         );
-        cy.get('#test').should('exist');
+        cy.get('#test')
+          .should('have.prop', 'nodeName', 'DIV')
+          .should('have.html', '<strong>Strong</strong> Element');
       });
     });
 
     describe('as', () => {
-      it('should render as the specified element', () => {
+      it('should render as the specified HTML element', () => {
         mountWithSystem(
-          <Element id="test" as="strong">
+          <Element id="test" as="a" href="https://uinix.dev/">
             Element
           </Element>,
         );
-        cy.get('#test').should('exist');
+        cy.get('#test')
+          .should('have.prop', 'nodeName', 'A')
+          .should('have.prop', 'href', 'https://uinix.dev/');
+      });
+
+      it.only('should render as the specified custom element passing through Element props', () => {
+        const CustomElement = ({x, ...rest}) => (
+          <Element as="a" {...rest}>
+            Custom Element: {x}
+          </Element>
+        );
+        mountWithSystem(
+          <Element
+            id="test"
+            as={CustomElement}
+            href="https://uinix.dev/"
+            x="x"
+            styleProps={{
+              isActive: true,
+            }}
+            styles={({isActive}) => ({
+              color: isActive ? 'rgb(0, 0, 255)' : 'rgb(0, 0, 0)',
+            })}
+          >
+            Element
+          </Element>,
+        );
+        cy.get('#test')
+          .should('have.prop', 'nodeName', 'A')
+          .should('have.prop', 'href', 'https://uinix.dev/')
+          .should('have.html', 'Custom Element: x')
+          .should('have.css', 'color', 'rgb(0, 0, 255)');
       });
     });
 

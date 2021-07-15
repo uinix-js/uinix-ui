@@ -9,16 +9,18 @@ describe('Text', () => {
     describe('children', () => {
       it('should render as a span with text content', () => {
         mountWithSystem(<Text id="test">Text</Text>);
-        cy.get('#test').should('exist');
+        cy.get('#test')
+          .should('have.prop', 'nodeName', 'SPAN')
+          .should('have.html', 'Text');
       });
 
-      it('should render with React elements', () => {
+      it('should render with child elements', () => {
         mountWithSystem(
           <Text id="test">
             <strong>Strong</strong> Text
           </Text>,
         );
-        cy.get('#test').should('exist');
+        cy.get('#test').should('have.html', '<strong>Strong</strong> Text');
       });
     });
 
@@ -84,20 +86,25 @@ describe('Text', () => {
         mountWithSystem(
           <Text
             id="test"
-            as="button"
+            as="a"
+            href="https://uinix.dev/"
             className="a b"
             styleProps={styleProps}
             styles={styles}
+            variant="small"
           >
             Text
           </Text>,
           system,
         );
         cy.get('#test')
+          .should('have.prop', 'nodeName', 'A')
+          .should('have.prop', 'href', 'https://uinix.dev/')
           .should('have.class', 'a')
           .should('have.class', 'b')
           .should('have.css', 'cursor', 'pointer') // Via style1
-          .should('have.css', 'color', 'rgb(0, 0, 255)'); // Via style2
+          .should('have.css', 'color', 'rgb(0, 0, 255)') // Via style2
+          .should('have.css', 'font-size', '10px'); // Via variant
       });
     });
   });

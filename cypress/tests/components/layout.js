@@ -13,12 +13,15 @@ const children = Array.from({length: 3}).map((_, i) => (
 describe('Layout', () => {
   describe('Props', () => {
     describe('children', () => {
-      it('should render as a flex container with text content', () => {
+      it('should render as a div flex container with text content', () => {
         mountWithSystem(<Layout id="test">Layout</Layout>);
-        cy.get('#test').should('have.css', 'display', 'flex');
+        cy.get('#test')
+          .should('have.prop', 'nodeName', 'DIV')
+          .should('have.css', 'display', 'flex')
+          .should('have.html', 'Layout');
       });
 
-      it('should render with React elements', () => {
+      it('should render with child elements', () => {
         mountWithSystem(<Layout id="test">{children}</Layout>);
         cy.contains('#test > button', 'Button 1').should('exist');
         cy.contains('#test > button', 'Button 2').should('exist');
@@ -201,7 +204,8 @@ describe('Layout', () => {
         mountWithSystem(
           <Layout
             id="test"
-            as="p"
+            as="a"
+            href="https://uinix.dev/"
             className="a b"
             styleProps={styleProps}
             styles={styles}
@@ -212,6 +216,8 @@ describe('Layout', () => {
           system,
         );
         cy.get('#test')
+          .should('have.prop', 'nodeName', 'A')
+          .should('have.prop', 'href', 'https://uinix.dev/')
           .should('have.class', 'a')
           .should('have.class', 'b')
           .should('have.css', 'cursor', 'pointer') // Via style1
