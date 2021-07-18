@@ -58,6 +58,26 @@ describe('Icon', () => {
         );
         cy.get('#test').should('have.css', 'color', 'rgb(255, 0, 0)');
       });
+
+      it('should apply to the CSS "color" property the currentColor of its parent when rendered as a div', () => {
+        mountWithSystem(
+          <div style={{color: 'rgb(255, 0, 0)'}}>
+            <Icon id="test" icon={icon} />
+          </div>,
+          system,
+        );
+        cy.get('#test').should('have.css', 'color', 'rgb(255, 0, 0)');
+      });
+
+      it('should apply to the CSS "color" property the currentColor of its parent when rendered as a button', () => {
+        mountWithSystem(
+          <div style={{color: 'rgb(255, 0, 0)'}}>
+            <Icon id="test" icon={icon} onClick={console.log} />
+          </div>,
+          system,
+        );
+        cy.get('#test').should('have.css', 'color', 'rgb(255, 0, 0)');
+      });
     });
 
     describe('height', () => {

@@ -4,14 +4,14 @@ import {Element, Icon, Layout, Text} from '../../../../../index.js';
 import {mountWithSystem} from '../../../../utils/index.js';
 
 const responsiveStyles = {
-  color: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)'],
-  backgroundColor: 'rgb(225, 225, 225)',
+  color: 'rgb(225, 225, 225)',
+  backgroundColor: ['rgb(255, 0, 0)', 'rgb(0, 255, 0)', 'rgb(0, 0, 255)'],
   margin: ['8px', '16px', '32px'],
   padding: ['8px', '16px', '32px'],
 };
 
 const config = {
-  responsiveCssProperties: ['color', 'padding'],
+  responsiveCssProperties: ['backgroundColor', 'padding'],
 };
 
 const system = {
@@ -37,8 +37,12 @@ describe('config.responsiveCssProperties', () => {
       system,
     );
     cy.get('#test')
-      .should('have.css', 'background-color', 'rgb(225, 225, 225)')
-      .should('have.css', 'color', responsiveStyles.color[2])
+      .should('have.css', 'color', responsiveStyles.color)
+      .should(
+        'have.css',
+        'background-color',
+        responsiveStyles.backgroundColor[2],
+      )
       .should('have.css', 'margin', responsiveStyles.margin[2])
       .should('have.css', 'padding', responsiveStyles.padding[2]);
   });
@@ -55,10 +59,14 @@ describe('config.responsiveCssProperties', () => {
       cy.viewport(viewportWidth, viewportHeight);
       cy.get('#test')
         // Registered responsive styles
-        .should('have.css', 'color', responsiveStyles.color[i])
+        .should(
+          'have.css',
+          'background-color',
+          responsiveStyles.backgroundColor[i],
+        )
         .should('have.css', 'padding', responsiveStyles.padding[i])
         // Unregistered and non-responsive styles
-        .should('have.css', 'background-color', 'rgb(225, 225, 225)')
+        .should('have.css', 'color', responsiveStyles.color)
         .should('have.css', 'margin', responsiveStyles.margin[2]);
     });
   });
@@ -76,10 +84,14 @@ describe('config.responsiveCssProperties', () => {
         cy.viewport(viewportWidth, viewportHeight);
         cy.get('#test')
           // Registered responsive styles
-          .should('have.css', 'color', responsiveStyles.color[i])
+          .should(
+            'have.css',
+            'background-color',
+            responsiveStyles.backgroundColor[i],
+          )
           .should('have.css', 'padding', responsiveStyles.padding[i])
           // Unregistered and non-responsive styles
-          .should('have.css', 'background-color', 'rgb(225, 225, 225)')
+          .should('have.css', 'color', responsiveStyles.color)
           .should('have.css', 'margin', responsiveStyles.margin[2]);
       });
     });

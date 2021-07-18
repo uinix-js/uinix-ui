@@ -363,7 +363,7 @@ const config = createConfig({
    * opacity style.
    */
   elementStyles: [
-    ({ onClick }) => ({
+    ({onClick}) => ({
       ':hover': {
         opacity: onClick ? 'interactive': undefined,
       },
@@ -824,7 +824,7 @@ const styles = createStyles({
       opacity: 'hover',
     },
   },
-  disabled: ({ disabled }) => ({
+  disabled: ({disabled}) => ({
     opacity: disabled ? 'disabled' : undefined,
     pointerEvents: disabled ? 'none' : undefined,
   }),
@@ -1029,7 +1029,7 @@ const styles = createStyles({
     },
   },
   // Style function
-  disabled: ({ disabled }) => ({
+  disabled: ({disabled}) => ({
     opacity: disabled ? 'disabled' : undefined,
     pointerEvents: disabled ? 'none' : undefined,
   }),
@@ -1174,7 +1174,7 @@ import {createConfig} from 'uinix-ui';
 
 const config = createConfig({
   elementStyles: [
-    ({ onClick }) => {
+    ({onClick}) => {
       return {
         cursor: onClick ? 'pointer': undefined,
         ':hover': {
@@ -1182,7 +1182,7 @@ const config = createConfig({
         },
       };
     },
-    ({ disabled }) => {
+    ({disabled}) => {
       return {
         opacity: disabled ? 'disabled': undefined,
         pointerEvents: disabled ? 'none' : undefined,
@@ -1662,7 +1662,7 @@ const system = createSystem({
     },
   },
   styles: {
-    disabled: ({ disabled }) => ({
+    disabled: ({disabled}) => ({
       opacity: disabled ? 'disabled' : undefined,
       pointerEvents: disabled ? 'none' : undefined,
     }),
@@ -1674,7 +1674,7 @@ load({h, system});
 const Example = () => {
   const styles = useStyles();
 
-  const privateStyle = ({status, size }) => {
+  const privateStyle = ({status, size}) => {
     return {
       color: `tones.${status}`,
       padding: size === 'l' ? 'l' : 'm',
