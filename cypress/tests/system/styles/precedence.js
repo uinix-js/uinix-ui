@@ -40,10 +40,7 @@ const styleProps = [
 ];
 
 const getProps = (styleProps) =>
-  styleProps.reduce((acc, {name, value}) => {
-    acc[name] = value;
-    return acc;
-  }, {});
+  Object.fromEntries(styleProps.map(({name, value}) => [name, value]));
 
 describe('Precendence', () => {
   it('should take style props precedence in the order of style > variant > shorthandProps > styles', () => {
