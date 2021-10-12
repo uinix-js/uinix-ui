@@ -1627,6 +1627,65 @@ const Example = () => {
 
 </details>
 
+##### `props.variant`
+
+When specified, accesses a variant style specified in `system.styles.variants`.
+
+A `variant` is a string property path relative to `system.styles.variant`.  For example, the variant `'card.primary'` accesses the variant style defined in `system.styles.variant.card.primary`.  If a `variant` is invalid, the style is not applied.
+
+
+<details>
+<summary>Example</summary>
+
+```js
+import {createElement as h} from 'react';
+import {
+  Element,
+  createSystem,
+  load,
+} from 'uinix-ui';
+
+const system = createSystem({
+  theme: {
+    borders: {
+      bordered: '1px solid #eee',
+    },
+    radii: {
+      m: '4px',
+    },
+    spacings: {
+      s: '0.5rem',
+      m: '1rem',
+      l: '2rem',
+    },
+  },
+  styles: {
+    variants: {
+      card: {
+        primary: {
+          border: 'bordered',
+          borderRadius: 'm',
+          padding: 'm',
+        },
+      },
+    },
+  };
+});
+
+load({h, system});
+
+const Example = () => {
+  return (
+    <Element variant="card.primary">
+      Will render the card.primary variant style with:
+      border=1px solid #eee, borderRadius=4px, padding=1rem
+    </Element>
+  );
+};
+```
+
+</details>
+
 ##### `props.styleProps`
 
 `styleProps` provides the data used by style functions defined in [`props.styles`](#propsstyles).  A style function is a function that takes `styleProps` and returns a style object.
@@ -1715,65 +1774,6 @@ const Example = () => {
 
 </details>
 
-##### `props.variant`
-
-When specified, accesses a variant style specified in `system.styles.variants`.
-
-A `variant` is a string property path relative to `system.styles.variant`.  For example, the variant `'card.primary'` accesses the variant style defined in `system.styles.variant.card.primary`.  If a `variant` is invalid, the style is not applied.
-
-
-<details>
-<summary>Example</summary>
-
-```js
-import {createElement as h} from 'react';
-import {
-  Element,
-  createSystem,
-  load,
-} from 'uinix-ui';
-
-const system = createSystem({
-  theme: {
-    borders: {
-      bordered: '1px solid #eee',
-    },
-    radii: {
-      m: '4px',
-    },
-    spacings: {
-      s: '0.5rem',
-      m: '1rem',
-      l: '2rem',
-    },
-  },
-  styles: {
-    variants: {
-      card: {
-        primary: {
-          border: 'bordered',
-          borderRadius: 'm',
-          padding: 'm',
-        },
-      },
-    },
-  };
-});
-
-load({h, system});
-
-const Example = () => {
-  return (
-    <Element variant="card.primary">
-      Will render the card.primary variant style with:
-      border=1px solid #eee, borderRadius=4px, padding=1rem
-    </Element>
-  );
-};
-```
-
-</details>
-
 ##### `...props`
 
 `Element` passes through all other props onto the eventual `HTMLElement`.
@@ -1848,11 +1848,6 @@ const Example = () => {
 ##### `props.icon`
 When specified, will retrieve and render the specified icon in the system as a `HTMLSVGElement`.  If the icon does not exist in the system, `null` is rendered.
 
-##### `props.size`
-Sets the icon SVG's `height` and `width`. You can use a theme-based value.
-
-Use this to conveniently set equal height and width for the icon.  Use `props.height` or `props.width` to set non-equal dimensions for the SVG.
-
 ##### `props.color`
 Sets the icon SVG container's `color`.  You can use a theme-based value.
 
@@ -1860,6 +1855,11 @@ An icon will apply the specified color if its source SVG content uses `'currentC
 
 ##### `props.height`
 Sets the icon SVG's `height`.  You can use a theme-based value.
+
+##### `props.size`
+Sets the icon SVG's `height` and `width`. You can use a theme-based value.
+
+Use this to conveniently set equal height and width for the icon.  Use `props.height` or `props.width` to set non-equal dimensions for the SVG.
 
 ##### `props.width`
 Sets the icon SVG's `width`.  You can use a theme-based value.
@@ -1960,26 +1960,11 @@ const Example = () => {
 
 </details>
 
-##### `props.align`
-Sets the `alignItems` CSS property.
-
-##### `props.alignSelf`
-Sets the `alignSelf` CSS property.
-
 ##### `props.direction`
 Sets the `flexDirection` CSS property.
 
-##### `props.flex`
-Sets the `flex` CSS property.
-
 ##### `props.inline`
 If `true`, sets the `display` CSS property to `'inline-flex'`, otherwise sets to `'flex'` by default.
-
-##### `props.justify`
-Sets the `justifyContent` CSS property.
-
-##### `props.justifySelf`
-Sets the `justifySelf` CSS property.
 
 ##### `props.spacing`
 Spaces all children (except the last child) evenly by the specified margin value.  You can use a theme-based value.
@@ -1991,6 +1976,21 @@ If `true`, sets the `flexWrap` CSS property to `'wrap'`, otherwise it is undefin
 
 ##### `props.wrapSpacing`
 If `props.wrap` is set to `true`, you may space all wrapped children with the specified vertical margin value.  A negative margin is applied on the `Layout` element.  You can use a theme-based value.
+
+##### `props.align`
+Sets the `alignItems` CSS property.
+
+##### `props.alignSelf`
+Sets the `alignSelf` CSS property.
+
+##### `props.flex`
+Sets the `flex` CSS property.
+
+##### `props.justify`
+Sets the `justifyContent` CSS property.
+
+##### `props.justifySelf`
+Sets the `justifySelf` CSS property.
 
 ##### `...props`
 `Layout` is composed from [`Element`](#elementprops), and therefore supports the `as`, `styles`, `styleProps`, `variant`, and shorthand props.
