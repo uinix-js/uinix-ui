@@ -38,7 +38,7 @@ describe('Element', () => {
           .should('have.prop', 'href', 'https://uinix.dev/');
       });
 
-      it.only('should render as the specified custom element passing through Element props', () => {
+      it('should render as the specified custom element passing through Element props', () => {
         const CustomElement = ({x, ...rest}) => (
           <Element as="a" {...rest}>
             Custom Element: {x}
