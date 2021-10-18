@@ -41,8 +41,19 @@ describe('useIcon', () => {
   it('should return an SVG element for the specified nested icon from the system', () => {
     load({h, system});
     mount(<CustomElement icon="nested.x" />);
-
     const svg = system.icons.nested.x;
+    const svgElement = parseSvgElement({h, svg});
+    cy.get('@iconSvg').should((iconSvg) => {
+      expect(renderToStaticMarkup(iconSvg)).to.equal(
+        renderToStaticMarkup(svgElement),
+      );
+    });
+  });
+
+  it('should return an SVG element for the specified direct icon from the system', () => {
+    load({h, system});
+    mount(<CustomElement icon="a.b.c" />);
+    const svg = system.icons['a.b.c'];
     const svgElement = parseSvgElement({h, svg});
     cy.get('@iconSvg').should((iconSvg) => {
       expect(renderToStaticMarkup(iconSvg)).to.equal(
