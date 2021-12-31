@@ -11,11 +11,13 @@ const system = {
     variants: {},
   },
   theme: {
+    backgrounds: {},
     animations: {},
     borders: {},
     borderStyles: {},
     borderWidths: {},
     colors: {},
+    filters: {},
     fontFamilies: {},
     fontSizes: {},
     fontWeights: {},

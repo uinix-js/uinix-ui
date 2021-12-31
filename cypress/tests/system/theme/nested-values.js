@@ -1,5 +1,5 @@
 import React from 'react';
-import {themeMapping} from 'uinix-theme';
+import {defaultThemeSpec} from 'uinix-theme';
 
 import {Element} from '../../../../index.js';
 import {decamelizeCssProperty, mountWithSystem} from '../../../utils/index.js';
@@ -10,6 +10,14 @@ const system = {
       nested: {
         nested: {
           default: '2s ease-in-out 0s infinite normal none running none',
+        },
+      },
+    },
+    backgrounds: {
+      nested: {
+        nested: {
+          default:
+            'rgba(0, 0, 0, 0) linear-gradient(45deg, rgb(255, 0, 0), rgb(0, 0, 255)) repeat scroll 0% 0% / auto padding-box border-box',
         },
       },
     },
@@ -38,6 +46,13 @@ const system = {
       nested: {
         nested: {
           default: 'rgb(0, 0, 255)',
+        },
+      },
+    },
+    filters: {
+      nested: {
+        nested: {
+          default: 'blur(5px)',
         },
       },
     },
@@ -151,9 +166,11 @@ const defaultStyle = {
 };
 
 describe('Nested values', () => {
-  Object.entries(themeMapping).forEach(([themeProperty, cssProperties]) => {
+  for (const [themeProperty, cssProperties] of Object.entries(
+    defaultThemeSpec,
+  )) {
     describe(themeProperty, () => {
-      cssProperties.forEach((cssProperty) => {
+      for (const cssProperty of cssProperties) {
         it(`should apply ${cssProperty} styles accessed via theme.${themeProperty}.nested.nested.default`, () => {
           const styles = {
             ...defaultStyle,
@@ -177,7 +194,7 @@ describe('Nested values', () => {
             expectedValue,
           );
         });
-      });
+      }
     });
-  });
+  }
 });

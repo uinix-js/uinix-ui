@@ -80,7 +80,7 @@ describe('config.elementShorthandPropsMapping', () => {
         padding: ['p'],
       },
     };
-    [Element, Icon, Layout, Text].forEach((Component) => {
+    for (const Component of [Element, Icon, Layout, Text]) {
       mountWithSystem(
         <Component id="test" color="rgb(255, 0, 0)" m="42px" p="24px">
           Component
@@ -92,6 +92,6 @@ describe('config.elementShorthandPropsMapping', () => {
         .should('have.css', 'color', 'rgb(255, 0, 0)')
         .should('have.css', 'margin', '42px')
         .should('have.css', 'padding', '24px');
-    });
+    }
   });
 });

@@ -45,7 +45,7 @@ describe('config.elementStyles', () => {
   });
 
   it('should apply elementStyles for all UI components', () => {
-    [Element, Icon, Layout, Text].forEach((Component) => {
+    for (const Component of [Element, Icon, Layout, Text]) {
       mountWithSystem(
         <Component disabled id="test" fontSize="42px">
           Component
@@ -58,6 +58,6 @@ describe('config.elementStyles', () => {
         .should('have.css', 'background-color', 'rgb(225, 225, 225)')
         .should('have.css', 'opacity', '0.3')
         .should('have.css', 'font-size', '42px');
-    });
+    }
   });
 });

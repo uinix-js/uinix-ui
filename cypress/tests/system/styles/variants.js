@@ -18,7 +18,7 @@ const system = {
 
 describe('styles.variants', () => {
   it('should apply variant style via Element, Icon, Layout element', () => {
-    [Element, Icon, Layout].forEach((Component) => {
+    for (const Component of [Element, Icon, Layout]) {
       mountWithSystem(
         <Component id="test" variant="Container.primary">
           Component
@@ -28,6 +28,6 @@ describe('styles.variants', () => {
       cy.get('#test')
         .should('have.css', 'margin', '42px')
         .should('have.css', 'padding', '42px');
-    });
+    }
   });
 });

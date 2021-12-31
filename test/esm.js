@@ -2,7 +2,7 @@ import test from 'tape';
 
 test('runs as ESM', (t) => {
   t.doesNotThrow(async () => {
-    await import('../index.js'); // eslint-disable-line node/no-unsupported-features/es-syntax
+    await import('../index.js');
   }, 'should not throw');
   t.end();
 });

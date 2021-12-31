@@ -1,7 +1,7 @@
 {
   "name": "uinix-ui",
   "version": "0.2.3",
-  "description": "A minimal framework-agnostic UI system to build UI systems.  Your system, your rules 🤘.",
+  "description": "A minimal configurable framework-agnostic UI system to build UI systems.  Your system, your rules 🤘.",
   "license": "MIT",
   "keywords": [
     "uinix",
@@ -21,6 +21,12 @@
   "repository": "uinix-js/uinix-ui",
   "bugs": "https://github.com/uinix-js/uinix-ui/issues",
   "author": "Chris Zhou <chrisrzhou@pm.me> (https://chrisrzhou.io)",
+  "funding": [
+    {
+      "type": "GitHub Sponsors",
+      "url": "https://github.com/sponsors/uinix-js"
+    }
+  ],
   "sideEffects": false,
   "type": "module",
   "main": "index.js",
@@ -30,6 +36,7 @@
     "index.js",
     "index.d.ts"
   ],
+  "exports": "./index.js",
   "dependencies": {
     "fela": "^11.7.0",
     "fela-dom": "^11.7.0",
@@ -39,56 +46,52 @@
     "fela-preset-web": "^11.7.0",
     "hast-to-hyperscript": "^10.0.1",
     "svg-parser": "^2.0.4",
-    "uinix-fp": "^0.2.4",
-    "uinix-theme": "^0.2.3"
+    "uinix-fp": "^1.0.2",
+    "uinix-theme": "^1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@babel/preset-env": "^7.15.8",
-    "@babel/preset-react": "^7.13.13",
-    "@cypress/code-coverage": "^3.9.11",
-    "@cypress/react": "^5.10.1",
-    "@cypress/webpack-dev-server": "^1.7.0",
-    "@types/react": "^17.0.32",
-    "@types/svg-parser": "^2.0.2",
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.7",
+    "@babel/preset-react": "^7.16.7",
+    "@cypress/code-coverage": "^3.9.12",
+    "@cypress/react": "^5.12.0",
+    "@cypress/webpack-dev-server": "^1.8.0",
+    "@types/react": "^17.0.38",
+    "@types/svg-parser": "^2.0.3",
     "@types/tape": "^4.13.2",
     "babel-loader": "^8.2.3",
     "babel-plugin-istanbul": "^6.1.1",
-    "c8": "^7.10.0",
-    "cypress": "^8.6.0",
+    "c8": "^7.11.0",
+    "cypress": "^9.2.0",
     "eslint-config-xo-react": "^0.25.0",
     "eslint-plugin-cypress": "^2.12.1",
-    "eslint-plugin-react": "^7.26.1",
-    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "htm": "^3.1.0",
-    "html-webpack-plugin": "^5.4.0",
+    "html-webpack-plugin": "^5.5.0",
     "hyperscript": "^2.0.2",
     "mithril": "^2.0.4",
-    "preact": "^10.5.15",
+    "preact": "^10.6.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "solid-js": "^1.1.7",
-    "tape": "^5.3.1",
-    "type-coverage": "^2.18.2",
-    "typescript": "^4.4.4",
+    "solid-js": "^1.2.6",
+    "tape": "^5.4.0",
+    "type-coverage": "^2.19.0",
+    "typescript": "^4.5.4",
     "uinix-scripts": "^0.1.2",
-    "webpack": "^5.59.1",
-    "webpack-dev-server": "^4.3.1",
-    "xo": "^0.45.0"
+    "webpack": "^5.65.0",
+    "webpack-dev-server": "^4.7.2",
+    "xo": "^0.47.0"
   },
   "scripts": {
     "build": "npm run clean && tsc && type-coverage",
-    "clean": "uinix-scripts clean",
+    "clean": "rimraf index.d.ts {lib,test}/*.d.ts {lib,test}/**/*.d.ts",
     "cypress-open": "cypress open-ct",
     "cypress-run": "cypress run-ct",
     "lint": "xo --fix",
-    "prepack": "npm run build && npm run lint",
     "test-coverage": "npm run test-esm && npm run cypress-run",
     "test-esm": "node test/esm.js",
     "test": "npm run build && npm run lint && npm run test-coverage"
-  },
-  "engines": {
-    "node": ">=12"
   },
   "prettier": {
     "bracketSpacing": false,
@@ -99,11 +102,12 @@
     "useTabs": false
   },
   "typeCoverage": {
-    "atLeast": 100,
+    "atLeast": 90,
     "detail": true,
-    "strict": true
+    "strict": true,
+    "ignore-files": "test/*.js"
   },
-  "xo": {
+   "xo": {
     "esnext": false,
     "prettier": true,
     "extends": [
@@ -116,8 +120,6 @@
     "rules": {
       "new-cap": "off",
       "react/prop-types": "off",
-      "unicorn/no-array-callback-reference": "off",
-      "unicorn/no-array-for-each": "off",
       "unicorn/no-array-reduce": "off"
     },
     "overrides": [
@@ -128,10 +130,7 @@
         ],
         "rules": {
           "import/no-unassigned-import": "off",
-          "max-nested-callbacks": "off",
-          "promise/prefer-await-to-then": "off",
-          "react/no-array-index-key": "off",
-          "unicorn/prefer-module": "off"
+          "react/no-array-index-key": "off"
         }
       }
     ]

@@ -5,8 +5,6 @@
 [![Downloads][downloads-badge]][downloads]
 [![Size][bundle-size-badge]][bundle-size]
 
----
-
 ## Intro
 
 **uinix-ui** is a minimal UI system to build UI systems.

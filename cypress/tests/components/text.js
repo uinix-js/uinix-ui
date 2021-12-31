@@ -41,7 +41,7 @@ describe('Text', () => {
       {wordBreak: 'break-all'},
       {wordSpacing: '4.2px'},
     ];
-    fontProps.forEach((props) => {
+    for (const props of fontProps) {
       const [propName, propValue] = Object.entries(props)[0];
       const cssPropertyName = decamelizeCssProperty(propName);
       describe(propName, () => {
@@ -54,7 +54,7 @@ describe('Text', () => {
           cy.get('#test').should('have.css', cssPropertyName, propValue);
         });
       });
-    });
+    }
 
     describe('variant', () => {
       it('should use the variant style defined in system.styles.typography.variants', () => {

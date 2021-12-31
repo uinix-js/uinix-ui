@@ -48,7 +48,7 @@ describe('config.responsiveCssProperties', () => {
   });
 
   it('should apply responsive style value on specified responsive CSS properties', () => {
-    viewportWidths.forEach((viewportWidth, i) => {
+    for (const [i, viewportWidth] of viewportWidths.entries()) {
       mountWithSystem(
         <Element id="test" styles={responsiveStyles}>
           Element
@@ -68,12 +68,12 @@ describe('config.responsiveCssProperties', () => {
         // Unregistered and non-responsive styles
         .should('have.css', 'color', responsiveStyles.color)
         .should('have.css', 'margin', responsiveStyles.margin[2]);
-    });
+    }
   });
 
   it('should apply responsive style value on specified responsive CSS properties for all UI components', () => {
-    [Element, Icon, Layout, Text].forEach((Component) => {
-      viewportWidths.forEach((viewportWidth, i) => {
+    for (const Component of [Element, Icon, Layout, Text]) {
+      for (const [i, viewportWidth] of viewportWidths.entries()) {
         mountWithSystem(
           <Component id="test" styles={responsiveStyles}>
             Element
@@ -93,7 +93,7 @@ describe('config.responsiveCssProperties', () => {
           // Unregistered and non-responsive styles
           .should('have.css', 'color', responsiveStyles.color)
           .should('have.css', 'margin', responsiveStyles.margin[2]);
-      });
-    });
+      }
+    }
   });
 });

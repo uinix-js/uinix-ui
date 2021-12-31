@@ -1,5 +1,5 @@
 import React from 'react';
-import {themeMapping} from 'uinix-theme';
+import {defaultThemeSpec} from 'uinix-theme';
 
 import {Element} from '../../../../index.js';
 import {decamelizeCssProperty, mountWithSystem} from '../../../utils/index.js';
@@ -8,6 +8,10 @@ const system = {
   theme: {
     animations: {
       default: '2s ease-in-out 0s infinite normal none running none',
+    },
+    backgrounds: {
+      default:
+        'rgba(0, 0, 0, 0) linear-gradient(45deg, rgb(255, 0, 0), rgb(0, 0, 255)) repeat scroll 0% 0% / auto padding-box border-box',
     },
     borders: {
       default: '1px solid rgb(255, 0, 0)',
@@ -20,6 +24,9 @@ const system = {
     },
     colors: {
       default: 'rgb(0, 0, 255)',
+    },
+    filters: {
+      default: 'blur(5px)',
     },
     fontFamilies: {
       default: 'impact',
@@ -75,10 +82,13 @@ const defaultStyle = {
 };
 
 describe('CSS property values', () => {
-  Object.entries(themeMapping).forEach(([themeProperty, cssProperties]) => {
+  for (const [themeProperty, cssProperties] of Object.entries(
+    defaultThemeSpec,
+  )) {
     describe(themeProperty, () => {
-      cssProperties.forEach((cssProperty) => {
-        it(`should apply ${cssProperty} styles accessed via theme.${themeProperty}.default`, () => {
+      for (const cssProperty of cssProperties) {
+        it.only(`should apply ${cssProperty} styles accessed via theme.${themeProperty}.default`, () => {
+          console.log(cssProperty);
           const styles = {
             ...defaultStyle,
             [cssProperty]: 'default',
@@ -101,7 +111,7 @@ describe('CSS property values', () => {
             expectedValue,
           );
         });
-      });
+      }
     });
-  });
+  }
 });
