@@ -84,7 +84,7 @@
     "xo": "^0.47.0"
   },
   "scripts": {
-    "build": "npm run clean && tsc && type-coverage",
+    "build": "npm run clean",
     "clean": "rimraf index.d.ts {lib,test}/*.d.ts {lib,test}/**/*.d.ts",
     "cypress-open": "cypress open-ct",
     "cypress-run": "cypress run-ct",
