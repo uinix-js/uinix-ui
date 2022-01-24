@@ -12,6 +12,7 @@ describe('mergeClassNames', () => {
   });
 
   it('should return undefined if merged className is the empty string', () => {
+    expect(mergeClassNames([])).to.equal(undefined);
     expect(mergeClassNames([''])).to.equal(undefined);
     expect(mergeClassNames([null, undefined])).to.equal(undefined);
   });
