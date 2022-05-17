@@ -5,11 +5,11 @@ import {load} from '../../../../index.js';
 import {useTypographyVariant} from '../../../../lib/system/hooks.js';
 import system from '../../../fixtures/test-system.js';
 
-const CustomElement = ({variant}) => {
+function CustomElement({variant}) {
   const variantStyle = useTypographyVariant(variant);
   cy.wrap(variantStyle).as('variantStyle');
   return <pre>{JSON.stringify(variantStyle, null, 2)}</pre>;
-};
+}
 
 describe('useTypographyVariant', () => {
   it('should throw if system is not loaded', () => {

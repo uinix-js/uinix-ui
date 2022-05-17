@@ -39,11 +39,14 @@ describe('Element', () => {
       });
 
       it('should render as the specified custom element passing through Element props', () => {
-        const CustomElement = ({x, ...rest}) => (
-          <Element as="a" {...rest}>
-            Custom Element: {x}
-          </Element>
-        );
+        function CustomElement({x, ...rest}) {
+          return (
+            <Element as="a" {...rest}>
+              Custom Element: {x}
+            </Element>
+          );
+        }
+
         mountWithSystem(
           <Element
             id="test"

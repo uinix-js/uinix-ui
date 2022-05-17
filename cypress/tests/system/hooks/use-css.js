@@ -14,7 +14,7 @@ const style2 = ({isActive}) => ({
   cursor: isActive ? 'pointer' : undefined,
 });
 
-const CustomElement = ({id, styleProps, styles}) => {
+function CustomElement({id, styleProps, styles}) {
   const css = useCss(styleProps);
   const className = css(styles);
   return (
@@ -22,7 +22,7 @@ const CustomElement = ({id, styleProps, styles}) => {
       Custom Element
     </div>
   );
-};
+}
 
 describe('useCss', () => {
   it('should throw if system is not loaded', () => {

@@ -4,11 +4,11 @@ import React, {createElement as h} from 'react';
 import {createSystem, load, useSystem} from '../../../../index.js';
 import system from '../../../fixtures/test-system.js';
 
-const CustomElement = () => {
+function CustomElement() {
   const system = useSystem();
   cy.wrap(system).as('system');
   return <pre>{JSON.stringify(system, null, 2)}</pre>;
-};
+}
 
 describe('useSystem', () => {
   it('should throw if system is not loaded', () => {

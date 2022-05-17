@@ -4,11 +4,11 @@ import React, {createElement as h} from 'react';
 import {createTheme, load, useTheme} from '../../../../index.js';
 import system from '../../../fixtures/test-system.js';
 
-const CustomElement = ({path = ''}) => {
+function CustomElement({path = ''}) {
   const theme = useTheme(path);
   cy.wrap(theme).as('theme');
   return <pre>{JSON.stringify(theme, null, 2)}</pre>;
-};
+}
 
 describe('useTheme', () => {
   it('should throw if system is not loaded', () => {

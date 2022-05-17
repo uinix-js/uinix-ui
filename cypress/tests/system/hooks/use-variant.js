@@ -4,11 +4,11 @@ import React, {createElement as h} from 'react';
 import {load, useVariant} from '../../../../index.js';
 import system from '../../../fixtures/test-system.js';
 
-const CustomElement = ({variant}) => {
+function CustomElement({variant}) {
   const variantStyle = useVariant(variant);
   cy.wrap(variantStyle).as('variantStyle');
   return <pre>{JSON.stringify(variantStyle, null, 2)}</pre>;
-};
+}
 
 describe('useVariant', () => {
   it('should throw if system is not loaded', () => {

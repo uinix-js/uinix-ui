@@ -4,11 +4,11 @@ import React, {createElement as h} from 'react';
 import {load, useStyles} from '../../../../index.js';
 import system from '../../../fixtures/test-system.js';
 
-const CustomElement = () => {
+function CustomElement() {
   const styles = useStyles();
   cy.wrap(styles).as('styles');
   return <pre>{JSON.stringify(styles, null, 2)}</pre>;
-};
+}
 
 describe('useStyles', () => {
   it('should throw if system is not loaded', () => {

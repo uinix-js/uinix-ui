@@ -5,11 +5,11 @@ import {createSystem, load, useSystem} from '../../../../index.js';
 import defaultSystem from '../../../fixtures/default-system.js';
 import system from '../../../fixtures/test-system.js';
 
-const CustomElement = () => {
+function CustomElement() {
   const system = useSystem();
   cy.wrap(system).as('system');
   return <pre>{JSON.stringify(system, null, 2)}</pre>;
-};
+}
 
 describe('load', () => {
   // Skipping because of : https://github.com/cypress-io/cypress/issues/16635
