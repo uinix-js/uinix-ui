@@ -47,7 +47,7 @@
     "hast-to-hyperscript": "^10.0.1",
     "svg-parser": "^2.0.4",
     "uinix-fp": "^1.0.2",
-    "uinix-theme": "^1.0.0"
+    "uinix-theme": "github:uinix-js/uinix-theme"
   },
   "devDependencies": {
     "@babel/core": "^7.17.12",
@@ -107,7 +107,7 @@
     "strict": true,
     "ignore-files": "test/*.js"
   },
-   "xo": {
+  "xo": {
     "esnext": false,
     "prettier": true,
     "extends": [
