@@ -40,13 +40,14 @@
   "dependencies": {
     "hast-to-hyperscript": "^10.0.1",
     "svg-parser": "^2.0.4",
-    "uinix-theme": "github:uinix-js/uinix-theme"
+    "uinix-theme": "^2.0.0",
+    "uinix-theme-spec": "^1.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.12",
+    "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.17.12",
     "@babel/preset-react": "^7.17.12",
-    "@cypress/code-coverage": "^3.9.12",
+    "@cypress/code-coverage": "^3.10.0",
     "@cypress/react": "^5.12.4",
     "@cypress/webpack-dev-server": "^1.8.4",
     "@types/react": "^17.0.38",
@@ -58,8 +59,8 @@
     "cypress": "^8.6.0",
     "eslint-config-xo-react": "^0.27.0",
     "eslint-plugin-cypress": "^2.12.1",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.5.0",
+    "eslint-plugin-react": "^7.30.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "htm": "^3.1.1",
     "html-webpack-plugin": "^5.5.0",
     "hyperscript": "^2.0.2",
@@ -67,13 +68,13 @@
     "preact": "^10.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "solid-js": "^1.4.1",
+    "solid-js": "^1.4.4",
     "tape": "^5.5.3",
     "type-coverage": "^2.21.1",
-    "typescript": "^4.6.4",
-    "webpack": "^5.72.1",
-    "webpack-dev-server": "^4.9.0",
-    "xo": "^0.49.0"
+    "typescript": "^4.7.4",
+    "webpack": "^5.73.0",
+    "webpack-dev-server": "^4.9.2",
+    "xo": "^0.50.0"
   },
   "scripts": {
     "build": "npm run clean",

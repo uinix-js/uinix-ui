@@ -1,7 +1,8 @@
 # todos
 - [x] Update build and deps
-- [ ] Fix cypress test coverage (and ensure 100% type coverage).
-- [ ] Improve perf with memo
+- [ ] Simplify tests (consider testing outside of cypress which has issues with codecov)
 - [ ] Simplify/improve types
+- [ ] Fix GH issues
+- [ ] Remove dependency to `uinix-theme-spec`
 - [ ] Simplify/improve docs
-- [ ] Simplify/Cleanup code (complexity is scary...)
+- [ ] Ship v1.0.0

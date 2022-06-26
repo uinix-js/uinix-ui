@@ -11,8 +11,8 @@ const system = {
     variants: {},
   },
   theme: {
-    backgrounds: {},
     animations: {},
+    backgrounds: {},
     borders: {},
     borderStyles: {},
     borderWidths: {},
@@ -21,6 +21,7 @@ const system = {
     fontFamilies: {},
     fontSizes: {},
     fontWeights: {},
+    images: {},
     keyframes: {},
     letterSpacings: {},
     lineHeights: {},
