@@ -1,6 +1,6 @@
 {
   "name": "uinix-ui",
-  "version": "0.2.3",
+  "version": "0.3.0-beta",
   "description": "A minimal configurable framework-agnostic UI system to build UI systems.  Your system, your rules 🤘.",
   "license": "MIT",
   "keywords": [
