@@ -40,7 +40,7 @@
   "dependencies": {
     "hast-to-hyperscript": "^10.0.1",
     "svg-parser": "^2.0.4",
-    "uinix-theme": "^2.1.0",
+    "uinix-theme": "^2.1.1",
     "uinix-theme-spec": "^1.1.0"
   },
   "devDependencies": {
