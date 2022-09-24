@@ -1,8 +1,0 @@
-{
-  "componentFolder": "cypress/tests",
-  "integrationFolder": "cypress/tests",
-  "pluginsFile": "cypress/plugins/index.cjs",
-  "screenshotOnRunFailure": false,
-  "testFiles": "**/*.js",
-  "video": false
-}
