@@ -4,13 +4,11 @@ import {Element} from '../../../../index.js';
 import {hasKeyframesChainer, mountWithSystem} from '../../../utils/index.js';
 
 const config = {
+  responsiveBreakpoints: ['480px', '768px'],
   responsiveCssProperties: ['animation', 'animationName', 'margin'],
 };
 
 const system = {
-  styles: {
-    breakpoints: ['480px', '768px'],
-  },
   theme: {
     animations: {
       a: '2s ease-in-out 0s infinite normal none running none',

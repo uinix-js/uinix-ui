@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {Element, Icon, Layout, Text} from '../../../../index.js';
-import {mountWithSystem} from '../../../utils/index.js';
+import {Element, Icon, Layout, Text} from '../../../../../index.js';
+import {mountWithSystem} from '../../../../utils/index.js';
 
 const responsiveStyles = {
   color: 'rgb(225, 225, 225)',
@@ -11,19 +11,14 @@ const responsiveStyles = {
 };
 
 const config = {
+  responsiveBreakpoints: ['480px', '768px'],
   responsiveCssProperties: ['backgroundColor', 'padding'],
-};
-
-const system = {
-  styles: {
-    breakpoints: ['480px', '768px'],
-  },
 };
 
 const viewportHeight = 400;
 const viewportWidths = [300, 500, 800]; // Covering all situations specified in system.styles.breakpoints
 
-describe('styles.breakpoints', () => {
+describe('config.responsiveBreakpoints', () => {
   it('should apply the last responsive style value if breakpoints are not specified', () => {
     mountWithSystem(
       <Element id="test" styles={responsiveStyles}>
@@ -48,7 +43,7 @@ describe('styles.breakpoints', () => {
           <Component id="test" styles={responsiveStyles}>
             Element
           </Component>,
-          system,
+          {},
           config,
         );
         cy.viewport(viewportWidth, viewportHeight);

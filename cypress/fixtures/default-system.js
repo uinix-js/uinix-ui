@@ -3,7 +3,6 @@ import themeSpec from 'uinix-theme-spec';
 const system = {
   icons: {},
   styles: {
-    breakpoints: [],
     global: {},
     typography: {
       fontFaces: {},

@@ -11,13 +11,8 @@ const responsiveStyles = {
 };
 
 const config = {
+  responsiveBreakpoints: ['480px', '768px'],
   responsiveCssProperties: ['backgroundColor', 'padding'],
-};
-
-const system = {
-  styles: {
-    breakpoints: ['480px', '768px'],
-  },
 };
 
 const viewportHeight = 400;
@@ -53,7 +48,7 @@ describe('config.responsiveCssProperties', () => {
         <Element id="test" styles={responsiveStyles}>
           Element
         </Element>,
-        system,
+        {},
         config,
       );
       cy.viewport(viewportWidth, viewportHeight);
@@ -78,7 +73,7 @@ describe('config.responsiveCssProperties', () => {
           <Component id="test" styles={responsiveStyles}>
             Element
           </Component>,
-          system,
+          {},
           config,
         );
         cy.viewport(viewportWidth, viewportHeight);

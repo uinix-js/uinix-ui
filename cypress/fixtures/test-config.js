@@ -6,6 +6,9 @@ const config = {
   },
   elementStyles: [null],
   enableAtomicCss: false,
+  enableCssVariables: false,
+  namespace: null,
+  responsiveBreakpoints: [],
   responsiveCssProperties: ['color'],
 };
 

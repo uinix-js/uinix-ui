@@ -15,7 +15,6 @@ const system = {
     red: {
       color: 'rgb(255, 0, 0)',
     },
-    breakpoints: ['480px', '768px'],
     global: {
       h1: {
         fontSize: '42px',

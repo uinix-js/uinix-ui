@@ -257,17 +257,12 @@ const theme = createTheme({
 /**
  * System styles
  *
- * Specify breakpoints, global styles, style variants, and custom styles
+ * Specify global styles, style variants, and custom styles
  * that can be reused across your UIs.
  *
  * Styles may/should reference theme values for theme-driven development.
  */
 const styles = createStyles({
-  /**
-   * Defines responsive media query breakpoints (min-width based).
-   * Supports responsive styles when specified in array form.
-   */
-  breakpoints: ['480px', '768px'],
   /**
    * Affects the global stylesheet.
    * Useful for CSS resets, styling HTML elements, and overriding vendor classes.
@@ -746,10 +741,9 @@ There is a common way to define styles, which is detailed below:
     },
   },
   ```
-- Style values can be specified in array-form, containing either CSS values or theme values.  These values will be responsively applied against the specified `styles.breakpoints`.  For example:
+- Style values can be specified in array-form, containing either CSS values or theme values.  These values will be responsively applied against the specified `config.responsiveBreakpoints`.  For example:
   ```js
   const styles = {
-    breakpoints: ['468px', '768px'],
     responsiveContainer: {
       padding: ['s', 's', 'm'],
       maxWidth: ['100%', '100%', 'width.container']
@@ -828,50 +822,6 @@ const styles = createStyles({
   }),
 });
 ```
-
-</details>
-
-##### `styles.breakpoints`
-
-When specified, supports responsive styling.  `styles.breakpoints` should be specified as an array of strings, with its value being a valid CSS `width` value.  Responsive breakpoints will be evaluated as `min-width`-based media queries.
-
-> **Note:** You still need to whitelist the responsive CSS properties in [`config.responsiveCssProperties`](#configresponsivecssproperties) to apply the specified responsive styles.
-
-<details>
-<summary>Example</summary>
-
-Assuming the following `styles.breakpoints` and an example `responsiveCardStyle`,
-
-```js
-import {createStyles} from 'uinix-ui';
-
-const styles = createStyles({
-  breakpoints: ['468px', '768px'],
-  responsiveCardStyle: {
-    color: ['red', 'red', 'blue'],
-    padding: ['s', 's', 'm'],
-  },
-});
-```
-
-The rendered style will look like:
-
-```js
-const resolvedResponsiveCardStyle = {
-  color: 'red',
-  padding: 's',
-  "@media (min-width: 468px)": {
-    color: 'red',
-    padding: 's',
-  },
-  "@media (min-width: 768px)": {
-    color: 'blue',
-    padding: 'm',
-  },
-};
-```
-
-> **Note:** Remember to ensure that the corresponding responsive CSS property is whitelisted in `config.responsiveCssProperties` (e.g. `color`, `padding` for this example).
 
 </details>
 
@@ -1011,7 +961,6 @@ import {createStyles} from 'uinix-ui';
 
 const styles = createStyles({
   /** Reserved style keys and features */
-  breakpoints: [...],
   typography: {...},
   variants: {...},
   /** Define all custom styles directly on other non-reserved keys */
@@ -1269,9 +1218,56 @@ With `config.enableAtomicCss` set to `true`, the rendered CSS matches up with un
 
 </details>
 
+##### `config.responsiveBreakpoints`
+
+When specified, supports responsive styling.  `config.responsiveBreakpoints` should be specified as an array of strings, with its value being a valid CSS `width` value.  Responsive breakpoints will be evaluated as `min-width`-based media queries.
+
+> **Note:** You still need to whitelist the responsive CSS properties in [`config.responsiveCssProperties`](#configresponsivecssproperties) to apply the specified responsive styles.
+
+<details>
+<summary>Example</summary>
+
+Assuming the following `config.responsiveBreakpoints` and an example `responsiveCardStyle`,
+
+```js
+import {createConfig, createStyles} from 'uinix-ui';
+
+const config = createConfig({
+  responsiveBreakpoints: ['468px', '768px'],
+});
+
+const styles = createStyles({
+  responsiveCardStyle: {
+    color: ['red', 'red', 'blue'],
+    padding: ['s', 's', 'm'],
+  },
+});
+```
+
+The rendered style will look like:
+
+```js
+const resolvedResponsiveCardStyle = {
+  color: 'red',
+  padding: 's',
+  "@media (min-width: 468px)": {
+    color: 'red',
+    padding: 's',
+  },
+  "@media (min-width: 768px)": {
+    color: 'blue',
+    padding: 'm',
+  },
+};
+```
+
+> **Note:** Remember to ensure that the corresponding responsive CSS property is whitelisted in `config.responsiveCssProperties` (e.g. `color`, `padding` for this example).
+
+</details>
+
 ##### `config.responsiveCssProperties`
 
-By default, the `system` is not configured to be responsive.  With the appropriate responsive breakpoints and styles defined in [`createStyles`](#createstylesstyles), the `system` will be responsive on the CSS property names specified in `config.responsiveCssProperties`.
+By default, the `system` is not configured to be responsive.  With the appropriate `config.responsiveBreakpoints` and styles defined in [`createStyles`](#createstylesstyles), the `system` will be responsive on the CSS property names specified in `config.responsiveCssProperties`.
 
 <details>
 <summary>Example</summary>
@@ -1297,7 +1293,6 @@ Allows the following styles to be responsive,
 
 ```js
 const styles = {
-  breakpoints: ['480px', '768px'],
   style1: {
     color: ['red', 'green', 'blue'], // responsive (whitelisted)
     margin: ['s', 's', 'l'], // responsive (whitelisted)
@@ -1588,7 +1583,6 @@ const system = createSystem({
     },
   },
   styles: {
-    breakpoints: ['468px', '768px'],
     card: {
       border: 'bordered',
       borderRadius: 'm',
