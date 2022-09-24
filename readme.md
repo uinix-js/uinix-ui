@@ -39,7 +39,7 @@ Your system your rules 🤘.
 - [API](#api)
   - [System](#system)
     - [`createSystem([system])`](#createsystemsystem)
-    - [`load(preset)`](#loadpreset)
+    - [`loadSystem(preset)`](#loadpreset)
     - [`useIcon(icon)`](#useiconicon)
     - [`useTheme()`](#usetheme)
     - [`useStyles()`](#usestyles)
@@ -83,7 +83,7 @@ import {
   Layout,
   Text,
   createSystem,
-  load,
+  loadSystem,
   useStyles,
 } from 'uinix-ui';
 
@@ -118,7 +118,7 @@ const system = createSystem({
   }
 });
 
-load({h, system});
+loadSystem({h, system});
 
 const Header = () => {
   const styles = useStyles();
@@ -297,14 +297,14 @@ const system = createSystem({
 
 ### Loading the system
 
-Load your `system` with the `load` method, and provide the following arguments
+Load your `system` with the `loadSystem` method, and provide the following arguments
 - [Required]: a `h` (i.e. `createElement`) function appropriate for your view library
 - [Optional]: your `system`
 - [Optional]: system `config`uration.
 
 ```js
 import {createElement as h} from 'react';
-import {load} from 'uinix-ui';
+import {loadSystem} from 'uinix-ui';
 
 import system from './my-system.js'
 
@@ -353,7 +353,7 @@ const config = {
 /**
  * Load your system
  */
-load({h, config, system});
+loadSystem({h, config, system});
 ```
 
 Your `system` should be defined and loaded just once.  It should remain immutable after.
@@ -423,7 +423,7 @@ More details on using and configuring components are covered in the [§ API](#ap
 
 ### Using system hooks
 
-After `load`ing your `system`, **uinix-ui** components are *system-aware* and have access to your `system` specs.  The following example outlines how system hooks can be used to retrieve values from the `system` when building custom components.
+After `loadSystem`ing your `system`, **uinix-ui** components are *system-aware* and have access to your `system` specs.  The following example outlines how system hooks can be used to retrieve values from the `system` when building custom components.
 
 ```js
 import {
@@ -517,13 +517,13 @@ const Button = ({text, onClick}) => {
 
 ## Presets
 
-Presets are shareable system configurations that you can simply [`load`](#loadpreset).
+Presets are shareable system configurations that you can simply [`loadSystem`](#loadpreset).
 
 ```js
-import {load} from 'uinix-ui';
+import {loadSystem} from 'uinix-ui';
 import themeUiPreset from 'uinix-ui-preset-theme-ui';
 
-load(themeUiPreset);
+loadSystem(themeUiPreset);
 ```
 
 - `uinix-ui-preset-theme-ui`
@@ -1179,24 +1179,24 @@ const styles = {
 
 </details>
 
-#### `load(preset)`
+#### `loadSystem(preset)`
 
 To use **uinix-components**, a valid `system` needs to be loaded with an appropriate `h` function, and with an optional `config`.
 
-> **Note:** You should `load` your `system` once in an appropriate entry point in your app, and it should remain immutable after.
+> **Note:** You should `loadSystem` your `system` once in an appropriate entry point in your app, and it should remain immutable after.
 
 <details>
 <summary>Example</summary>
 
 ```js
 import {createElement as h} from 'react';
-import {createSystem, load} from 'uinix-ui';
+import {createSystem, loadSystem} from 'uinix-ui';
 
 const system = createSystem({...});
 const config = {...};
 
 // load the system once in an entry point in your app.
-load({h, config, system});
+loadSystem({h, config, system});
 
 const App = () => {
   return ...
@@ -1207,7 +1207,7 @@ const App = () => {
 
 ##### `preset.h`
 
-`h` is a common alias for the `createElement` method.  It is popularized by [hyperscript], and many UI frameworks support this API for creating elements.  See [§ Frameworks](#frameworks) for examples on using `h` with `load`.
+`h` is a common alias for the `createElement` method.  It is popularized by [hyperscript], and many UI frameworks support this API for creating elements.  See [§ Frameworks](#frameworks) for examples on using `h` with `loadSystem`.
 
 A list of `h`-equivalent methods in popular frameworks are provided below for convenience:
 - [React][]: `React.createElement`
@@ -1224,7 +1224,7 @@ A valid `system` created by [`createSystem`](#createsystemsystem).
 
 Retrieves and renders an SVG element based on the specified `icon` from `system.icons`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
+Can be called anywhere and requires a valid `system` to be [`loadSystem`ed](#loadpreset).
 
 ##### `icon`
 The name of an icon or a valid icon property path assigned in `system.icons`.
@@ -1247,7 +1247,7 @@ const Example = () => {
 
 Retrieves the system `theme`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
+Can be called anywhere and requires a valid `system` to be [`loadSystem`ed](#loadpreset).
 
 <details>
 <summary>Example</summary>
@@ -1266,7 +1266,7 @@ console.log(theme.colors.background.primary);
 
 Retrieves the system `styles`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
+Can be called anywhere and requires a valid `system` to be [`loadSystem`ed](#loadpreset).
 
 <details>
 <summary>Example</summary>
@@ -1286,7 +1286,7 @@ console.log(styles.variants.card.default);
 
 Retrieves the variant style for the specified variant from the system.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
+Can be called anywhere and requires a valid `system` to be [`loadSystem`ed](#loadpreset).
 
 ##### `variant`
 
@@ -1328,7 +1328,7 @@ console.log(undefinedVariantStyle);
 
 Retrieves the entire `system`.
 
-Can be called anywhere and requires a valid `system` to be [`load`ed](#loadpreset).
+Can be called anywhere and requires a valid `system` to be [`loadSystem`ed](#loadpreset).
 
 > **Note:** This hook is not particularly useful, but it is provided as a convenience to access the entire `system` if required.
 
@@ -1419,7 +1419,7 @@ import {createElement as h} from 'react';
 import {
   Element,
   createSystem,
-  load,
+  loadSystem,
   useStyles,
 } from 'uinix-ui';
 
@@ -1451,7 +1451,7 @@ const system = createSystem({
   },
 });
 
-load({h, system});
+loadSystem({h, system});
 
 const Example = () => {
   const styles = useStyles();
@@ -1494,7 +1494,7 @@ import {createElement as h} from 'react';
 import {
   Element,
   createSystem,
-  load,
+  loadSystem,
 } from 'uinix-ui';
 
 const system = createSystem({
@@ -1524,7 +1524,7 @@ const system = createSystem({
   };
 });
 
-load({h, system});
+loadSystem({h, system});
 
 const Example = () => {
   return (
@@ -1550,7 +1550,7 @@ import {createElement as h} from 'react';
 import {
   Element,
   createSystem,
-  load,
+  loadSystem,
   useStyles,
 } from 'uinix-ui';
 
@@ -1580,7 +1580,7 @@ const system = createSystem({
   },
 });
 
-load({h, system});
+loadSystem({h, system});
 
 const Example = () => {
   const styles = useStyles();
@@ -1648,10 +1648,10 @@ import {createElement as h} from 'react';
 import {
   Icon,
   createSystem,
-  load,
+  loadSystem,
 } from 'uinix-ui';
 
-load({
+loadSystem({
   h,
   system: createSystem({
     icons: {
@@ -1737,7 +1737,7 @@ import {createElement as h} from 'react';
 import {
   Layout,
   createSystem,
-  load,
+  loadSystem,
 } from 'uinix-ui';
 
 const system = createSystem({
@@ -1765,7 +1765,7 @@ const system = createSystem({
   },
 });
 
-load({h, system});
+loadSystem({h, system});
 
 const Example = () => {
   const styles = useStyles(); {/* Can use system hooks */}
@@ -1859,10 +1859,10 @@ import {createElement as h} from 'react';
 import {
   Text,
   createSystem,
-  load,
+  loadSystem,
 } from 'uinix-ui';
 
-load({
+loadSystem({
   h,
   system: createSystem({
     theme: {
@@ -1993,10 +1993,10 @@ In **uinix-ui**, the decisions and designs of the system can be captured and app
 
 ```js
 import {createElement as h} from 'react';
-import {createSystem, load, useStyles} from 'uinix-ui';
+import {createSystem, loadSystem, useStyles} from 'uinix-ui';
 
 // a.js
-load({
+loadSystem({
   h,
   system: createSystem({
     styles: {
@@ -2015,7 +2015,7 @@ const Component = ({children}) => {
 }
 
 // b.js
-load({
+loadSystem({
   h,
   system: createSystem({
     styles: {
@@ -2035,7 +2035,7 @@ const Component = ({children}) => {
 }
 
 // c.js
-load({h});
+loadSystem({h});
 
 const Component = ({children}) => {
   const cardStyle = {

@@ -1,6 +1,6 @@
 import {createElement as h} from 'react';
 
-import {load} from '../../../../index.js';
+import {loadSystem} from '../../../../index.js';
 import {useH} from '../../../../lib/system/hooks.js';
 
 describe('useH', () => {
@@ -9,7 +9,7 @@ describe('useH', () => {
   });
 
   it('should retrieve the provided h (React.createElement) function', () => {
-    load({h});
+    loadSystem({h});
     expect(useH()).equal(h);
   });
 });

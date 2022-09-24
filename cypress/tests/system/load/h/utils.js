@@ -1,10 +1,10 @@
-import {Element, Icon, Layout, Text, load} from '../../../../../index.js';
+import {Element, Icon, Layout, Text, loadSystem} from '../../../../../index.js';
 import system from '../../../../fixtures/test-system.js';
 
 export {assert, createCustomElement};
 
 const createCustomElement = (h) => {
-  load({h, system});
+  loadSystem({h, system});
 
   const CustomElement = ({x, ...rest}) =>
     h('blockquote', rest, `Custom Element: ${x}`);

@@ -12,8 +12,8 @@ export {
   useTheme,
   useVariant,
 } from './lib/system/hooks.js';
-export {load} from './lib/system/load.js';
-export {createSystem} from './lib/system/create.js';
+export {loadSystem} from './lib/system/load-system.js';
+export {createSystem} from './lib/system/create-system.js';
 
 // Utils
 export {merge} from 'uinix-fp';
