@@ -6,6 +6,7 @@ coverage/
 dist/
 node_modules/
 package-lock.json
+todo.md
 
 cypress/fixtures/example.json
 cypress/screenshots/
