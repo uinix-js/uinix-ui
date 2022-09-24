@@ -38,11 +38,7 @@ Your system your rules 🤘.
 - [Demos](#demos)
 - [API](#api)
   - [System](#system)
-    - [`createIcons([icons])`](#createiconsicons)
-    - [`createTheme([theme])`](#createthemetheme)
-    - [`createStyles([styles])`](#createstylesstyles)
     - [`createSystem([system])`](#createsystemsystem)
-    - [`createConfig([config])`](#createconfigconfig)
     - [`load(preset)`](#loadpreset)
     - [`useIcon(icon)`](#useiconicon)
     - [`useTheme()`](#usetheme)
@@ -164,10 +160,7 @@ Use the respective `create*` system utilities to create and configure a valid `s
 
 ```js
 import {
-  createIcons,
-  createStyles,
   createSystem,
-  createTheme,
 } from 'uinix-ui';
 
 /**
@@ -175,10 +168,10 @@ import {
  *
  * Organize all SVG-based icons by name in a map.
  */
-const icons = createIcons({
+const icons = {
   code: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
   up: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="16 12 12 8 8 12"/><line x1="12" y1="16" x2="12" y2="8"/></svg>',
-});
+};
 
 /**
  * System theme
@@ -188,7 +181,7 @@ const icons = createIcons({
  *
  * See https://github.com/uinix-js/uinix-theme for the uinix-theme spec.
  */
-const theme = createTheme({
+const theme = {
   borders: {
     bordered: `1px solid #eee`,
   },
@@ -231,7 +224,7 @@ const theme = createTheme({
   transitions: {
     fade: 'opacity 0.2s ease-in-out',
   },
-});
+};
 
 /**
  * System styles
@@ -241,7 +234,7 @@ const theme = createTheme({
  *
  * Styles may/should reference theme values for theme-driven development.
  */
-const styles = createStyles({
+const styles = {
   /**
    * Affects the global stylesheet.
    * Useful for CSS resets, styling HTML elements, and overriding vendor classes.
@@ -287,7 +280,7 @@ const styles = createStyles({
       }
     },
   },
-});
+};
 
 /**
  * System
@@ -311,14 +304,14 @@ Load your `system` with the `load` method, and provide the following arguments
 
 ```js
 import {createElement as h} from 'react';
-import {createConfig, load} from 'uinix-ui';
+import {load} from 'uinix-ui';
 
 import system from './my-system.js'
 
 /**
  * System configuration
  **/
-const config = createConfig({
+const config = {
   /**
    * Supports custom props for components that affect their relating styles.
    * e.g. <Icon bg="red" color="blue" p="m" />
@@ -355,7 +348,7 @@ const config = createConfig({
     'color',
     'padding',
   ],
-});
+};
 
 /**
  * Load your system
@@ -551,10 +544,6 @@ Explore demos of UI systems that are reverse-engineered and built using **uinix-
 
 ### System
 
-#### `createIcons([icons])`
-
-Creates and defines all SVG icons for the system.
-
 ##### `icons`
 A map of icon names to its SVG string content.  Icons can be arbitrarily nested for organization.
 
@@ -564,15 +553,13 @@ You can retrieve and render the specified icon as an SVG element using the [`use
 <summary>Example</summary>
 
 ```js
-import {createIcons} from 'uinix-ui';
-
-const icons = createIcons({
+const icons = {
   github:
     '<svg viewBox="0 0 16 16" width="24" height="24"><path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" fill="currentcolor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>',
   spinner: { // can be arbitrarily nested
     primary: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path opacity="0.1" fill-rule="evenodd" clip-rule="evenodd" d="M12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19ZM12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" fill="black"/><path d="M2 12C2 6.47715 6.47715 2 12 2V5C8.13401 5 5 8.13401 5 12H2Z" fill="currentColor"><animateTransform xmlns="http://www.w3.org/2000/svg" attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></path></svg>'
   },
-});
+};
 ```
 
 </details>
@@ -585,27 +572,21 @@ const icons = createIcons({
 
 </details>
 
-#### `createTheme([theme])`
-
-Creates a `theme` object, supporting [creating theme-based styles](#createstylesstyles).
-
-You can retrieve the `theme` object using the [`useTheme`](#usetheme) system hook.
-
 ##### `theme`
 
-A partial `theme` object can be provided to `createTheme`, which will then create a [uinix-theme]-compliant `theme` object.  A brief overview of the `theme` object is provided below, but we strongly recommend reading the [uinix-theme] documentation for details on the comprehensive `theme` spec and behaviors.
+A partial `theme` object can be provided to `createSystem`, which will then create a [uinix-theme]-compliant `theme` object.  A brief overview of the `theme` object is provided below, but we strongly recommend reading the [uinix-theme] documentation for details on the comprehensive `theme` spec and behaviors.
 
 - *Theme values* are organized under *theme properties* (e.g. `borders`, `colors`, `opacities`, `radii`, `spacings`, `animations`, `transforms`, `transitions`, `zIndices`).
 - You can organize theme values under a theme property by arbitrarily nesting it.
 - A theme value is resolved in **uinix-ui** components when specified by its *theme property key* for a relating CSS property name.  For example, if the `theme` organizes the theme property `colors` as follows,
   ```js
-  const theme = createTheme({
+  const theme = {
     colors: {
       brand: {
         primary: '#0366d6',
       },
     },
-  });
+  };
   ```
   then we can specify for the theme property key, an example value of `'brand.primary'`, and assign it to the relating color-aware CSS property to resolve the theme value to its underlying CSS style value.
   ```js
@@ -619,9 +600,7 @@ A partial `theme` object can be provided to `createTheme`, which will then creat
 <summary>Example</summary>
 
 ```js
-import {createTheme} from 'uinix-ui';
-
-const theme = createTheme({
+const theme = {
   borders: {
     bordered: `1px solid #eee`,
   },
@@ -664,7 +643,7 @@ const theme = createTheme({
   transitions: {
     fade: 'opacity 0.2s ease-in-out',
   },
-});
+};
 ```
 
 </details>
@@ -679,15 +658,9 @@ const theme = createTheme({
 
 </details>
 
-#### `createStyles([styles])`
-
-Creates a `styles` object that can reference theme values when defining styles.
-
-You can retrieve the `styles` object using the [`useStyles`](#usestyles) system hook.
-
 ##### `styles`
 
-A partial `styles` can be provided to `createStyles`, which will then create a valid `styles` object.  A `styles` object has a typed interface that is explored in detail below.
+A partial `styles` can be provided to `createSystem`, which will then create a valid `styles` object.  A `styles` object has a typed interface that is explored in detail below.
 
 There is a common way to define styles, which is detailed below:
 - You can arbitrarily nest style definitions for organization.  For example:
@@ -736,9 +709,7 @@ There is a common way to define styles, which is detailed below:
 <summary>Example</summary>
 
 ```js
-import {createStyles} from 'uinix-ui';
-
-const styles = createStyles({
+const styles = {
   // Define global styles for HTML elements and CSS classes
   global: {
     '*': {
@@ -783,7 +754,7 @@ const styles = createStyles({
     opacity: disabled ? 'disabled' : undefined,
     pointerEvents: disabled ? 'none' : undefined,
   }),
-});
+};
 ```
 
 </details>
@@ -801,9 +772,7 @@ The keys for `styles.global` should be a CSS selector (e.g. HTML element names o
 <summary>Example</summary>
 
 ```js
-import {createStyles} from 'uinix-ui';
-
-const styles = createStyles({
+const styles = {
   global: {
     // Common CSS reset to set boxSizing to border-box
     '*': {
@@ -831,7 +800,7 @@ const styles = createStyles({
       fontSize: 'xs',
     },
   },
-});
+};
 ```
 
 </details>
@@ -844,9 +813,7 @@ Styles specified in `styles.variants` can be accessed with the [`useVariant`](#u
 <summary>Example</summary>
 
 ```js
-import {createStyles} from 'uinix-ui';
-
-const styles = createStyles({
+const styles = {
   variants: {
     button: {
       primary: {...},
@@ -861,7 +828,7 @@ const styles = createStyles({
       secondary: {...},
     },
   },
-});
+};
 ```
 
 </details>
@@ -874,9 +841,7 @@ Any other style defined directly on `styles` should be either a style object or 
 <summary>Example</summary>
 
 ```js
-import {createStyles} from 'uinix-ui';
-
-const styles = createStyles({
+const styles = {
   /** Reserved style keys and features */
   variants: {...},
   /** Define all custom styles directly on other non-reserved keys */
@@ -896,7 +861,7 @@ const styles = createStyles({
     opacity: disabled ? 'disabled' : undefined,
     pointerEvents: disabled ? 'none' : undefined,
   }),
-});
+};
 ```
 
 </details>
@@ -909,16 +874,16 @@ You can retrieve the `system` object using the [`useSystem`](#usesystem) system 
 
 ##### `system`
 
-A partial `system` can be provided to `createSystem`, which will create a valid `system` object by internally calling the [`createIcons`](#createiconsicons), [`createStyles`](#createstylesstyles), and [`createTheme`](#createthemetheme) utilities.
+A partial `system` can be provided to `createSystem`, which will create a valid `system` object.
 
 <details>
 <summary>Example</summary>
 
 ```js
-import {createStyles, createSystem, createTheme} from 'uinix-ui';
+import {createSystem} from 'uinix-ui';
 
-const theme = createTheme({...});
-const styles = createStyles({...});
+const theme = {...};
+const styles = {...};
 
 const system = createSystem({
   theme,
@@ -935,23 +900,15 @@ const system = createSystem({
 
 </details>
 
-#### `createConfig([config])`
-
-Creates a valid `config` object to configure the `system` and components.  Configurations are only applied when a `system` is [`load`ed](#loadpreset).
-
-**uinix-ui** ships without configuration, but allows you to fully configure your system and rules based on your needs.
-
 ##### `config`
 
-A partial `config` can be provided to `createConfig`, which will then create a valid `config` object.
+A partial `config` can be provided to `createSystem`.
 
 <details>
 <summary>Example</summary>
 
 ```js
-import {createConfig} from 'uinix-ui';
-
-createConfig({
+const config = {
   elementShorthandPropsMapping: {
     margin: ['m'],
   },
@@ -961,7 +918,7 @@ createConfig({
     'margin-right',
     'margin-top',
   ],
-});
+};
 ```
 
 </details>
@@ -978,9 +935,7 @@ Configures the [`Element`](#elementprops) component with shorthand props that su
 Configuring `config.elementShorthandPropsMapping` as follows,
 
 ```js
-import {createConfig} from 'uinix-ui';
-
-const config = createConfig({
+const config = {
   elementShorthandPropsMapping: {
     color: ['color'],
     backgroundColor: ['bg'],
@@ -990,7 +945,7 @@ const config = createConfig({
     marginRight: ['mr', 'mx', 'm'],
     marginTop: ['mt', 'my', 'm'],
   },
-});
+};
 ```
 
 enables the [`Element`](#elementprops) component, and subsequently all **uinix-ui** components to be configured with the appropriate shorthand props.
@@ -1033,9 +988,7 @@ Configures the [`Element`](#elementprops) component with with specific props-bas
 Configuring `config.elementStyles` as follows,
 
 ```js
-import {createConfig} from 'uinix-ui';
-
-const config = createConfig({
+const config = {
   elementStyles: [
     ({onClick}) => {
       return {
@@ -1052,7 +1005,7 @@ const config = createConfig({
       };
     },
   ],
-});
+};
 ```
 
 enables the [`Element`](#elementprops) component, and subsequently all **uinix-ui** components to be configured with the appropriate props-based styles.
@@ -1146,18 +1099,16 @@ When specified, supports responsive styling.  `config.responsiveBreakpoints` sho
 Assuming the following `config.responsiveBreakpoints` and an example `responsiveCardStyle`,
 
 ```js
-import {createConfig, createStyles} from 'uinix-ui';
-
-const config = createConfig({
+const config = {
   responsiveBreakpoints: ['468px', '768px'],
-});
+};
 
-const styles = createStyles({
+const styles = {
   responsiveCardStyle: {
     color: ['red', 'red', 'blue'],
     padding: ['s', 's', 'm'],
   },
-});
+};
 ```
 
 The rendered style will look like:
@@ -1183,7 +1134,7 @@ const resolvedResponsiveCardStyle = {
 
 ##### `config.responsiveCssProperties`
 
-By default, the `system` is not configured to be responsive.  With the appropriate `config.responsiveBreakpoints` and styles defined in [`createStyles`](#createstylesstyles), the `system` will be responsive on the CSS property names specified in `config.responsiveCssProperties`.
+By default, the `system` is not configured to be responsive.  With the appropriate `config.responsiveBreakpoints` and responsive styles, the `system` will be responsive on the CSS property names specified in `config.responsiveCssProperties`.
 
 <details>
 <summary>Example</summary>
@@ -1191,9 +1142,7 @@ By default, the `system` is not configured to be responsive.  With the appropria
 Configuring `config.responsiveCssProperties` as follows,
 
 ```js
-import {createConfig} from 'uinix-ui';
-
-const config = createConfig({
+const config = {
   responsiveCssProperties: [
     'color',
     'margin',
@@ -1202,7 +1151,7 @@ const config = createConfig({
     'margin-right',
     'margin-top',
   ],
-});
+};
 ```
 
 Allows the following styles to be responsive,
@@ -1241,10 +1190,10 @@ To use **uinix-components**, a valid `system` needs to be loaded with an appropr
 
 ```js
 import {createElement as h} from 'react';
-import {createConfig, createSystem, load} from 'uinix-ui';
+import {createSystem, load} from 'uinix-ui';
 
 const system = createSystem({...});
-const config = createConfig({...});
+const config = {...};
 
 // load the system once in an entry point in your app.
 load({h, config, system});
@@ -1270,11 +1219,6 @@ A list of `h`-equivalent methods in popular frameworks are provided below for co
 ##### `preset.system`
 
 A valid `system` created by [`createSystem`](#createsystemsystem).
-
-##### `preset.config`
-
-A valid `config` created by [`createConfig`](#createconfigconfig).
-
 
 #### `useIcon(icon)`
 
