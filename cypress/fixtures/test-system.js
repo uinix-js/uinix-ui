@@ -20,31 +20,6 @@ const system = {
         fontSize: '42px',
       },
     },
-    typography: {
-      fontFaces: {
-        raleway: {
-          src: ['./font.woff'],
-          fontWeight: '700',
-        },
-      },
-      global: {
-        h1: {
-          fontSize: '84px',
-        },
-      },
-      variants: {
-        heading: {
-          1: {
-            color: 'rgb(0, 0, 255)',
-            fontSize: '32px',
-            fontWeight: '700',
-          },
-        },
-        small: {
-          fontSize: '10px',
-        },
-      },
-    },
     variants: {
       Button: {
         primary: {
@@ -64,6 +39,16 @@ const system = {
         disabled: {
           opacity: '0.3',
         },
+      },
+      Heading: {
+        1: {
+          color: 'rgb(0, 0, 255)',
+          fontSize: '32px',
+          fontWeight: '700',
+        },
+      },
+      Small: {
+        fontSize: '10px',
       },
     },
   },

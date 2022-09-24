@@ -102,27 +102,6 @@ const system = createSystem({
       maxWidth: 'width.container',
       padding: 'm',
     },
-    typography: {
-      global: {
-        body: {
-          fontSize: 'm'
-        },
-      },
-      variants: {
-        brand: {
-          fontSize: 'l',
-          fontWeight: 'bold',
-        },
-        nav: {
-          link: {
-            fontSize: 's',
-            ':hover': {
-              textDecoration: 'none',
-            },
-          },
-        }
-      },
-    }
   },
   theme: {
     fontSizes: {
@@ -778,22 +757,6 @@ const styles = createStyles({
       fontSize: 'xs',
     },
   },
-  // Organize typography styles, mirrors the parent styles interface
-  typography: {
-    // Define global styles for typographic HTML elements
-    global: {
-      h1: {
-        fontSize: 'xl',
-      },
-    },
-    // Typography variants are accessible by the Text component
-    variants: {
-      title: {
-        color: 'text.primary',
-        fontSize: 'l',
-      },
-    },
-  },
   // Define and organize style variants, accessiblie by the `variant` prop in components
   variants: {
     card: {
@@ -903,52 +866,6 @@ const styles = createStyles({
 
 </details>
 
-##### `styles.typography`
-
-`styles.typography` mirrors the structure of `styles` and provides a more explicit way to organize typography styles.  There are a number of differences in the structure, and the full structure is covered below:
-- `styles.typography.fontFaces`: Specifies the font-faces as a structured object. The font-face name can be assignable in `theme.fontFamilies`.  The `src` file for a font-face can be either an absolute URL or a relative path.  If your JS build supports resolving font asset imports into relative paths, this can be used with `styles.typography.fontFaces`.
-- `styles.typography.global`: Similar to `styles.global`, allows configuring typography styles for the global stylesheet.  Note that **uinix-ui** does not restrict how styles are specified in this object, but you should reserve them purely for typography styles (e.g. `fontSize`, `lineHeight`, `letterSpacing`, `color` etc).
-- `styles.typography.variants`: Similar to `styles.variants`, allows organizing typography styles as variants.  The [`Text`](#textprops) component has direct access to these styles via the `variant` prop.  Note that these variant styles are not accessible by other **uinix-ui** components, so their specification is a purely explicit and semantic one to be used with the [`Text`](#textprops) component.
-- `...styles.typography`:  You should not specify anything else on the `styles.typography` object.  Note that **uinix-ui** does not restrict you from doing this, but it's not particularly useful as there is no inteoperable way to retrieve them.
-
-<details>
-<summary>Example</summary>
-
-```js
-import {createStyles} from 'uinix-ui';
-
-import robotoTtf from './fonts/roboto.ttf';
-
-const styles = createStyles({
-  typography: {
-    // Define font faces and their source files
-    fontFaces: {
-      Roboto: {
-        src: [robotoTtf],
-      },
-      Raleway: {
-        src: 'https://absolute/url/to/font/asset.ttf',
-      },
-    },
-    // Define global styles for HTML elements
-    global: {
-      h1: {
-        fontSize: 'xl',
-      },
-    },
-    // Typography variants are accessible by the Text component
-    variants: {
-      title: {
-        color: 'text.primary',
-        fontSize: 'l',
-      },
-    },
-  },
-});
-```
-
-</details>
-
 ##### `...styles`
 
 Any other style defined directly on `styles` should be either a style object or style function.  These can be retrieved with the [`useStyles`](#usestyles) system hook and used in components.
@@ -961,7 +878,6 @@ import {createStyles} from 'uinix-ui';
 
 const styles = createStyles({
   /** Reserved style keys and features */
-  typography: {...},
   variants: {...},
   /** Define all custom styles directly on other non-reserved keys */
   // Style object
@@ -1989,9 +1905,7 @@ Sets the `justifySelf` CSS property.
 
 #### `Text(props)`
 
-The `Text` component interoperates with the `system.styles.typography` spec.
-
-It provides an easy way to render and apply text styles defined by the system's typography rules, and convenient typography props to further configure text styles.  Whenever possible, we recommend organizing text styles in `system.styles.typography`.
+It provides an easy way to render and apply themed text styles.
 
 <details>
 <summary>Example</summary>
@@ -2020,18 +1934,6 @@ load({
       lineHeights: {
         body: '20px',
         heading: '40px',
-      },
-    },
-    styles: {
-      typography: {
-        variants: {
-          title: {
-            fontFamily: 'heading',
-            fontSize: 'l',
-            fontWeight: 'bold',
-            lineHeight: 'heading',
-          },
-        }
       },
     },
   }),
@@ -2113,8 +2015,6 @@ Sets the `wordSpacing` CSS property.  You can use a theme-based value.
 `Text` renders `as` a `HTMLSpanElement` by default.
 
 `Text` passes through all other props onto the eventual `HTMLElement`.
-
-`Text` renders variant styles by accessing from `system.styles.typography.variants` as opposed to `system.styles.variants` in other **uinix-ui** components.
 
 ### Utilities
 

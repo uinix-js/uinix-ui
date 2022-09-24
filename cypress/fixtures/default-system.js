@@ -4,11 +4,6 @@ const system = {
   icons: {},
   styles: {
     global: {},
-    typography: {
-      fontFaces: {},
-      global: {},
-      variants: {},
-    },
     variants: {},
   },
   theme: {

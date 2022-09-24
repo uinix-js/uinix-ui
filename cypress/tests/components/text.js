@@ -57,9 +57,9 @@ describe('Text', () => {
     }
 
     describe('variant', () => {
-      it('should use the variant style defined in system.styles.typography.variants', () => {
+      it('should use the variant style defined in system.styles.variants', () => {
         mountWithSystem(
-          <Text id="test" variant="heading.1">
+          <Text id="test" variant="Heading.1">
             Text
           </Text>,
           system,
@@ -91,7 +91,7 @@ describe('Text', () => {
             className="a b"
             styleProps={styleProps}
             styles={styles}
-            variant="small"
+            variant="Small"
           >
             Text
           </Text>,
