@@ -72,6 +72,42 @@ describe('config.elementShorthandPropsMapping', () => {
       .should('have.css', 'margin-right', '4px');
   });
 
+  it('should apply shorthand props style with precedence (falsy values)', () => {
+    const config = {
+      elementShorthandPropsMapping: {
+        margin: ['m'],
+        marginLeft: ['ml', 'mx', 'm'],
+        marginBottom: ['mb', 'my', 'm'],
+        marginRight: ['mr', 'mx', 'm'],
+        marginTop: ['mt', 'my', 'm'],
+      },
+    };
+    mountWithSystem(
+      <Element id="test" mx={0}>
+        Element
+      </Element>,
+      system,
+      config,
+    );
+
+    cy.get('#test')
+      .should('have.css', 'margin-left', '0px')
+      .should('have.css', 'margin-right', '0px');
+
+    mountWithSystem(
+      <Element id="test" mx={4} mt={0} m={48}>
+        Element
+      </Element>,
+      system,
+      config,
+    );
+    cy.get('#test')
+      .should('have.css', 'margin-bottom', '48px')
+      .should('have.css', 'margin-top', '0px')
+      .should('have.css', 'margin-left', '4px')
+      .should('have.css', 'margin-right', '4px');
+  });
+
   it('should apply shorthand props style for all UI components', () => {
     const config = {
       elementShorthandPropsMapping: {
