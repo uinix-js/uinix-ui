@@ -1,5 +1,6 @@
 import {mount} from '@cypress/react';
 import React, {createElement as h} from 'react';
+import themeSpec from 'uinix-theme-spec';
 
 import {createTheme, load, useTheme} from '../../../../index.js';
 import system from '../../../fixtures/test-system.js';
@@ -18,10 +19,10 @@ describe('useTheme', () => {
   it('should retrieve the theme from the system', () => {
     load({h, system});
     mount(<CustomElement />);
-    cy.get('@theme').should('deep.equal', createTheme(system.theme));
+    cy.get('@theme').should('deep.equal', createTheme(system.theme, themeSpec));
   });
 
-  it('should retrieve the theme values given a property path', () => {
+  it.skip('should retrieve the theme values given a property path', () => {
     load({h, system});
     mount(<CustomElement path="keyframes.flicker" />);
     cy.get('@theme').should(

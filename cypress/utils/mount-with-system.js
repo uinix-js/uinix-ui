@@ -1,11 +1,16 @@
 import {mount as cypressMount} from '@cypress/react';
 import {createElement as h} from 'react';
+import themeSpec from 'uinix-theme-spec';
 
-import {load} from '../../index.js';
+import {load, merge} from '../../index.js';
 
 export {mountWithSystem};
 
-const mountWithSystem = (element, system, config) => {
-  load({h, config, system});
+const defaultSystem = {
+  themeSpec,
+};
+
+const mountWithSystem = (element, system = defaultSystem, config = {}) => {
+  load({h, config, system: merge(defaultSystem)(system)});
   cypressMount(element);
 };

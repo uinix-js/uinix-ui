@@ -2,7 +2,6 @@ import {mount} from '@cypress/react';
 import React, {createElement as h} from 'react';
 
 import {createSystem, load, useSystem} from '../../../../index.js';
-import defaultSystem from '../../../fixtures/default-system.js';
 import system from '../../../fixtures/test-system.js';
 
 function CustomElement() {
@@ -21,7 +20,7 @@ describe('load', () => {
     load({h});
     mount(<CustomElement />);
 
-    cy.get('@system').should('deep.equal', createSystem(defaultSystem));
+    cy.get('@system').should('deep.equal', createSystem());
   });
 
   it('should load the provided system', () => {

@@ -1,3 +1,5 @@
+import themeSpec from 'uinix-theme-spec';
+
 const system = {
   icons: {},
   styles: {
@@ -34,6 +36,7 @@ const system = {
     transitions: {},
     zIndices: {},
   },
+  themeSpec,
 };
 
 export default system;
