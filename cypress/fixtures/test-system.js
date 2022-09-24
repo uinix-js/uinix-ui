@@ -12,8 +12,10 @@ const system = {
     'a.b.c': icon,
   },
   styles: {
-    red: {
-      color: 'rgb(255, 0, 0)',
+    rules: {
+      red: {
+        color: 'rgb(255, 0, 0)',
+      },
     },
     static: {
       h1: {
