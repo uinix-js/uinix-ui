@@ -34,22 +34,6 @@ describe('Icon', () => {
       });
     });
 
-    describe('onClick', () => {
-      it('should render the icon as a button element containing an svg element if an onClick handler is provided', () => {
-        const onClick = cy.spy(console, 'log').as('log');
-        mountWithSystem(
-          <Icon id="test" icon={icon} onClick={onClick} />,
-          system,
-        );
-        cy.get('#test')
-          .should('have.prop', 'nodeName', 'BUTTON')
-          .should('contain.html', system.icons[icon])
-          .click()
-          .click();
-        cy.get('@log').its('callCount').should('equal', 2);
-      });
-    });
-
     describe('color', () => {
       it('should apply to the CSS "color" property', () => {
         mountWithSystem(
@@ -159,11 +143,9 @@ describe('Icon', () => {
           .should('have.css', 'opacity', '0.3'); // Via variant
       });
 
-      it('should not support the `as` prop', () => {
-        mountWithSystem(<Icon as="p" id="test" icon={icon} />, system);
-        cy.get('#test')
-          .should('have.prop', 'nodeName', 'DIV')
-          .should('not.have.prop', 'nodeName', 'P');
+      it('should support the `as` prop', () => {
+        mountWithSystem(<Icon as="button" id="test" icon={icon} />, system);
+        cy.get('#test').should('have.prop', 'nodeName', 'BUTTON');
       });
     });
   });

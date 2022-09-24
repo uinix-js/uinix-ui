@@ -1865,8 +1865,6 @@ Sets the icon SVG's `width`.  You can use a theme-based value.
 ##### `...props`
 `Icon` is composed from [`Element`](#elementprops), and therefore supports the `as`, `styles`, `styleProps`, `variant`, and shorthand props.
 
-`Icon` renders `as` a `HTMLDivElement` by default, and will render `as` a semantic `HTMLButtonElement` if `props.onClick` is provided.
-
 `Icon` passes through all other props onto the eventual `HTMLElement`.
 
 `Icon` always ignores `props.children` and `props.as`.
