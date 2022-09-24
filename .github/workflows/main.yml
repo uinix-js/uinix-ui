@@ -11,14 +11,13 @@ jobs:
       - uses: dcodeIO/setup-node-nvm@master
         with:
           node-version: ${{matrix.node}}
-      - run: npm install --legacy-peer-deps
+      - run: npm install
       - run: npm test
       - uses: codecov/codecov-action@v1
     strategy:
       matrix:
         os:
           - ubuntu-latest
-          - windows-latest
         node:
-          - lts/gallium
+          - 18.x
           - node
