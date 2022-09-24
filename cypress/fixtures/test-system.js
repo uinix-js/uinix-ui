@@ -15,7 +15,7 @@ const system = {
     red: {
       color: 'rgb(255, 0, 0)',
     },
-    global: {
+    static: {
       h1: {
         fontSize: '42px',
       },

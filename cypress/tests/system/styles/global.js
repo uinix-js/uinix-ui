@@ -5,7 +5,7 @@ import {mountWithSystem} from '../../../utils/index.js';
 
 const system = {
   styles: {
-    global: {
+    static: {
       h1: {
         color: 'rgb(255, 0, 0)',
         fontSize: '42px',
@@ -15,13 +15,13 @@ const system = {
   },
 };
 
-describe('styles.global', () => {
-  it('should not apply global styles on DOM element if not specified', () => {
+describe('styles.static', () => {
+  it('should not apply static styles on DOM element if not specified', () => {
     mountWithSystem(<h1>Heading</h1>);
     cy.get('h1').should('have.class', '');
   });
 
-  it('should apply global styles on DOM element if specified', () => {
+  it('should apply static styles on DOM element if specified', () => {
     mountWithSystem(<h1>Heading</h1>, system);
     cy.get('h1')
       .should('have.class', '')
@@ -30,7 +30,7 @@ describe('styles.global', () => {
       .should('have.css', 'padding', '42px');
   });
 
-  it('should apply global styles on Element if specified', () => {
+  it('should apply static styles on Element if specified', () => {
     mountWithSystem(
       <Element id="test" as="h1">
         Element
@@ -44,7 +44,7 @@ describe('styles.global', () => {
       .should('have.css', 'padding', '42px');
   });
 
-  it('should apply global styles on Text if specified', () => {
+  it('should apply static styles on Text if specified', () => {
     mountWithSystem(
       <Text id="test" as="h1">
         Text
