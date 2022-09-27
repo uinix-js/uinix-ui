@@ -3,8 +3,8 @@ import themeSpec from 'uinix-theme-spec';
 const system = {
   icons: {},
   styles: {
+    global: {},
     rules: {},
-    static: {},
     variants: {},
   },
   theme: {

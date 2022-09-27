@@ -12,14 +12,14 @@ const system = {
     'a.b.c': icon,
   },
   styles: {
+    global: {
+      h1: {
+        fontSize: '42px',
+      },
+    },
     rules: {
       red: {
         color: 'rgb(255, 0, 0)',
-      },
-    },
-    static: {
-      h1: {
-        fontSize: '42px',
       },
     },
     variants: {

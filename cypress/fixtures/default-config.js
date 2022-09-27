@@ -3,7 +3,7 @@ const config = {
   elementStyles: [],
   enableAtomicCss: false,
   enableCssVariables: false,
-  namespace: null,
+  namespace: '',
   responsiveBreakpoints: [],
   responsiveCssProperties: [],
 };
