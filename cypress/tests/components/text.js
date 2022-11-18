@@ -2,7 +2,8 @@ import React from 'react';
 
 import {Text} from '../../../index.js';
 import system from '../../fixtures/test-system.js';
-import {decamelizeCssProperty, mountWithSystem} from '../../utils/index.js';
+import {decamelizeCssProperty} from '../../utils/decamelize-css-property.js';
+import {mountWithSystem} from '../../utils/mount-with-system.js';
 
 describe('Text', () => {
   describe('Props', () => {

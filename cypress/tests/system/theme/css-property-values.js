@@ -2,7 +2,8 @@ import React from 'react';
 import defaultThemeSpec from 'uinix-theme-spec';
 
 import {Element} from '../../../../index.js';
-import {decamelizeCssProperty, mountWithSystem} from '../../../utils/index.js';
+import {decamelizeCssProperty} from '../../../utils/decamelize-css-property.js';
+import {mountWithSystem} from '../../../utils/mount-with-system.js';
 
 const system = {
   theme: {

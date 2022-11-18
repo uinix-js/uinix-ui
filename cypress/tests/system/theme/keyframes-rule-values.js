@@ -1,7 +1,8 @@
 import React from 'react';
 
 import {Element} from '../../../../index.js';
-import {hasKeyframesChainer, mountWithSystem} from '../../../utils/index.js';
+import {hasKeyframesChainer} from '../../../utils/has-keyframes-chainer.js';
+import {mountWithSystem} from '../../../utils/mount-with-system.js';
 
 const system = {
   theme: {

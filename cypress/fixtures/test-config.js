@@ -1,4 +1,4 @@
-const config = {
+export default {
   elementShorthandPropsMapping: {
     color: ['color'],
     height: ['h'],
@@ -11,5 +11,3 @@ const config = {
   responsiveBreakpoints: [],
   responsiveCssProperties: ['color'],
 };
-
-export default config;

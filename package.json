@@ -114,6 +114,7 @@
     ],
     "rules": {
       "new-cap": "off",
+      "import/no-anonymous-default-export": "off",
       "react/jsx-no-bind": "off",
       "react/prop-types": "off",
       "unicorn/no-array-reduce": "off",

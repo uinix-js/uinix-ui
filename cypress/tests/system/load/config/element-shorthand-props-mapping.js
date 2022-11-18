@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Element, Icon, Layout, Text} from '../../../../../index.js';
 import system from '../../../../fixtures/test-system.js';
-import {mountWithSystem} from '../../../../utils/index.js';
+import {mountWithSystem} from '../../../../utils/mount-with-system.js';
 
 describe('config.elementShorthandPropsMapping', () => {
   it('should not apply shorthand props style if not configured', () => {

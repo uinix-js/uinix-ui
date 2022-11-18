@@ -1,6 +1,4 @@
-export {hasKeyframesChainer};
-
-const hasKeyframesChainer = ($element) => {
+export const hasKeyframesChainer = ($element) => {
   const animationName = window
     .getComputedStyle($element[0])
     .getPropertyValue('animation-name');

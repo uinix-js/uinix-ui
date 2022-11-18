@@ -1,6 +1,6 @@
 import themeSpec from 'uinix-theme-spec';
 
-const system = {
+export default {
   icons: {},
   styles: {
     global: {},
@@ -33,5 +33,3 @@ const system = {
   },
   themeSpec,
 };
-
-export default system;

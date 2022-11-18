@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Layout} from '../../../index.js';
 import system from '../../fixtures/test-system.js';
-import {mountWithSystem} from '../../utils/index.js';
+import {mountWithSystem} from '../../utils/mount-with-system.js';
 
 const children = Array.from({length: 3}).map((_, i) => (
   <button key={i} type="button">

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Element, Icon, Layout, Text} from '../../../../../index.js';
-import {mountWithSystem} from '../../../../utils/index.js';
+import {mountWithSystem} from '../../../../utils/mount-with-system.js';
 
 const config = {
   elementStyles: [

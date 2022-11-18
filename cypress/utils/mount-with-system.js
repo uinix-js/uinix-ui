@@ -4,13 +4,13 @@ import themeSpec from 'uinix-theme-spec';
 
 import {loadSystem, merge} from '../../index.js';
 
-export {mountWithSystem};
+const defaultSystem = {themeSpec};
 
-const defaultSystem = {
-  themeSpec,
-};
-
-const mountWithSystem = (element, system = defaultSystem, config = {}) => {
+export const mountWithSystem = (
+  element,
+  system = defaultSystem,
+  config = {},
+) => {
   loadSystem({h, config, system: merge(defaultSystem)(system)});
   cypressMount(element);
 };

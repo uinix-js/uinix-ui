@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Icon} from '../../../index.js';
 import system from '../../fixtures/test-system.js';
-import {mountWithSystem} from '../../utils/index.js';
+import {mountWithSystem} from '../../utils/mount-with-system.js';
 
 const icon = 'x';
 

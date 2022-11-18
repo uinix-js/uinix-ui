@@ -1,4 +1,4 @@
-const config = {
+export default {
   elementShorthandPropsMapping: {},
   elementStyles: [],
   enableAtomicCss: false,
@@ -7,5 +7,3 @@ const config = {
   responsiveBreakpoints: [],
   responsiveCssProperties: [],
 };
-
-export default config;

@@ -1,9 +1,7 @@
 import {Element, Icon, Layout, Text, loadSystem} from '../../../../../index.js';
 import system from '../../../../fixtures/test-system.js';
 
-export {assert, createCustomElement};
-
-const createCustomElement = (h) => {
+export const createCustomElement = (h) => {
   loadSystem({h, system});
 
   const CustomElement = ({x, ...rest}) =>
@@ -61,7 +59,7 @@ const createCustomElement = (h) => {
     ]);
 };
 
-const assert = (options = {}) => {
+export const assert = (options = {}) => {
   const {
     // Some hyperscript functions do not support SVG!
     excludeIconAssertion = false,
