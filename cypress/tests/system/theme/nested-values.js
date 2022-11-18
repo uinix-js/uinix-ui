@@ -181,7 +181,7 @@ describe.skip('Nested values', () => {
           // Due to the way computed CSS styles work, they may evaluate to specific formalized values for the corresponding CSS property.
           const {default: defaultValue, [cssProperty]: specificValue} =
             system.theme[themeProperty].nested.nested;
-          const expectedValue = specificValue || defaultValue;
+          const expectedValue = specificValue ?? defaultValue;
 
           mountWithSystem(
             <Element id="test" styles={styles}>
