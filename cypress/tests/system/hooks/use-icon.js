@@ -30,7 +30,7 @@ describe('useIcon', () => {
     mount(<CustomElement icon={icon} />);
 
     const svg = system.icons[icon];
-    const svgElement = parseSvgElement({h, svg});
+    const svgElement = parseSvgElement(svg, {h});
     cy.get('@iconSvg').should((iconSvg) => {
       expect(renderToStaticMarkup(iconSvg)).to.equal(
         renderToStaticMarkup(svgElement),
@@ -42,7 +42,7 @@ describe('useIcon', () => {
     loadSystem({h, system});
     mount(<CustomElement icon="nested.x" />);
     const svg = system.icons.nested.x;
-    const svgElement = parseSvgElement({h, svg});
+    const svgElement = parseSvgElement(svg, {h});
     cy.get('@iconSvg').should((iconSvg) => {
       expect(renderToStaticMarkup(iconSvg)).to.equal(
         renderToStaticMarkup(svgElement),
@@ -54,7 +54,7 @@ describe('useIcon', () => {
     loadSystem({h, system});
     mount(<CustomElement icon="a.b.c" />);
     const svg = system.icons['a.b.c'];
-    const svgElement = parseSvgElement({h, svg});
+    const svgElement = parseSvgElement(svg, {h});
     cy.get('@iconSvg').should((iconSvg) => {
       expect(renderToStaticMarkup(iconSvg)).to.equal(
         renderToStaticMarkup(svgElement),
