@@ -1,6 +1,6 @@
 import {createElement as h} from 'react';
 
-import {loadSystem} from '../../../../index.js';
+import {createSystem} from '../../../../index.js';
 import {useConfig} from '../../../../lib/system/hooks.js';
 import defaultConfig from '../../../fixtures/default-config.js';
 import config from '../../../fixtures/test-config.js';
@@ -11,12 +11,12 @@ describe('useConfig', () => {
   });
 
   it('should return the default config for a default system', () => {
-    loadSystem({h});
+    createSystem({h});
     expect(useConfig()).deep.equal(defaultConfig);
   });
 
   it('should return the provided config', () => {
-    loadSystem({h, config});
+    createSystem({h, config});
     expect(useConfig()).deep.equal(config);
   });
 });

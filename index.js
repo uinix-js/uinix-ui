@@ -12,7 +12,6 @@ export {
   useTheme,
   useVariant,
 } from './lib/system/hooks.js';
-export {loadSystem} from './lib/system/load-system.js';
 export {createSystem} from './lib/system/create-system.js';
 
 // Utils
