@@ -6,9 +6,7 @@ describe('mergeClassNames', () => {
   });
 
   it('should filter falsy classnames', () => {
-    expect(
-      mergeClassNames(['a', '', 'b', null, false, undefined, 'c']),
-    ).to.equal('a b c');
+    expect(mergeClassNames(['a', '', null, false, 'c'])).to.equal('a c');
   });
 
   it('should return undefined if merged className is the empty string', () => {
