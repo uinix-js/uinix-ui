@@ -116,7 +116,8 @@
       "new-cap": "off",
       "react/jsx-no-bind": "off",
       "react/prop-types": "off",
-      "unicorn/no-array-reduce": "off"
+      "unicorn/no-array-reduce": "off",
+      "unicorn/no-array-callback-reference": "off"
     },
     "overrides": [
       {
