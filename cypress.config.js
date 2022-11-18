@@ -1,7 +1,12 @@
+import codeCoverageTask from '@cypress/code-coverage/task';
 import {defineConfig} from 'cypress';
 
 export default defineConfig({
   component: {
+    setupNodeEvents(on, config) {
+      codeCoverageTask(on, config);
+      return config;
+    },
     devServer: {
       bundler: 'webpack',
       framework: 'react',
@@ -9,16 +14,21 @@ export default defineConfig({
         module: {
           rules: [
             {
-              test: /\.js?$/,
+              test: /\.js$/,
               exclude: /node_modules/,
-              use: 'babel-loader',
+              use: {
+                loader: 'babel-loader',
+                options: {
+                  presets: ['@babel/preset-env', '@babel/preset-react'],
+                  plugins: ['istanbul'],
+                },
+              },
             },
           ],
         },
       },
     },
     specPattern: ['cypress/tests/**/*.js'],
-    supportFile: false,
     video: false,
   },
 });

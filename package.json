@@ -8,15 +8,9 @@
     "ui",
     "components",
     "theme",
-    "design-system",
-    "ui-system",
-    "hyperscript",
-    "react",
-    "preact",
-    "vue",
-    "mithril",
-    "solid-js",
-    "svelte"
+    "design system",
+    "ui system",
+    "hyperscript"
   ],
   "repository": "uinix-js/uinix-ui",
   "bugs": "https://github.com/uinix-js/uinix-ui/issues",
@@ -49,6 +43,7 @@
     "@cypress/code-coverage": "^3.10.0",
     "@cypress/react": "^7.0.1",
     "@cypress/webpack-dev-server": "^3.1.0",
+    "@types/cypress__code-coverage": "^3.10.0",
     "@types/react": "^17.0.0",
     "@types/svg-parser": "^2.0.3",
     "@types/tape": "^4.13.2",
@@ -78,13 +73,20 @@
   },
   "scripts": {
     "build": "npm run clean",
-    "clean": "rimraf index.d.ts {lib,test}/*.d.ts {lib,test}/**/*.d.ts",
-    "cypress-open": "cypress open --component",
-    "cypress-run": "cypress run --component",
+    "clean": "npm run clean:typings",
+    "clean:typings": "rimraf index.d.ts {lib,test}/*.d.ts {lib,test}/**/*.d.ts",
     "lint": "xo --fix",
-    "test-coverage": "npm run test-esm && npm run cypress-run",
-    "test-esm": "node test/esm.js",
-    "test": "npm run lint && npm run test-coverage"
+    "test": "rimraf coverage && cypress run --component",
+    "test:ci": "npm run build && npm run lint && npm run test",
+    "test:interactive": "cypress open --component"
+  },
+  "nyc": {
+    "all": true,
+    "excludeAfterRemap": true,
+    "include": "lib/**/*.js",
+    "exclude": [
+      "cypress/**/*.js"
+    ]
   },
   "prettier": {
     "bracketSpacing": false,
@@ -95,10 +97,10 @@
     "useTabs": false
   },
   "typeCoverage": {
-    "atLeast": 90,
+    "atLeast": 100,
     "detail": true,
-    "strict": true,
-    "ignore-files": "test/*.js"
+    "ignore-files": "test/*.js",
+    "strict": true
   },
   "xo": {
     "esnext": false,
