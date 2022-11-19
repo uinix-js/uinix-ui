@@ -22,36 +22,34 @@ export default {
         color: 'rgb(255, 0, 0)',
       },
     },
-    variants: {
-      Button: {
-        primary: {
-          color: 'rgb(0, 0, 255)',
-          ':focus': {
-            opacity: '0.7',
-            color: 'rgb(0, 0, 125)',
-          },
+    Button: {
+      primary: {
+        color: 'rgb(0, 0, 255)',
+        ':focus': {
+          opacity: '0.7',
+          color: 'rgb(0, 0, 125)',
         },
       },
-      Card: {
-        small: {
-          padding: '4px',
-        },
+    },
+    Card: {
+      small: {
+        padding: '4px',
       },
-      Icon: {
-        disabled: {
-          opacity: '0.3',
-        },
+    },
+    Icon: {
+      disabled: {
+        opacity: '0.3',
       },
-      Heading: {
-        1: {
-          color: 'rgb(0, 0, 255)',
-          fontSize: '32px',
-          fontWeight: '700',
-        },
+    },
+    Heading: {
+      1: {
+        color: 'rgb(0, 0, 255)',
+        fontSize: '32px',
+        fontWeight: '700',
       },
-      Small: {
-        fontSize: '10px',
-      },
+    },
+    Small: {
+      fontSize: '10px',
     },
   },
   theme: {

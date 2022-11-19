@@ -227,7 +227,7 @@ describe('Element', () => {
     });
 
     describe('styleVariant', () => {
-      it('should apply styles specified through the system.styles.variants API', () => {
+      it('should apply styles specified through the system.style', () => {
         mountWithSystem(
           <Element id="test" as="button" styleVariant="Button.primary">
             Element

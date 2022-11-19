@@ -5,18 +5,16 @@ import {mountWithSystem} from '../../../utils/mount-with-system.js';
 
 const system = {
   styles: {
-    variants: {
-      Container: {
-        primary: {
-          margin: '42px',
-          padding: '42px',
-        },
+    Container: {
+      primary: {
+        margin: '42px',
+        padding: '42px',
       },
     },
   },
 };
 
-describe('styles.variants', () => {
+describe('styleVariant', () => {
   it('should apply variant style via Element, Icon, Layout element', () => {
     for (const Component of [Element, Icon, Layout]) {
       mountWithSystem(

@@ -11,10 +11,8 @@ const config = {
 
 const system = {
   styles: {
-    variants: {
-      variant: {
-        color: 'rgb(40, 0, 0)',
-      },
+    variant: {
+      color: 'rgb(40, 0, 0)',
     },
   },
 };

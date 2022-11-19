@@ -58,7 +58,7 @@ describe('Text', () => {
     }
 
     describe('styleVariant', () => {
-      it('should use the variant style defined in system.styles.variants', () => {
+      it('should use the variant style defined in system.styles', () => {
         mountWithSystem(
           <Text id="test" styleVariant="Heading.1">
             Text

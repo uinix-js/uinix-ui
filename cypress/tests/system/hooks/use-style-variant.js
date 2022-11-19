@@ -27,9 +27,6 @@ describe('useStyleVariant', () => {
     createSystem({h, system});
     mount(<CustomElement styleVariant="Button.primary" />);
 
-    cy.get('@variantStyle').should(
-      'deep.equal',
-      system.styles.variants.Button.primary,
-    );
+    cy.get('@variantStyle').should('deep.equal', system.styles.Button.primary);
   });
 });

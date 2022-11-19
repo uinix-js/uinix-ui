@@ -3,10 +3,7 @@ import themeSpec from 'uinix-theme-spec';
 export default {
   icons: {},
   globalStyles: {},
-  styles: {
-    rules: {},
-    variants: {},
-  },
+  styles: {},
   theme: {
     animations: {},
     backgrounds: {},
