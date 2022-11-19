@@ -20,7 +20,7 @@ describe('styles.variants', () => {
   it('should apply variant style via Element, Icon, Layout element', () => {
     for (const Component of [Element, Icon, Layout]) {
       mountWithSystem(
-        <Component id="test" variant="Container.primary">
+        <Component id="test" styleVariant="Container.primary">
           Component
         </Component>,
         system,

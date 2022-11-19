@@ -207,9 +207,9 @@ describe('Layout', () => {
             as="a"
             href="https://uinix.dev/"
             className="a b"
-            styleProps={styleProps}
             styles={styles}
-            variant="Card.small"
+            styleProps={styleProps}
+            styleVariant="Card.small"
           >
             {children}
           </Layout>,

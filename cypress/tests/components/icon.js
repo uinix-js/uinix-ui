@@ -121,9 +121,9 @@ describe('Icon', () => {
             id="test"
             className="a b"
             icon={icon}
-            styleProps={styleProps}
             styles={styles}
-            variant="Icon.disabled"
+            styleProps={styleProps}
+            styleVariant="Icon.disabled"
           />,
           system,
         );

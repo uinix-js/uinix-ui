@@ -8,8 +8,8 @@ export {Text} from './lib/components/text.js';
 export {
   useIcon,
   useStyles,
+  useStyleVariant,
   useSystem,
   useTheme,
-  useVariant,
 } from './lib/system/hooks.js';
 export {createSystem} from './lib/system/create-system.js';

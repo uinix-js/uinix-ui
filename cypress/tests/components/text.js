@@ -57,10 +57,10 @@ describe('Text', () => {
       });
     }
 
-    describe('variant', () => {
+    describe('styleVariant', () => {
       it('should use the variant style defined in system.styles.variants', () => {
         mountWithSystem(
-          <Text id="test" variant="Heading.1">
+          <Text id="test" styleVariant="Heading.1">
             Text
           </Text>,
           system,
@@ -91,8 +91,8 @@ describe('Text', () => {
             href="https://uinix.dev/"
             className="a b"
             styleProps={styleProps}
+            styleVariant="Small"
             styles={styles}
-            variant="Small"
           >
             Text
           </Text>,

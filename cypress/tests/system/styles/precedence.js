@@ -13,7 +13,7 @@ const system = {
   styles: {
     variants: {
       variant: {
-        color: 'rgb(20, 0, 0)',
+        color: 'rgb(40, 0, 0)',
       },
     },
   },
@@ -26,16 +26,16 @@ const styleProps = [
     value: {color: 'rgb(10, 0, 0)'},
   },
   {
-    name: 'variant',
-    value: 'variant',
-  },
-  {
     name: 'color', // Shorthand prop
-    value: 'rgb(30, 0, 0)',
+    value: 'rgb(20, 0, 0)',
   },
   {
     name: 'styles',
-    value: {color: 'rgb(40, 0, 0)'},
+    value: {color: 'rgb(30, 0, 0)'},
+  },
+  {
+    name: 'styleVariant',
+    value: 'variant',
   },
 ];
 
