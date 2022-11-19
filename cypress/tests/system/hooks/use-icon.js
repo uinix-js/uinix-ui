@@ -2,7 +2,8 @@ import {mount} from '@cypress/react';
 import React, {createElement as h} from 'react';
 import {renderToStaticMarkup} from 'react-dom/server.js';
 
-import {createSystem, useIcon} from '../../../../index.js';
+import {createSystem} from '../../../../index.js';
+import {useIcon} from '../../../../lib/system/hooks.js';
 import {parseSvgElement} from '../../../../lib/util/parse-svg-element.js';
 import system from '../../../fixtures/test-system.js';
 

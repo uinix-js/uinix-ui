@@ -1,7 +1,8 @@
 import {mount} from '@cypress/react';
 import React, {createElement as h} from 'react';
 
-import {createSystem, useStyleVariant} from '../../../../index.js';
+import {createSystem} from '../../../../index.js';
+import {useStyleVariant} from '../../../../lib/system/hooks.js';
 import system from '../../../fixtures/test-system.js';
 
 function CustomElement({styleVariant}) {

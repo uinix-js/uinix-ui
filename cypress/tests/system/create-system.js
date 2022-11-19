@@ -1,7 +1,7 @@
 import {mount} from '@cypress/react';
 import React from 'react';
 
-import {useSystem} from '../../../index.js';
+import {useSystem} from '../../../lib/system/hooks.js';
 
 function CustomElement() {
   const system = useSystem();

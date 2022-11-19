@@ -1,4 +1,4 @@
-import {useSystem} from '../../../../index.js';
+import {useSystem} from '../../../../lib/system/hooks.js';
 
 describe('useSystem', () => {
   it('should throw if system is not loaded', () => {
