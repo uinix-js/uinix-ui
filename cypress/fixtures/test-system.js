@@ -11,12 +11,12 @@ export default {
     },
     'a.b.c': icon,
   },
-  styles: {
-    global: {
-      h1: {
-        fontSize: '42px',
-      },
+  globalStyles: {
+    h1: {
+      fontSize: '42px',
     },
+  },
+  styles: {
     rules: {
       red: {
         color: 'rgb(255, 0, 0)',

@@ -4,18 +4,16 @@ import {Element, Text} from '../../../../index.js';
 import {mountWithSystem} from '../../../utils/mount-with-system.js';
 
 const system = {
-  styles: {
-    global: {
-      h1: {
-        color: 'rgb(255, 0, 0)',
-        fontSize: '42px',
-        padding: '42px',
-      },
+  globalStyles: {
+    h1: {
+      color: 'rgb(255, 0, 0)',
+      fontSize: '42px',
+      padding: '42px',
     },
   },
 };
 
-describe('styles.global', () => {
+describe('globalStyles', () => {
   it('should not apply global styles on DOM element if not specified', () => {
     mountWithSystem(<h1>Heading</h1>);
     cy.get('h1').should('have.class', '');

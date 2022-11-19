@@ -2,8 +2,8 @@ import themeSpec from 'uinix-theme-spec';
 
 export default {
   icons: {},
+  globalStyles: {},
   styles: {
-    global: {},
     rules: {},
     variants: {},
   },
