@@ -1,8 +1,9 @@
 import {mount as cypressMount} from '@cypress/react';
 import {createElement as h} from 'react';
+import {merge} from 'uinix-fp';
 import themeSpec from 'uinix-theme-spec';
 
-import {createSystem, merge} from '../../index.js';
+import {createSystem} from '../../index.js';
 
 const defaultSystem = {themeSpec};
 

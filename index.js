@@ -13,6 +13,3 @@ export {
   useVariant,
 } from './lib/system/hooks.js';
 export {createSystem} from './lib/system/create-system.js';
-
-// Utils
-export {merge} from 'uinix-fp';
