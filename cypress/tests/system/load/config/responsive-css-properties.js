@@ -48,8 +48,7 @@ describe('config.responsiveCssProperties', () => {
         <Element id="test" styles={responsiveStyles}>
           Element
         </Element>,
-        {},
-        config,
+        {config},
       );
       cy.viewport(viewportWidth, viewportHeight);
       cy.get('#test')
@@ -73,8 +72,7 @@ describe('config.responsiveCssProperties', () => {
           <Component id="test" styles={responsiveStyles}>
             Element
           </Component>,
-          {},
-          config,
+          {config},
         );
         cy.viewport(viewportWidth, viewportHeight);
         cy.get('#test')

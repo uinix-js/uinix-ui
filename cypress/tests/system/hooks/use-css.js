@@ -1,5 +1,5 @@
 import {mount} from '@cypress/react';
-import React, {createElement as h} from 'react';
+import React from 'react';
 
 import {createSystem} from '../../../../index.js';
 import {useCss} from '../../../../lib/system/hooks.js';
@@ -30,7 +30,7 @@ describe('useCss', () => {
   });
 
   it('should retrieve a css function that can be used to apply and compose styles', () => {
-    createSystem({h, system});
+    createSystem(system);
     mount(
       <CustomElement
         id="test"

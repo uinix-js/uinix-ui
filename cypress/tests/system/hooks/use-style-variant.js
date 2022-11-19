@@ -1,5 +1,5 @@
 import {mount} from '@cypress/react';
-import React, {createElement as h} from 'react';
+import React from 'react';
 
 import {createSystem} from '../../../../index.js';
 import {useStyleVariant} from '../../../../lib/system/hooks.js';
@@ -17,14 +17,14 @@ describe('useStyleVariant', () => {
   });
 
   it('should return undefined if variant style is not found in the system', () => {
-    createSystem({h, system});
+    createSystem(system);
     mount(<CustomElement styleVariant="invalid.variant" />);
 
     cy.get('@variantStyle').should('equal', undefined);
   });
 
   it('should return the variant style from the system', () => {
-    createSystem({h, system});
+    createSystem(system);
     mount(<CustomElement styleVariant="Button.primary" />);
 
     cy.get('@variantStyle').should('deep.equal', system.styles.Button.primary);

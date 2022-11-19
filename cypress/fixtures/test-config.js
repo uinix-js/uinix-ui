@@ -1,4 +1,7 @@
+import {createElement} from 'react';
+
 export default {
+  createElement,
   elementShorthandPropsMapping: {
     color: ['color'],
     height: ['h'],

@@ -19,7 +19,7 @@ describe('useIcon', () => {
   });
 
   it('should return null if icon is not found in the system', () => {
-    createSystem({h, system});
+    createSystem(system);
     mount(<CustomElement icon="invalid icon" />);
 
     cy.get('@iconSvg').should('equal', null);
@@ -27,7 +27,7 @@ describe('useIcon', () => {
 
   it('should return an SVG element for the specified icon from the system', () => {
     const icon = 'x';
-    createSystem({h, system});
+    createSystem(system);
     mount(<CustomElement icon={icon} />);
 
     const svg = system.icons[icon];
@@ -40,7 +40,7 @@ describe('useIcon', () => {
   });
 
   it('should return an SVG element for the specified nested icon from the system', () => {
-    createSystem({h, system});
+    createSystem(system);
     mount(<CustomElement icon="nested.x" />);
     const svg = system.icons.nested.x;
     const svgElement = parseSvgElement(svg, {h});
@@ -52,7 +52,7 @@ describe('useIcon', () => {
   });
 
   it('should return an SVG element for the specified direct icon from the system', () => {
-    createSystem({h, system});
+    createSystem(system);
     mount(<CustomElement icon="a.b.c" />);
     const svg = system.icons['a.b.c'];
     const svgElement = parseSvgElement(svg, {h});

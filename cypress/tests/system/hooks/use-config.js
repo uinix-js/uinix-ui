@@ -1,4 +1,4 @@
-import {createElement as h} from 'react';
+import {createElement} from 'react';
 
 import {createSystem} from '../../../../index.js';
 import {useConfig} from '../../../../lib/system/hooks.js';
@@ -11,12 +11,12 @@ describe('useConfig', () => {
   });
 
   it('should return the default config for a default system', () => {
-    createSystem({h});
+    createSystem();
     expect(useConfig()).deep.equal(defaultConfig);
   });
 
   it('should return the provided config', () => {
-    createSystem({h, config});
+    createSystem({config: {...config, createElement}});
     expect(useConfig()).deep.equal(config);
   });
 });

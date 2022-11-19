@@ -4,12 +4,11 @@ import {Element} from '../../../../index.js';
 import {hasKeyframesChainer} from '../../../utils/has-keyframes-chainer.js';
 import {mountWithSystem} from '../../../utils/mount-with-system.js';
 
-const config = {
-  responsiveBreakpoints: ['480px', '768px'],
-  responsiveCssProperties: ['animation', 'animationName', 'margin'],
-};
-
 const system = {
+  config: {
+    responsiveBreakpoints: ['480px', '768px'],
+    responsiveCssProperties: ['animation', 'animationName', 'margin'],
+  },
   theme: {
     animations: {
       a: '2s ease-in-out 0s infinite normal none running none',
@@ -57,7 +56,6 @@ describe('Responsive values', () => {
         Element
       </Element>,
       system,
-      config,
     );
     cy.viewport(viewportWidths[0], viewportHeight);
     cy.get('#test').should('have.css', 'margin', spacings.s);
@@ -80,7 +78,6 @@ describe('Responsive values', () => {
         Element
       </Element>,
       system,
-      config,
     );
     cy.viewport(viewportWidths[0], viewportHeight);
     cy.get('#test').should('have.css', 'margin', `-${spacings.unitless}px`);
@@ -111,7 +108,6 @@ describe('Responsive values', () => {
         Element
       </Element>,
       system,
-      config,
     );
     cy.viewport(viewportWidths[0], viewportHeight);
     cy.get('#test').should('have.css', 'animation', animations.a);
@@ -133,7 +129,6 @@ describe('Responsive values', () => {
         Element
       </Element>,
       system,
-      config,
     );
     cy.viewport(viewportWidths[0], viewportHeight);
     cy.get('#test').should(hasKeyframesChainer);

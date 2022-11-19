@@ -1,5 +1,5 @@
 import {mount} from '@cypress/react';
-import React, {createElement as h} from 'react';
+import React from 'react';
 
 import {createSystem} from '../../../../index.js';
 import {useStyles} from '../../../../lib/system/hooks.js';
@@ -17,7 +17,7 @@ describe('useStyles', () => {
   });
 
   it('should return styles from the system', () => {
-    createSystem({h, system});
+    createSystem(system);
     mount(<CustomElement />);
 
     cy.get('@styles').should('deep.equal', system.styles);

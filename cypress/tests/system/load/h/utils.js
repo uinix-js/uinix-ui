@@ -7,15 +7,15 @@ import {
 } from '../../../../../index.js';
 import system from '../../../../fixtures/test-system.js';
 
-export const createCustomElement = (h) => {
-  createSystem({h, system});
+export const createCustomElement = (createElement) => {
+  createSystem({...system, config: {createElement}});
 
   const CustomElement = ({x, ...rest}) =>
-    h('blockquote', rest, `Custom Element: ${x}`);
+    createElement('blockquote', rest, `Custom Element: ${x}`);
 
   return () =>
-    h('main', {}, [
-      h(
+    createElement('main', {}, [
+      createElement(
         'h1',
         {
           className: 'a b c',

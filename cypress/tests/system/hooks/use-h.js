@@ -1,4 +1,4 @@
-import {createElement as h} from 'react';
+import {createElement} from 'react';
 
 import {createSystem} from '../../../../index.js';
 import {useH} from '../../../../lib/system/hooks.js';
@@ -9,7 +9,7 @@ describe('useH', () => {
   });
 
   it('should retrieve the provided h (React.createElement) function', () => {
-    createSystem({h});
-    expect(useH()).equal(h);
+    createSystem({config: {createElement}});
+    expect(useH()).equal(createElement);
   });
 });

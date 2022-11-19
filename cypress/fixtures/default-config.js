@@ -1,4 +1,5 @@
 export default {
+  createElement: null,
   elementShorthandPropsMapping: {},
   elementStyles: [],
   enableAtomicCss: false,
