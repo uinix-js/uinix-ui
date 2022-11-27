@@ -27,7 +27,8 @@ describe('config.elementShorthandPropsMapping', () => {
       <Element id="test" color="rgb(255, 0, 0)" m="12px" p="24px">
         Element
       </Element>,
-      {...system, config},
+      system,
+      config,
     );
     cy.get('#test')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
@@ -49,7 +50,8 @@ describe('config.elementShorthandPropsMapping', () => {
       <Element id="test" mx="24px">
         Element
       </Element>,
-      {...system, config},
+      system,
+      config,
     );
 
     cy.get('#test')
@@ -60,7 +62,8 @@ describe('config.elementShorthandPropsMapping', () => {
       <Element id="test" mx="4px" mt="12px" m="48px">
         Element
       </Element>,
-      {...system, config},
+      system,
+      config,
     );
     cy.get('#test')
       .should('have.css', 'margin-bottom', '48px')
@@ -83,7 +86,8 @@ describe('config.elementShorthandPropsMapping', () => {
       <Element id="test" mx={0}>
         Element
       </Element>,
-      {...system, config},
+      system,
+      config,
     );
 
     cy.get('#test')
@@ -94,7 +98,8 @@ describe('config.elementShorthandPropsMapping', () => {
       <Element id="test" mx={4} mt={0} m={48}>
         Element
       </Element>,
-      {...system, config},
+      system,
+      config,
     );
     cy.get('#test')
       .should('have.css', 'margin-bottom', '48px')
@@ -116,7 +121,8 @@ describe('config.elementShorthandPropsMapping', () => {
         <Component id="test" color="rgb(255, 0, 0)" m="42px" p="24px">
           Component
         </Component>,
-        {...system, config},
+        system,
+        config,
       );
       cy.get('#test')
         .should('have.css', 'color', 'rgb(255, 0, 0)')

@@ -20,7 +20,7 @@ describe('config.elementStyles', () => {
   });
 
   it('should render CSS if styles are provided', () => {
-    mountWithSystem(<Element id="test">Element</Element>, {config});
+    mountWithSystem(<Element id="test">Element</Element>, {}, config);
 
     cy.get('#test')
       .should('have.css', 'color', 'rgb(255, 0, 0)')
@@ -33,7 +33,8 @@ describe('config.elementStyles', () => {
       <Element disabled id="test" fontSize="42px">
         Element
       </Element>,
-      {config},
+      {},
+      config,
     );
 
     cy.get('#test')
@@ -49,7 +50,8 @@ describe('config.elementStyles', () => {
         <Component disabled id="test" fontSize="42px">
           Component
         </Component>,
-        {config},
+        {},
+        config,
       );
       cy.get('#test')
         .should('have.css', 'color', 'rgb(255, 0, 0)')

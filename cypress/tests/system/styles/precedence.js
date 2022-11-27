@@ -3,12 +3,13 @@ import React from 'react';
 import {Element} from '../../../../index.js';
 import {mountWithSystem} from '../../../utils/mount-with-system.js';
 
-const system = {
-  config: {
-    elementShorthandPropsMapping: {
-      color: ['color'],
-    },
+const config = {
+  elementShorthandPropsMapping: {
+    color: ['color'],
   },
+};
+
+const system = {
   styles: {
     variant: {
       color: 'rgb(40, 0, 0)',
@@ -49,6 +50,7 @@ describe('Precendence', () => {
         Element
       </Element>,
       system,
+      config,
     );
     cy.get('#test').should('have.css', 'color', 'rgb(10, 0, 0)');
 
@@ -58,6 +60,7 @@ describe('Precendence', () => {
         Element
       </Element>,
       system,
+      config,
     );
     cy.get('#test').should('have.css', 'color', 'rgb(20, 0, 0)');
 
@@ -67,6 +70,7 @@ describe('Precendence', () => {
         Element
       </Element>,
       system,
+      config,
     );
     cy.get('#test').should('have.css', 'color', 'rgb(30, 0, 0)');
 
@@ -76,6 +80,7 @@ describe('Precendence', () => {
         Element
       </Element>,
       system,
+      config,
     );
     cy.get('#test').should('have.css', 'color', 'rgb(40, 0, 0)');
   });

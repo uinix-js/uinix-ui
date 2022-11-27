@@ -9,7 +9,7 @@ describe('useH', () => {
   });
 
   it('should retrieve the provided h (React.createElement) function', () => {
-    createSystem({config: {createElement}});
+    createSystem({}, {createElement});
     expect(useH()).equal(createElement);
   });
 });

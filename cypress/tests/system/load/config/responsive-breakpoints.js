@@ -43,7 +43,8 @@ describe('config.responsiveBreakpoints', () => {
           <Component id="test" styles={responsiveStyles}>
             Element
           </Component>,
-          {config},
+          {},
+          config,
         );
         cy.viewport(viewportWidth, viewportHeight);
         cy.get('#test')

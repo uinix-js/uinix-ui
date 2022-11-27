@@ -8,7 +8,7 @@ import {
 import system from '../../../../fixtures/test-system.js';
 
 export const createCustomElement = (createElement) => {
-  createSystem({...system, config: {createElement}});
+  createSystem(system, {createElement});
 
   const CustomElement = ({x, ...rest}) =>
     createElement('blockquote', rest, `Custom Element: ${x}`);

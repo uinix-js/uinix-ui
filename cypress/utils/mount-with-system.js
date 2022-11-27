@@ -5,9 +5,15 @@ import themeSpec from 'uinix-theme-spec';
 
 import {createSystem} from '../../index.js';
 
-const defaultSystem = {config: {createElement}, themeSpec};
+const defaultConfig = {createElement};
 
-export const mountWithSystem = (element, system = defaultSystem) => {
-  createSystem(merge(defaultSystem)(system));
+const defaultSystem = {themeSpec};
+
+export const mountWithSystem = (
+  element,
+  system = defaultSystem,
+  config = defaultConfig,
+) => {
+  createSystem(merge(defaultSystem)(system), merge(defaultConfig)(config));
   cypressMount(element);
 };

@@ -36,7 +36,8 @@ describe('config.enableAtomicCss', () => {
       <Element id="test" styles={styles}>
         Element
       </Element>,
-      {config},
+      {},
+      config,
     );
     cy.get('#test').should(($element) => {
       const classNames = $element[0].className.split(' ');

@@ -16,7 +16,7 @@ describe('useConfig', () => {
   });
 
   it('should return the provided config', () => {
-    createSystem({config: {...config, createElement}});
+    createSystem({}, {...config, createElement});
     expect(useConfig()).deep.equal(config);
   });
 });
