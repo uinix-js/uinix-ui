@@ -34,7 +34,7 @@
   "dependencies": {
     "hast-to-hyperscript": "^10.0.1",
     "svg-parser": "^2.0.4",
-    "uinix-theme": "^3.0.0"
+    "uinix-theme": "^3.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.2",
@@ -113,6 +113,7 @@
       "cypress"
     ],
     "rules": {
+      "capitalized-comments": "off",
       "new-cap": "off",
       "import/no-anonymous-default-export": "off",
       "react/jsx-no-bind": "off",
